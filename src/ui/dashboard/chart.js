@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import { Colors } from "../../config/theme";
 
 const DashboardChartContainer = styled.div`
     
@@ -7,7 +8,7 @@ const DashboardChartContainer = styled.div`
     left: 2.5%;
     width: 60%;
     height: 50%;
-    border: 2px solid purple;
+    border: 1px solid grey;
     border-radius: 16px 0 0 0;
 `;
 
