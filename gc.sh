@@ -18,5 +18,3 @@ gh pr merge
 git checkout development
 
 git pull --no-ff
-
-vim :qa!
