@@ -44,6 +44,7 @@ const ConnectedNetwork = ({ network }) => {
     if (!showNetwork) {
         return null;
     }
+    
     return (
         <ConnectedNetworkContainer>
             <DataRow>
