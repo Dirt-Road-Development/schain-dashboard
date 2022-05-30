@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Colors } from "../../config/theme";
 
 const BadgesContainer = styled.div`
 
@@ -7,7 +8,7 @@ const BadgesContainer = styled.div`
     left: 2.5%;
     height: 32%;
     width: 60%;
-    border: 2px solid yellow;
+    border: 1px solid grey;
     border-radius: 0 0 0 16px;
 `;
 
