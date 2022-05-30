@@ -47,4 +47,4 @@ const testnet_chains = [
 
 const mainnet_chains = [];
 
-module.exports = process.env.REACT_APP_ENV === 'testnet' ? testnet_chains : mainnet_chains;
+export default process.env.REACT_APP_ENV === 'testnet' ? testnet_chains : mainnet_chains;
