@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useNetwork } from 'wagmi';
 import { Colors } from '../../config/theme';
 import { ConnectedNetwork } from './connected_network';
+import { Roles } from './roles';
 
 const ChainInfoContainer = styled.div`
     width: 28%;
@@ -24,6 +25,7 @@ const ChainInfo = () => {
 
     return (
         <ChainInfoContainer>
+            <Roles />
             <ConnectedNetwork network={network} />
         </ChainInfoContainer>
     );
