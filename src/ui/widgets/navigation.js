@@ -45,9 +45,9 @@ const Navigation = () => {
     return (
         <NavigationContainer>
             <Header />
-            {Object.entries(pages).map((page, index) => {
-                const title = page[0];
-                const path = page[1];
+            {Object.entries(pages).map((_page, index) => {
+                const title = _page[0];
+                const path = _page[1];
                 let color = page === title ? Colors.primary : null;
                 return (
                     <NavigationButton color={color} key={index} to={path} onClick={(e) => {
