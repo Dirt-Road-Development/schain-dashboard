@@ -11,6 +11,7 @@ const ChainInfoContainer = styled.div`
 `;
 
 const ChainInfo = () => {
+
     return (
         <ChainInfoContainer>
             <h1>Chain INfo</h1>
