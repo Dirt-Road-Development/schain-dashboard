@@ -9,6 +9,8 @@ const DashboardPage = () => {
         <Widget.DashboardPageContainer>
             <Title title='Dashboard' />
             <Component.ChainInfo />
+            <Component.DashboardChart />
+            <Component.DashboardBadges />
         </Widget.DashboardPageContainer>
     );
 }
