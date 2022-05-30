@@ -1,8 +1,15 @@
+import * as Widget from './widgets';
+import * as Component from './components';
+import { Title } from '../widgets/title';
+
+
+
 const DashboardPage = () => {
     return (
-        <div>
-            <h1>DashboardPage</h1>
-        </div>
+        <Widget.DashboardPageContainer>
+            <Title title='Dashboard' />
+            <Component.ChainInfo />
+        </Widget.DashboardPageContainer>
     );
 }
 
