@@ -23,13 +23,12 @@ const NavigationContainer = styled.div`
 const NavigationButton = styled.div`
     width: 85%;
     height: calc(100% / 35);
-    margin: 0 auto;
     text-decoration: none;
     color: ${props => props.color};
     background-color: ${props => props.background};
     border: 0.5px solid ${Colors.primary};
     padding: 16px;
-    margin: 8px 0;
+    margin: 8px 8px;
     display: flex;
     align-items: center;
     border-radius: 16px;
