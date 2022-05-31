@@ -90,7 +90,7 @@ function App() {
 			roles: b
 		}));
 		dispatch(setRoles({
-			address: Addresses.multsig_wallet,
+			address: Addresses.multisig_wallet,
 			roles: c
 		}));
 		dispatch(setMultisig(d));

@@ -4,7 +4,7 @@ class ConfigController {
 
         return Promise.all([
             _contract.callStatic.DEFAULT_ADMIN_ROLE(),
-            _contract.callStatic.DEPLOYER_ADMIN_ROLE(),
+            _contract.callStatic.DEPLOYER_ROLE(),
             _contract.callStatic.MTM_ADMIN_ROLE()
         ]).then(([a, b, c]) => {
             return Promise.all([
@@ -14,7 +14,7 @@ class ConfigController {
             ]).then(([d, e, f]) => {
                 return {
                     'DEFAULT_ADMIN_ROLE': d,
-                    'DEPLOYER_ADMIN_ROLE': e,
+                    'DEPLOYER_ROLE': e,
                     'MTM_ADMIN_ROLE': f
                 }
             }).catch(err => console.log('inner', err))
