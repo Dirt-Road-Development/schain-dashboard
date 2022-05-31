@@ -1,8 +1,11 @@
-import { useConnectedMetaMask } from 'metamask-react';
+import { useConnectedMetaMask, useMetaMask } from 'metamask-react';
 import { useState } from 'react';
 import chains from '../../config/chains';
 import styled from "styled-components";
 import { Colors } from "../../config/theme";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faClose } from '@fortawesome/free-solid-svg-icons';
+import { ethers } from 'ethers';
 
 const HeaderContainer = styled.div`
     width: 100vw;
@@ -30,20 +33,74 @@ const ConnectedButton = styled.div`
 const SelectNetworkContainer = styled.div`
     height: 100%;
     width: 80%;
-    background: red;
     position: absolute;
-    // right: 32px;
     right: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+`;
+
+const ChainOptionContainer = styled.div`
+    width: 15%;
+    height: 65%;
+    border: 0.5px solid ${Colors.primary};
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    border-radius: 16px;
+    margin: 8px;
+    &:hover {
+        background: ${Colors.primary};
+    }
 `;
 
-const SelectNetwork = ({ close }) => {
+const ChainName = styled.p`
+    font-size: 1rem;
+    color: white;
+`;
+const ChainId = styled.p`
+    font-size: 0.65rem;
+    color: grey;
+`;
+
+const CloseButton = styled.div`
+    height: 65%;
+    width: 10%;
+    color: red;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+`;
+
+const ChainOption = ({ name, id }) => {
+    const { switchChain } = useMetaMask();
+    return (
+        <ChainOptionContainer onClick={async (e) => {
+            e.preventDefault();
+            let v = await switchChain(ethers.utils.hexValue(id).trim());
+            window.location.reload();
+        }}>
+            <ChainName>{name}</ChainName>
+            <ChainId>{id}</ChainId>
+        </ChainOptionContainer>
+    );
+}
+
+const SelectNetwork = ({ close, chainId }) => {
+
     return (
         <SelectNetworkContainer>
-            {<p>Hi</p>}
+            {chains.map((chain, index) => {
+                if (chain.id === parseInt(chainId)) return null;
+                return <ChainOption name={chain.name} id={chain.id} key={index} />
+            })}
+            <CloseButton><FontAwesomeIcon onClick={(e) => {
+                e.preventDefault();
+                close();
+            }} icon={faClose} size='3x'/></CloseButton>
         </SelectNetworkContainer>
     );
 }
@@ -51,7 +108,7 @@ const SelectNetwork = ({ close }) => {
 const Header = () => {
     const [isSelectNetwork, setIsSelectNetwork] = useState(false);
     
-    const { account } = useConnectedMetaMask();
+    const { account, chainId } = useConnectedMetaMask();
 
     const _shortenAddress = (account) => {
         return account.substring(0, 12) + '...' + account.substring(32);
@@ -60,10 +117,7 @@ const Header = () => {
     
     return (
         <HeaderContainer>
-            {isSelectNetwork ? <SelectNetwork close={(e) => {
-                e.preventDefault();
-                setIsSelectNetwork(false);
-            }}/> :
+            {isSelectNetwork ? <SelectNetwork chainId={chainId} close={setIsSelectNetwork} /> :
             <ConnectButtonContainer>
                 <ConnectedButton onClick={(e) => {
                     e.preventDefault();
