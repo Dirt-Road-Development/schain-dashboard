@@ -1,3 +1,28 @@
+/**
+ * @license
+ * 
+ * SChain Dashboard
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * 
+ * /**
+ * @file src/logic/contracts/config_controller.js
+ * @copyright TheGreatAxios and Lilius, Inc 2022-Present
+ * 
+ * Questions regarding the pseudonym of TheGreatAxios can be forwarded to thegreataxios@mylilius.com
+ */
+
 class ConfigController {
 
     static async getRoles(_contract, address) {
@@ -19,20 +44,6 @@ class ConfigController {
                 }
             }).catch(err => console.log('inner', err))
         }).catch(err => console.log('outer', err));
-
-        // const DEFAULT_ADMIN_ROLE = await _contract.callStatic.DEFAULT_ADMIN_ROLE();
-        // const DEPLOYER_ADMIN_ROLE = await _contract.callStatic.DEPLOYER_ADMIN_ROLE();
-        // const MTM_ADMIN_ROLE = await _contract.callStatic.MTM_ADMIN_ROLE();
-        
-        // const isDefaultAdminRole = await _contract.callStatic.hasRole(DEFAULT_ADMIN_ROLE, address);
-        // const isDeployerAdminRole = await _contract.callStatic.hasRole(DEPLOYER_ADMIN_ROLE, address);
-        // const isMtmAdminRole = await _contract.callStatic.hasRole(MTM_ADMIN_ROLE, address);
-
-        // return {
-        //     'DEFAULT_ADMIN_ROLE': isDefaultAdminRole,
-        //     'DEPLOYER_ADMIN_ROLE': isDeployerAdminRole,
-        //     'MTM_ADMIN_ROLE': isMtmAdminRole
-        // };
     }
 }
 
