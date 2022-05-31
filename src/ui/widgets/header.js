@@ -1,6 +1,6 @@
-import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { useConnectedMetaMask } from 'metamask-react';
+
 import styled from "styled-components";
-import { useAccount } from "wagmi";
 import { Colors } from "../../config/theme";
 
 const HeaderContainer = styled.div`
@@ -20,16 +20,23 @@ const ConnectButtonContainer = styled.div`
     justify-content: center;
 `;
 
+const ConnectedButton = styled.div`
+    padding: 16px;
+    background: ${Colors.primary};
+    border-radius: 16px;
+`;
+
 const Header = ({ show = 'always' }) => {
 
-    const { data: account } = useAccount()
-
-	if ((show === 'connected' && !account?.address) || (show === 'not_connected' && account?.address)) return null
+    const metamask = useConnectedMetaMask();
+    console.log(metamask);
 
     return (
         <HeaderContainer>
             <ConnectButtonContainer>
-                <ConnectButton />
+                <ConnectedButton>
+                    <p>Connected to {metamask.account}</p>
+                </ConnectedButton>
             </ConnectButtonContainer>
         </HeaderContainer>
     );
