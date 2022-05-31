@@ -4,6 +4,15 @@
     width: 80px;
     height: 80px;
   }
+  .lds-default .primary {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: #2E7DDE;
+    border-radius: 50%;
+    animation: lds-default 1.2s linear infinite;
+  }
+
   .lds-default div {
     position: absolute;
     width: 6px;

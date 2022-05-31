@@ -5,9 +5,7 @@ import { Title } from '../widgets/title';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { ethers } from 'ethers';
-import { AssignRole } from '../../logic';
-import { GlobalController } from '../../logic/controller';
-import { Contracts } from '../../config';
+import { AssignRole } from '../../logic/assign_role';
 
 const RoleAssignerPageContainer = styled.div`
     width: 100%;

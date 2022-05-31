@@ -1,6 +1,7 @@
 import { ConfigController } from "./contracts/config_controller";
 import { Etherbase } from "./contracts/etherbase";
 import { Marionette } from "./contracts/marionette";
+import { MultisigWallet } from "./contracts/multisig_wallet";
 import { Utils } from "./utils";
 
 /// Utils are Underscore
@@ -55,6 +56,19 @@ class ContractFunctions extends Utils {
             });
         } catch (err) {
             console.error(err);
+            console.error(err);
+            return undefined;
+        }
+    }
+
+    async _initializeMultisig(address) {
+        console.log("Initializing MSG", address);
+        try {
+            const _msgWallet = this._buildMultiSigWallet();
+            const _msgFunctions = new MultisigWallet();
+
+            return await _msgFunctions.initialize(_msgWallet, address);
+        } catch (err) {
             console.error(err);
             return undefined;
         }

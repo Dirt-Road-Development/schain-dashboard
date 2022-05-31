@@ -1,7 +1,8 @@
 import { ethers } from 'ethers';
 import * as Config from '../config';
+import { Utils } from './utils';
 
-class AssignRole {
+class AssignRole extends Utils {
 
     _contracts = new Config.Contracts();
 
@@ -100,23 +101,7 @@ class AssignRole {
         }
     }
 
-    _buildMultiSigWallet(provider) {
-        const _config = this._contracts.getConfig('multisig_wallet');
-        return new ethers.Contract(
-            _config['address'],
-            _config['abi'],
-            provider.getSigner()
-        );
-    }
-
-    _buildMarionette(provider) {
-        const _config = this._contracts.getConfig('marionette');
-        return new ethers.Contract(
-            _config['address'],
-            _config['abi'],
-            provider.getSigner()
-        );
-    }
+    
 }
 
 export {
