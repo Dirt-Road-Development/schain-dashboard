@@ -77,7 +77,7 @@ const RoleName = styled.p`
 `;
 
 
-const _Title = styled.h2`
+const TitleH2 = styled.h2`
     color: grey;
 `;
 
@@ -89,7 +89,7 @@ const RoleSelection = ({ currentRole, setCurrentRole, roles }) => {
 
     return (
         <RoleSelectionContainer>
-            <_Title>Role Selection</_Title>
+            <TitleH2>Role Selection</TitleH2>
             <RolesContainer>
                 {roles && roles.map((role, index) => {
                     let borderRadius = null;
