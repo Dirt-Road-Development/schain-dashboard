@@ -1,6 +1,7 @@
 import { ethers } from "ethers";
 import styled from "styled-components";
 import { Colors } from "../../config";
+import { useConnectedMetaMask } from 'metamask-react';
 
 const AssigneeContainer = styled.div`
     position: absolute;
@@ -62,7 +63,7 @@ const ValidEthereumAddress = ({ assignee }) => {
 }
 
 const TextFieldInput = styled.input`
-    width: 70%;
+    width: 50%;
     height: 100%;
     background: transparent;
     border: none;
@@ -78,7 +79,7 @@ const TextField = ({ assignee, setAssignee }) => {
     }}/>
 }
 
-const PredeployedContainer = styled.div`
+const PresetContainer = styled.div`
     width: 20%;
     height: 100%;
     color: ${Colors.primary};
@@ -89,14 +90,26 @@ const PredeployedContainer = styled.div`
 `;
 const Predeployed = ({ setAssignee }) => {
     return (
-        <PredeployedContainer onClick={(e) => {
+        <PresetContainer onClick={(e) => {
             e.preventDefault();
             setAssignee('0xD244519000000000000000000000000000000000');
-        }}>Click for Pre-Deployed MSG</PredeployedContainer>
+        }}>Click for Pre-Deployed MSG</PresetContainer>
+    )
+}
+
+const Owner = ({ setAssignee, account }) => {
+    return (
+        <PresetContainer onClick={(e) => {
+            e.preventDefault();
+            setAssignee(account);
+        }}>Click for Your Address</PresetContainer>
     )
 }
 
 const Assignee = ({ assignee, setAssignee }) => {
+
+    const { account } = useConnectedMetaMask();
+
     return (
         <AssigneeContainer>
             <_Title>Assignee</_Title>
@@ -104,6 +117,7 @@ const Assignee = ({ assignee, setAssignee }) => {
                 <ValidEthereumAddress assignee={assignee} />
                 <TextField assignee={assignee} setAssignee={setAssignee} />
                 <Predeployed setAssignee={setAssignee} />
+                <Owner account={account} setAssignee={setAssignee} />
             </TextFieldContainer>
         </AssigneeContainer>
     );

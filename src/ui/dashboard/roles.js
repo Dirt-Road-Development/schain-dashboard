@@ -100,8 +100,10 @@ const RolesByContract = ({ key1, roles }) => {
             return 'Etherbase';
         } else if (key === 'marionette') {
             return 'Marionette'
-        } else {
+        } else if (key === 'config_controller') {
             return 'Config Controller';
+        } else {
+            return 'Pre-Deployed Multisig'
         }
     }
 
@@ -120,14 +122,15 @@ const RolesByContract = ({ key1, roles }) => {
 
 
 const RolesInformation = ({ roles }) => {
-
+    let _roles = roles['roles'];
     const keys = ['etherbase', 'marionette', 'config_controller'];
     
     return (
         <RolesInformationContainer>
             {keys.map((key, index) => {
-                return <RolesByContract key={index} key1={key} roles={roles ? roles[key] : null} />;
+                return <RolesByContract key={index} key1={key} roles={_roles ? _roles[key] : null} />;
             })}
+            <RolesByContract key={4} key1='multisig' roles={roles['multisig_wallet']} />;
         </RolesInformationContainer>
     )
 }
@@ -136,11 +139,18 @@ const Roles = () => {
 
     const { account } = useConnectedMetaMask();
     const rolesState = useSelector((state) => state.chain_state.roles);
-    
+    let state = {
+        roles: rolesState[account]
+    };
+    const multisig = useSelector((state) => state.chain_state.multisig.isOwner);
+    console.log("MSG On Roles: ", multisig);
+    state['multisig_wallet'] = {
+        IS_OWNER: multisig
+    };
     return (
         <RolesContainer>
             <RolesTitle>Chain Roles</RolesTitle>
-            <RolesInformation roles={rolesState[account]} />
+            <RolesInformation roles={state} />
         </RolesContainer>
     );
 }
