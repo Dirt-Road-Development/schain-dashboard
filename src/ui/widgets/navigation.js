@@ -6,6 +6,7 @@ import { Colors } from '../../config/theme';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBridge, faCrow, faCrown, faGasPump, faGauge, faInfo, faPeopleGroup, faUserNinja } from "@fortawesome/free-solid-svg-icons";
+import { Footer } from "./footer";
 
 
 const NavigationContainer = styled.div`
@@ -80,6 +81,7 @@ const Navigation = () => {
                     </NavigationButton>
                 );
             })}
+            <Footer />
         </NavigationContainer>
     ); 
 }
