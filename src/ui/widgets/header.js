@@ -10,7 +10,7 @@ import { MyLiliusWidget } from './mylilius_widget';
 const HeaderContainer = styled.div`
     width: 100vw;
     height: 7.5vh;
-    border-bottom: 2px solid ${Colors.primary};
+    border-bottom: 1px solid grey;
     position: relative;
 `;
 
