@@ -105,6 +105,8 @@ const SelectNetwork = ({ close, chainId }) => {
     );
 }
 
+
+
 const Header = () => {
     const [isSelectNetwork, setIsSelectNetwork] = useState(false);
     
@@ -114,7 +116,15 @@ const Header = () => {
         return account.substring(0, 12) + '...' + account.substring(32);
     }
 
-    
+    // const chainIds = chains.map((chain) => chain.id);
+
+    // if (!chainIds.includes(parseInt(chainId))) {
+    //     return <HeaderContainer>
+    //         <WrongNetwork />
+    //     </HeaderContainer>
+    // }
+
+
     return (
         <HeaderContainer>
             {isSelectNetwork ? <SelectNetwork chainId={chainId} close={setIsSelectNetwork} /> :

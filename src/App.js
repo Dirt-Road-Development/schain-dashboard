@@ -13,6 +13,7 @@ import { useDispatch } from 'react-redux';
 import { setChainState, setMultisig, setRoles } from './state/data.slice';
 import { useState } from 'react';
 import { LoadingIcon } from './ui';
+import { ethers } from 'ethers';
 
 const AppContainer = styled.div`
 	width: 100vw;
@@ -45,6 +46,7 @@ const queryClient = new QueryClient()
 function App() {
 	const dispatch = useDispatch();
 	const { status, account, connect, chainId } = useMetaMask();
+	// new ethers.providers.Web3Provider(ethereum)._networkPromise.then((val) => console.log(val))
 	const [isLoading, setIsLoading] = useState(true);
 
 	let widget;
@@ -69,12 +71,18 @@ function App() {
 
 	/// If Here Connected
 	const chainIdInt = parseInt(chainId);
-    let chain = Chains.find((value, index) => {
-        
+    let chain = Chains.find((value) => {
         if (value.id === chainIdInt) {
             return value;
-        };
+        }
+		return null;
     });
+
+	if (!chain) {
+		return <AppContainer>
+			<Widget.WrongNetwork />
+		</AppContainer>
+	}
 
 	const controller = new GlobalController(chain.rpcUrls.default);
 
