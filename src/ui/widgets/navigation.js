@@ -18,7 +18,7 @@ const NavigationContainer = styled.div`
     height: 100vh;
     display: flex;
     flex-direction: column;
-    border-right: 2px solid ${Colors.primary};
+    border-right: 1px solid grey;
 `;
 
 const NavigationButton = styled.div`
@@ -33,6 +33,8 @@ const NavigationButton = styled.div`
     display: flex;
     align-items: center;
     border-radius: 16px;
+    font-size: 1.15rem;
+    font-weight: bold;
 `;
 
 const Navigation = () => {
