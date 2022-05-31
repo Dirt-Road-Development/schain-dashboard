@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { Colors } from "../../config";
 import { useEffect, useRef, useState } from "react";
 import { setRoles } from "../../state/data.slice";
-
+import { useConnectedMetaMask } from 'metamask-react';
 
 const RolesContainer = styled.div`
     height: 85%;
@@ -122,24 +122,7 @@ const RolesByContract = ({ key1, roles }) => {
 const RolesInformation = ({ roles }) => {
 
     const keys = ['etherbase', 'marionette', 'config_controller'];
-    // const [_roles, setRoles] = useState(null);
-
-    // const componentWillUnmount = useRef(false)
-
-    // // This is componentWillUnmount
-    // useEffect(() => {
-    //     return () => {
-    //         componentWillUnmount.current = true
-    //     }
-    // }, [])
-
-    // useEffect(() => {
-    //     console.log(componentWillUnmount.current);
-    //     if (componentWillUnmount.current) {
-    //         setRoles(roles);
-    //     }
-    // }, [_roles]);
-
+    
     return (
         <RolesInformationContainer>
             {keys.map((key, index) => {
@@ -151,18 +134,13 @@ const RolesInformation = ({ roles }) => {
 
 const Roles = () => {
 
-    const [roles, setRoles] = useState(null);
-
+    const { account } = useConnectedMetaMask();
     const rolesState = useSelector((state) => state.chain_state.roles);
-
-    useEffect(() => {
-        setRoles(rolesState);
-    }, [rolesState]);
-
+    
     return (
         <RolesContainer>
             <RolesTitle>Chain Roles</RolesTitle>
-            <RolesInformation roles={roles} />
+            <RolesInformation roles={rolesState[account]} />
         </RolesContainer>
     );
 }

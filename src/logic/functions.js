@@ -1,8 +1,11 @@
-import { ConfigController } from "./config_controller";
-import { Etherbase } from "./etherbase";
-import { Marionette } from "./marionette";
+import { ConfigController } from "./contracts/config_controller";
+import { Etherbase } from "./contracts/etherbase";
+import { Marionette } from "./contracts/marionette";
+import { Utils } from "./utils";
 
-class ContractFunctions {
+/// Utils are Underscore
+
+class ContractFunctions extends Utils {
 
     async getFreeContractDeployment(contract) {
         try {
@@ -22,8 +25,19 @@ class ContractFunctions {
         }
     }
 
-    async getRoles(_contracts, address) {
-        let state = {};
+    async _initializeConfigController() {
+        return Promise.all([
+            this._loadData('config_controller', 'freeContractDeployment', this),
+            this._loadData('config_controller', 'multiTransactionMode', this)
+        ]).then(([a, b]) => {
+            return [a,b];
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+    }
+
+    async _initializeRoles(_contracts, address) {
         try {
             return Promise.all([
                 Etherbase.getRoles(_contracts[0], address),
@@ -36,20 +50,9 @@ class ContractFunctions {
                     'marionette': b,
                     'config_controller': c
                 };
-                // state['etherbase'] = a;
-                // state['marionette'] = b;
-                // state['config_controller'] = c;
             }).catch((err) => {
                 throw new Error(err);
             });
-            // // let etherbase = ;
-            // // state['etherbase'] = etherbase;
-            // // let marionette = await ;
-            // // state['marionette'] = marionette;
-            // // let configController = await ;
-            // // state['config_controller'] = configController;
-            // console.log("State Roles: ", state);
-            // return state;
         } catch (err) {
             console.error(err);
             console.error(err);

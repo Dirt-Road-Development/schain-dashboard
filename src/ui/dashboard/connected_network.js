@@ -1,6 +1,7 @@
 import styled from "styled-components";
-import { ethers } from "ethers";
 import { Colors } from '../../config/theme';
+import { useConnectedMetaMask } from 'metamask-react';
+import Chains from '../../config/chains';
 
 const ConnectedNetworkContainer = styled.div`
     position: absolute;
@@ -36,28 +37,26 @@ const Data = styled.p`
 `;
 
 
-const ConnectedNetwork = ({ network }) => {
-    let showNetwork = true;
-
-    if (!network['activeChain']) showNetwork = false;
-
-    if (!showNetwork) {
-        return null;
-    }
+const ConnectedNetwork = () => {
     
+    const { chainId } = useConnectedMetaMask();
+    const chain = Chains.find((value) => {
+        return parseInt(chainId) === value.id;
+    });
+
     return (
         <ConnectedNetworkContainer>
             <DataRow>
                 <Label>Chain</Label>
-                <Data>{network.activeChain.name}</Data>
+                <Data>{chain.name}</Data>
             </DataRow>
             <DataRow>
                 <Label>Chain ID</Label>
-                <Data>{network.activeChain.id}</Data>
+                <Data>{chain.id}</Data>
             </DataRow>
             <DataRow hideBorder={true}>
                 <Label>Chain Type</Label>
-                <Data>{network.activeChain.testnet ? 'Testnet': 'Mainnet'}</Data>
+                <Data>{chain.testnet ? 'Testnet': 'Mainnet'}</Data>
             </DataRow>
         </ConnectedNetworkContainer>
     )

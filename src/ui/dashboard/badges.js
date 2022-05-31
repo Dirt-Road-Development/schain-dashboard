@@ -95,7 +95,7 @@ const Badge = ({ index, label, data }) => {
 const DashboardBadges = () => {
 
     const state = useSelector((state) => state.chain_state);
-    // console.log(state);
+    console.log("Chain State in Badges: ", state);
     return (
         <BadgesContainer>
             <Badge index={0} label='Version' data={state.chainVersion}/>

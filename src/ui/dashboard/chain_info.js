@@ -1,7 +1,4 @@
-import { useEffect } from 'react';
 import styled from 'styled-components';
-import { useNetwork } from 'wagmi';
-import { Colors } from '../../config/theme';
 import { ConnectedNetwork } from './connected_network';
 import { Roles } from './roles';
 
@@ -16,17 +13,10 @@ const ChainInfoContainer = styled.div`
 `;
 
 const ChainInfo = () => {
-
-    const network = useNetwork();
-
-    useEffect(() => {
-        network.reset();
-    }, [network])
-
     return (
         <ChainInfoContainer>
             <Roles />
-            <ConnectedNetwork network={network} />
+            <ConnectedNetwork />
         </ChainInfoContainer>
     );
 }
