@@ -1,5 +1,6 @@
 import { useConnectedMetaMask } from 'metamask-react';
-
+import { useState } from 'react';
+import chains from '../../config/chains';
 import styled from "styled-components";
 import { Colors } from "../../config/theme";
 
@@ -22,22 +23,55 @@ const ConnectButtonContainer = styled.div`
 
 const ConnectedButton = styled.div`
     padding: 16px;
-    background: ${Colors.primary};
+    background: white;
     border-radius: 16px;
 `;
 
-const Header = ({ show = 'always' }) => {
+const SelectNetworkContainer = styled.div`
+    height: 100%;
+    width: 80%;
+    background: red;
+    position: absolute;
+    // right: 32px;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+`;
 
-    const metamask = useConnectedMetaMask();
-    console.log(metamask);
+const SelectNetwork = ({ close }) => {
+    return (
+        <SelectNetworkContainer>
+            {<p>Hi</p>}
+        </SelectNetworkContainer>
+    );
+}
 
+const Header = () => {
+    const [isSelectNetwork, setIsSelectNetwork] = useState(false);
+    
+    const { account } = useConnectedMetaMask();
+
+    const _shortenAddress = (account) => {
+        return account.substring(0, 12) + '...' + account.substring(32);
+    }
+
+    
     return (
         <HeaderContainer>
+            {isSelectNetwork ? <SelectNetwork close={(e) => {
+                e.preventDefault();
+                setIsSelectNetwork(false);
+            }}/> :
             <ConnectButtonContainer>
-                <ConnectedButton>
-                    <p>Connected to {metamask.account}</p>
+                <ConnectedButton onClick={(e) => {
+                    e.preventDefault();
+                    setIsSelectNetwork(true);
+                }}>
+                    <p>{_shortenAddress(account)}</p>
                 </ConnectedButton>
-            </ConnectButtonContainer>
+            </ConnectButtonContainer>}
         </HeaderContainer>
     );
 }
