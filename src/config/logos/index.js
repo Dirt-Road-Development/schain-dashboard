@@ -1,0 +1,1 @@
+export * as MyLiliusLogo from './mylilius_logo.svg';

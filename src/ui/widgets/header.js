@@ -6,7 +6,7 @@ import { Colors } from "../../config/theme";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose } from '@fortawesome/free-solid-svg-icons';
 import { ethers } from 'ethers';
-
+import { MyLiliusWidget } from './mylilius_widget';
 const HeaderContainer = styled.div`
     width: 100vw;
     height: 7.5vh;
@@ -127,6 +127,7 @@ const Header = () => {
 
     return (
         <HeaderContainer>
+            <MyLiliusWidget />
             {isSelectNetwork ? <SelectNetwork chainId={chainId} close={setIsSelectNetwork} /> :
             <ConnectButtonContainer>
                 <ConnectedButton onClick={(e) => {
