@@ -32,6 +32,38 @@ class Utils {
         });
         return _multiContracts;
     }
+
+    _buildMultiSigWallet(provider) {
+        const _config = this._contracts.getConfig('multisig_wallet');
+        if (!provider) {
+            return new ethers.Contract(
+                _config['address'],
+                _config['abi'],
+                this._buildProvider(this._rpcUrl)
+            );
+        }
+        return new ethers.Contract(
+            _config['address'],
+            _config['abi'],
+            provider.getSigner()
+        );
+    }
+
+    _buildMarionette(provider) {
+        const _config = this._contracts.getConfig('marionette');
+        if (!provider) {
+            return new ethers.Contract(
+                _config['address'],
+                _config['abi'],
+                this._buildProvider(this._rpcUrl)
+            )
+        }
+        return new ethers.Contract(
+            _config['address'],
+            _config['abi'],
+            provider.getSigner()
+        );
+    }
 }
 
 export {

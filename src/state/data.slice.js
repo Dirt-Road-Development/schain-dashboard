@@ -7,6 +7,7 @@ export const chainStateSlice = createSlice({
         freeContractDeploymentEnabled: null,
         multiTransactionModeEnabled: null,
         roles: {},
+        multisig: {},
         version: null,
         blockNumber: null,
     },
@@ -20,13 +21,16 @@ export const chainStateSlice = createSlice({
             })
         },
         setRoles: (state, action) => {
-            console.log("Payload");
-            console.log(action.payload);
             state['roles'][action.payload['address']] = action.payload['roles'];
+        },
+        setMultisig: (state, action) => {
+            console.log("MSG Payload");
+            console.log(action.payload);
+            state['multisig'] = action.payload;
         }
     }
 });
 
-export const { setData, setChainState, setRoles } = chainStateSlice.actions;
+export const { setData, setChainState, setRoles, setMultisig } = chainStateSlice.actions;
 
 export default chainStateSlice.reducer;
