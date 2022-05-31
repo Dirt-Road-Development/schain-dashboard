@@ -4,6 +4,8 @@ import { setPage } from "../../state/navigation.slice";
 import { Header } from "./header";
 import { Colors } from '../../config/theme';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBridge, faCrow, faCrown, faGasPump, faGauge, faInfo, faPeopleGroup, faUserNinja } from "@fortawesome/free-solid-svg-icons";
 
 
 const NavigationContainer = styled.div`
@@ -20,11 +22,17 @@ const NavigationContainer = styled.div`
 
 const NavigationButton = styled.div`
     width: 85%;
-    height: calc(100% / 20);
+    height: calc(100% / 35);
     margin: 0 auto;
     text-decoration: none;
-    color: ${props => props.color ?? 'white'};
-    padding: 8px 0 0 0;
+    color: ${props => props.color};
+    background-color: ${props => props.background};
+    border: 0.5px solid ${Colors.primary};
+    padding: 16px;
+    margin: 8px 0;
+    display: flex;
+    align-items: center;
+    border-radius: 16px;
 `;
 
 const Navigation = () => {
@@ -42,19 +50,33 @@ const Navigation = () => {
         'Support': '/support'
     };
 
+    const icons = [
+        faGauge,
+        faUserNinja,
+        faBridge,
+        faPeopleGroup,
+        faCrown,
+        faGasPump,
+        faInfo
+    ];
+
     return (
         <NavigationContainer>
             <Header />
             {Object.entries(pages).map((_page, index) => {
                 const title = _page[0];
                 const path = _page[1];
-                let color = page === title ? Colors.primary : null;
+                let color = page === title ? Colors.primary : 'white';
+                let background = page === title ? 'white' : 'transparent';
+
                 return (
-                    <NavigationButton color={color} key={index} to={path} onClick={(e) => {
+                    <NavigationButton background={background} color={color} key={index} to={path} onClick={(e) => {
                         e.preventDefault();
                         navigate(path);
                         dispatch(setPage(title));
                     }}>
+                        <FontAwesomeIcon icon={icons[index]} size="2x" width="25px"/>
+                        <span style={{width: '25px'}} />
                         {title}
                     </NavigationButton>
                 );
