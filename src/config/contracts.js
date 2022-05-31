@@ -1,6 +1,6 @@
 import abis from "./abis";
 import addresses from "./addresses";
-import { useContract } from "wagmi";
+// import { useContract } from "wagmi";
 import { useEffect, useState } from "react";
 import { Contract } from "ethers";
 
@@ -18,19 +18,19 @@ class Contracts {
     
 }
 
-function useBuildContract(_key) {
-    const contracts = new Contracts();
+// function useBuildContract(_key) {
+//     const contracts = new Contracts();
 
-    const config = contracts.getConfig(_key);
+//     const config = contracts.getConfig(_key);
 
-    return useContract({
-        addressOrName: config.address,
-        contractInterface: config.abi
-    });
-}
+//     return useContract({
+//         addressOrName: config.address,
+//         contractInterface: config.abi
+//     });
+// }
 
 
 export {
     Contracts,
-    useBuildContract as buildContract
+    // useBuildContract as buildContract
 }

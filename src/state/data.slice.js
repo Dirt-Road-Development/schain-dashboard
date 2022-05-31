@@ -6,7 +6,7 @@ export const chainStateSlice = createSlice({
         isOwner: null,
         freeContractDeploymentEnabled: null,
         multiTransactionModeEnabled: null,
-        roles: null,
+        roles: {},
         version: null,
         blockNumber: null,
     },
@@ -16,13 +16,13 @@ export const chainStateSlice = createSlice({
         },
         setChainState: (state, action) => {
             Object.entries(action.payload).forEach((entry) => {
-                state[entry[0]] = entry[1];
+                state[entry[1][0]] = entry[1][1];
             })
         },
         setRoles: (state, action) => {
-            console.log("Setting Roles");
+            console.log("Payload");
             console.log(action.payload);
-            state['roles'] = action.payload;
+            state['roles'][action.payload['address']] = action.payload['roles'];
         }
     }
 });
