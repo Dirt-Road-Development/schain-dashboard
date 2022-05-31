@@ -1,7 +1,7 @@
-import "./Loader.css";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { Colors } from "../../config/theme";
+import { LoadingIcon } from "../widgets";
 
 const BadgesContainer = styled.div`
 
@@ -59,20 +59,6 @@ const Data = styled.h3`
     }};
 `;
 
-const LoadingIconCss = styled.div`
-    position: relative;
-    margin: 0 auto;
-    width: 80px;
-    height: 80px;
-`;
-
-const LoadingIcon = () => {
-    return (
-        <LoadingIconCss className="lds-default">
-            <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
-        </LoadingIconCss>
-    );
-}
 
 const Badge = ({ index, label, data }) => {
     

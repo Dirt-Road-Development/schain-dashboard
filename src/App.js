@@ -1,24 +1,35 @@
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { useMetaMask } from 'metamask-react';
-
 import styled from 'styled-components';
 import * as Widget from './ui';
-
 import './App.css';
+import './Loader.css';
 import { Colors } from './config/theme';
-import { GlobalContainer } from './ui';
-import { useEffect } from 'react';
 import { GlobalController } from './logic/controller';
+import Addresses from './config/addresses';
 import Chains from './config/chains';
 import { useDispatch } from 'react-redux';
-import { setChainState, setRoles } from './state/data.slice';
+import { setChainState, setMultisig, setRoles } from './state/data.slice';
+import { useState } from 'react';
+import { LoadingIcon } from './ui';
 
 const AppContainer = styled.div`
 	width: 100vw;
 	height: 100vh;
 	overflow: hidden;
 	background: ${Colors.background};
+`;
+
+
+const LoadingContainer = styled.div`
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	color: white;
 `;
 
 const PageContainer = styled.div`
@@ -34,6 +45,7 @@ const queryClient = new QueryClient()
 function App() {
 	const dispatch = useDispatch();
 	const { status, account, connect, chainId } = useMetaMask();
+	const [isLoading, setIsLoading] = useState(true);
 
 	let widget;
 	if (status === "initializing") widget = <div>Synchronisation with MetaMask ongoing...</div>
@@ -63,46 +75,50 @@ function App() {
             return value;
         };
     });
-	const controller = new GlobalController(chain.rpcUrls.default);
-	controller.initializeConfigController()
-		.then((res => {
-			console.log("Chain State: ", res);
-			dispatch(setChainState(res));
-		}))
-		.catch(err => console.log(err));
 
-	controller.initializeRoles(account)
-		.then((res => {
-			console.log(res);
-			dispatch(setRoles({
-				address: account,
-				roles: res
-			}));
-		}))
-		.catch(err => {
-			console.log(err);
-		})
+	const controller = new GlobalController(chain.rpcUrls.default);
+
+	Promise.all([
+		controller.initializeConfigController(),
+		controller.initializeRoles(account),
+		controller.initializeRoles(Addresses.multisig_wallet),
+		controller.initializeMultiSig(account)
+	]).then(([a, b, c, d]) => {
+		dispatch(setChainState(a));
+		dispatch(setRoles({
+			address: account,
+			roles: b
+		}));
+		dispatch(setRoles({
+			address: Addresses.multsig_wallet,
+			roles: c
+		}));
+		dispatch(setMultisig(d));
+		setIsLoading(false);
+	})
+	.catch((err) => {
+		console.log(err);
+	})
 	
+	if (isLoading) return <AppContainer><LoadingContainer><LoadingIcon primary={true} /><h1>Loading SKALE Chain UI</h1></LoadingContainer></AppContainer>
+
 	return (
 		<QueryClientProvider client={queryClient} contextSharing={true}>
 		<AppContainer>
-			{/* <GlobalContainer widget={ */}
-				<Router>
-					<Widget.Navigation />
-					<PageContainer>
-						<Routes>
-							<Route path='/' element={<Widget.DashboardPage />} />
-							<Route path='/chain' element={<Widget.ChainManagementPage />} />
-							<Route path='/ima' element={<Widget.ImaPage />} />
-							<Route path='/multisig' element={<Widget.MultiSigPage />} />
-							<Route path='/assigner' element={<Widget.RoleAssignerPage />} />
-							<Route path='/sfuel' element={<Widget.SFuelPage />} />
-							<Route path='/support' element={<Widget.SupportPage />} />
-						</Routes>
-					</PageContainer>
-				</Router>
-				{/* }  */}
-				{/* /> */}
+			<Router>
+				<Widget.Navigation />
+				<PageContainer>
+					<Routes>
+						<Route path='/' element={<Widget.DashboardPage />} />
+						<Route path='/chain' element={<Widget.ChainManagementPage />} />
+						<Route path='/ima' element={<Widget.ImaPage />} />
+						<Route path='/multisig' element={<Widget.MultiSigPage />} />
+						<Route path='/assigner' element={<Widget.RoleAssignerPage />} />
+						<Route path='/sfuel' element={<Widget.SFuelPage />} />
+						<Route path='/support' element={<Widget.SupportPage />} />
+					</Routes>
+				</PageContainer>
+			</Router>
 		</AppContainer>
 		</QueryClientProvider>
 	);
