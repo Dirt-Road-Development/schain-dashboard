@@ -51,6 +51,7 @@ const SFuelPage = () => {
     const dispatch = useDispatch();
     const provider = new ethers.providers.Web3Provider(ethereum);
     const hasSFuelRegistry = useSelector((state) => state.chain_state.hasSFuelRegistry);
+    const [currentPage, setCurrentPage] = useState('main');
 
     useEffect(() => {
         checkRegistry();
@@ -100,12 +101,12 @@ const SFuelPage = () => {
         </div>
     }
 
-
     return (
         <SFuelPageContainer>
             <Title title="SFuel"/>
-            <Component.SelectContract />
-            <Component.SFuelOptions />
+            <Component.CreateWhitelistButton currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            {currentPage === 'create_whitelist' && <Component.CreateWhitelist />}
+            {currentPage === 'main' && <Component.Whitelists />}
         </SFuelPageContainer>
 
     );
