@@ -38,6 +38,7 @@ export const chainStateSlice = createSlice({
         multisig: {},
         version: null,
         blockNumber: null,
+        hasSFuelRegistry: null
     },
     reducers: {
         setData: (state, action) => {
