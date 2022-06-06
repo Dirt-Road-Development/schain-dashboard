@@ -43,22 +43,27 @@ export const chainStateSlice = createSlice({
     },
     reducers: {
         setData: (state, action) => {
+            console.log("Set Data: ", action);
             state[action.payload.key] = action.payload.value
         },
         setChainState: (state, action) => {
+            console.log("Set Chain State: ", action);
             Object.entries(action.payload).forEach((entry) => {
                 state[entry[1][0]] = entry[1][1];
             })
         },
         setRoles: (state, action) => {
+            console.log("Set Roles: ", action);
             state['roles'][action.payload['address']] = action.payload['roles'];
         },
         setMultisig: (state, action) => {
-            console.log("MSG Payload");
-            console.log(action.payload);
+            console.log("Set MSG: ", action);
+            // console.log("MSG Payload");
+            // console.log(action.payload);
             state['multisig'] = action.payload;
         },
         setSFuelContracts: (state, action) => {
+            console.log("Set SFuel: ", action);
             state['sFuelContracts'] = action.payload;
         }
     }

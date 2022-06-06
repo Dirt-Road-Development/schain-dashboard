@@ -27,13 +27,18 @@
  * 
  */
 
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import navigationReducer from './navigation.slice';
 import dataReducer from './data.slice';
+
+const customizedMiddleware = getDefaultMiddleware({
+    serializableCheck: false
+});
 
 export default configureStore({
     reducer: {
         navigation: navigationReducer,
         chain_state: dataReducer
-    }
+    },
+    middleware: (getDefaultMiddleware) => customizedMiddleware
 });
