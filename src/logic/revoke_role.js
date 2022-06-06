@@ -17,7 +17,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  * 
  * /**
- * @file src/logic/assign_role.js
+ * @file src/logic/revoke_role.js
  * @copyright TheGreatAxios and Lilius, Inc 2022-Present
  * 
  * Questions regarding the pseudonym of TheGreatAxios can be forwarded to thegreataxios@mylilius.com
