@@ -121,7 +121,7 @@ const ContractStatsContainer = styled.div`
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    align-items: center;
+    align-items: flex-end;
     justify-content: space-evenly;
 `;
 
@@ -129,13 +129,13 @@ const ContractStats = ({ statState }) => {
 
     return (
         <ContractStatsContainer>
-            <ContractStat label="# of Default Admins" value={statState.DEFAULT_ADMIN_ROLE} />
+            <ContractStat border="16px 0 0 0" label="# of Default Admins" value={statState.DEFAULT_ADMIN_ROLE} />
             <ContractStat label="# of Whitelist Managers" value={statState.WHITELIST_MANAGER_ROLE} />
             <ContractStat label="# of Contract Managers" value={statState.CONTRACT_MANAGER_ROLE} />
             <ContractStat label="# of Whitelisted Contracts" value={statState.WHITELISTED_CONTRACTS} />
             <ContractStat label="Contract Balance" value={statState.BALANCE} />
             <ContractStat label="Active State" value={statState.IS_PAUSED ? 'Paused': 'Active'} />
-            <ContractStat label="I am a Default Admin" value={statState.HAS_DEFAULT_ADMIN_ROLE} />
+            <ContractStat border="0 0 0 16px" label="I am a Default Admin" value={statState.HAS_DEFAULT_ADMIN_ROLE} />
             <ContractStat label="I am Whitelist Manager" value={statState.HAS_WHITELIST_MANAGER_ROLE} />
             <ContractStat label="I am Contract Manager" value={statState.HAS_CONTRACT_MANAGER_ROLE} />
         </ContractStatsContainer>
@@ -143,8 +143,9 @@ const ContractStats = ({ statState }) => {
 }
 
 const ContractStatContainer = styled.div`
+    border-radius: ${props => props.border};
     width: 30%;
-    height: 26%;
+    height: 29.5%;
     border: 2px solid grey;
     display: flex;
     align-items: center;
@@ -175,14 +176,14 @@ const Data = styled.h3`
     }};
 `;
 
-const ContractStat = ({ label, value }) => {
+const ContractStat = ({ label, value, border }) => {
     if (label === 'Contract Balance') {
         value = Number(value) > 0 ? `${ethers.utils.formatEther(BigNumber.from(value))} S-Fuel` : '0 S-Fuel'
     } else if (label === '# of Whitelisted Contracts') {
         value = value === 0 ? '0' : value
     }
     return (
-        <ContractStatContainer>
+        <ContractStatContainer border={border}>
             {!value ? <LoadingIcon /> : <Data>{value.toString()}</Data>}
             <Label>{label}</Label>
         </ContractStatContainer>
@@ -215,11 +216,11 @@ const AboutInformation = ({ contractAddress, statState }) => {
 }
 
 const ButtonContainer = styled.div`
-    width: 90%;
-    margin: 5% 0;
-    height: 10%;
+    width: 91%;
+    margin: 1% 0;
     display: flex;
     align-items: center;
+    justify-content: center;
     button {
         width: 100%;
         height: 100%;
@@ -227,7 +228,7 @@ const ButtonContainer = styled.div`
         color: grey;
         background: none;
         font-size: 1.15rem;
-        padding: 16px;
+        padding: 4px 0;
         border-radius: ${props => props.radius};
         &:hover {
             background: ${props => props.isDelete ? 'red': Colors.primary};
@@ -328,15 +329,15 @@ const WhitelistContract = ({ contractAddress }) => {
                 if (isValidAddress) {
                     provider.getCode(e.target.value)
                         .then((res => {
-                            setValidAddress(!(res === '0x'))
+                            setValidAddress((res === '0x'))
                         }))
                         .catch(err => setValidAddress(false));
                 }
             }} />
-            {validAddress && <WhitelistButton onClick={(e) => {
+            {validAddress ? <WhitelistButton onClick={(e) => {
                 e.preventDefault();
                 whitelistContract();
-            }}>Whitelist Contract</WhitelistButton>}
+            }}>Whitelist Contract</WhitelistButton> : <WhitelistButton style={{ background: 'none', border: 'none'}}></WhitelistButton>}
             {validAddress ? <ValidStatement color="green">Valid Address</ValidStatement> : <ValidStatement color="red">Invalid Address</ValidStatement>}
         </WhitelistContractContainer>
     )
@@ -351,6 +352,7 @@ const ValidStatement = styled.p`
 const WhitelistButton = styled.button`
     width: 94%;
     margin: 7.5px auto;
+    height: 20px;
     background: ${Colors.primary};
     border: 1px solid ${Colors.primary};
     color: white;
@@ -412,10 +414,10 @@ const AssignRole = ({ contractAddress, statState }) => {
                 setFutureAddress(e.target.value);
                 setIsValid(ethers.utils.isAddress(e.target.value))
             }} />
-            {isValid && <WhitelistButton onClick={(e) => {
+            {isValid ? <WhitelistButton onClick={(e) => {
                 e.preventDefault();
                 assignRole();
-            }}>Assign Role</WhitelistButton>}
+            }}>Assign Role</WhitelistButton> : <WhitelistButton style={{ background: 'none', border: 'none'}}></WhitelistButton> }
         </AssignRoleContainer>
     );
 }
@@ -461,10 +463,10 @@ const RevokeRole = ({ contractAddress, statState }) => {
                 setFutureAddress(e.target.value);
                 setIsValid(ethers.utils.isAddress(e.target.value))
             }} />
-            {isValid && <WhitelistButton onClick={(e) => {
+            {isValid ? <WhitelistButton onClick={(e) => {
                 e.preventDefault();
                 revokeRole();
-            }}>Revoke Role</WhitelistButton>}
+            }}>Revoke Role</WhitelistButton> : <WhitelistButton style={{ background: 'none', border: 'none'}}></WhitelistButton>}
         </AssignRoleContainer>
     );
 }
