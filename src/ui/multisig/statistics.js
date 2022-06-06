@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Colors } from "../../config";
+import { LoadingIcon } from "../widgets";
 
 const MultiSigStatisticsContainer = styled.div`
 
@@ -45,25 +46,25 @@ const Data = styled.h3`
         }
     }};
 `;
-const Statistic = () => {
+const Statistic = ({ label, data }) => {
     return (
         <StatisticContainer>
-            <Label>Label</Label>
-            <Data>Data</Data>
+            <Label>{label}</Label>
+            {!data ? <LoadingIcon /> : <Data>{data}</Data>}
         </StatisticContainer>
     )
 }
 
 
-const MultiSigStatistics = () => {
+const MultiSigStatistics = ({ statistics }) => {
     return (
         <MultiSigStatisticsContainer>
-            <Statistic />
-            <Statistic />
-            <Statistic />
-            <Statistic />
-            <Statistic />
-            <Statistic />
+            <Statistic label="# of Owners" data={statistics.owners.length} />
+            <Statistic label="# of Requirements" data={statistics.required} />
+            <Statistic label="Wallet Balance" data={`${statistics.balance} S-Fuel`}/>
+            <Statistic label="# of Transactions" data={statistics.pending + statistics.executed} />
+            <Statistic label="# of Pending Txs" data={statistics.pending} />
+            <Statistic label="# of Executed Txs" data={statistics.executed} />
         </MultiSigStatisticsContainer>
     );
 }

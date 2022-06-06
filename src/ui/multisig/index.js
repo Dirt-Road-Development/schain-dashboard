@@ -24,8 +24,9 @@
  *
  */
 
+import { ethers } from "ethers";
 import { useConnectedMetaMask } from "metamask-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { MultisigWallet } from "../../logic/contracts/multisig_wallet";
 import { Title } from "../widgets/title";
@@ -38,23 +39,37 @@ const MultiSigPageContainer = styled.div`
 `;
 
 const MultiSigPage = () => {
-    // const msg = new MultisigWallet();
-    // const { ethereum } = useConnectedMetaMask();
+    const msg = new MultisigWallet();
+    const { ethereum, account } = useConnectedMetaMask();
+    const [msgState, setMsgState] = useState({
+        pending: null,
+        executed: null,
+        owners: [],
+        required: null,
+        balance: null
+    });
+    useEffect(() => {
+        const interval = setInterval(async() => {
+            let res = await msg.initializeFull(ethereum);
+            setMsgState({
+                pending: Number(res[0]),
+                executed: Number(res[1]),
+                owners: res[2],
+                required: Number(res[3]),
+                balance: Number(res[4]) === 0 ? "0" : ethers.utils.formatEther(res[4])
+            })
+            console.log("Result: ", res);
+        }, 5000);
 
-    // useEffect(() => {
-    //     const interval = setInterval(() => {
-    //         msg.initializeFull(ethereum);
-    //     }, 5000);
-
-    //     return () => clearInterval(interval);
-    // }, [])
+        return () => clearInterval(interval);
+    }, [])
 
     return (
         <MultiSigPageContainer>
             <Title title="Multisig Wallet" />
-            <Component.MultiSigStatistics />
+            <Component.MultiSigStatistics statistics={msgState}/>
             <Component.Transactions />
-            <Component.Owners />
+            <Component.Owners ethereum={ethereum} account={account} owners={msgState.owners} />
         </MultiSigPageContainer>
     );
 }
