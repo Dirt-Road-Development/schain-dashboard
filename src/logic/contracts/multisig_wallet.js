@@ -24,8 +24,9 @@
  */
 
 import { ethers } from 'ethers';
+import { Utils } from '../utils';
 
-class MultisigWallet {
+class MultisigWallet extends Utils {
 
     async initialize(_contract, _address) {
         return Promise.all([
@@ -70,6 +71,31 @@ class MultisigWallet {
             return undefined;
         }
     }
+
+    async initializeFull(ethereum) {
+        try {
+            /// 1 -> Create Provider
+            const provider = new ethers.providers.Web3Provider(ethereum);
+            /// 2 -> Load Core MSG Contract
+            const contractConfig = this._contracts.getConfig('multisig_wallet');
+            const contract = new ethers.Contract(contractConfig['address'], contractConfig['abi'], provider);
+            /// 3 -> Promise All that gets all GET data from contract
+            return Promise.all([
+                contract.callStatic.getTransactionCount(true, false),
+                contract.callStatic.getTransactionCount(false, true),
+                contract.callStatic.getOwners(),
+                contract.callStatic.required(),
+                provider.getBalance(contractConfig['address'])
+            ]).then((res) => {
+                return res;
+            }).catch((err) => {
+                throw new Error(err);
+            })
+        } catch (err) {
+            console.log(err);
+            throw new Error(err);
+        }
+    } 
 }
 
 export {
