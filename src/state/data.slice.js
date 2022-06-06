@@ -38,7 +38,8 @@ export const chainStateSlice = createSlice({
         multisig: {},
         version: null,
         blockNumber: null,
-        hasSFuelRegistry: null
+        hasSFuelRegistry: null,
+        sFuelContracts: []
     },
     reducers: {
         setData: (state, action) => {
@@ -56,10 +57,13 @@ export const chainStateSlice = createSlice({
             console.log("MSG Payload");
             console.log(action.payload);
             state['multisig'] = action.payload;
+        },
+        setSFuelContracts: (state, action) => {
+            state['sFuelContracts'] = action.payload;
         }
     }
 });
 
-export const { setData, setChainState, setRoles, setMultisig } = chainStateSlice.actions;
+export const { setData, setChainState, setRoles, setMultisig, setSFuelContracts } = chainStateSlice.actions;
 
 export default chainStateSlice.reducer;
