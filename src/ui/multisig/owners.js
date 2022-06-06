@@ -2,6 +2,7 @@ import { ethers } from "ethers";
 import { useState } from "react";
 import styled from "styled-components";
 import { Colors } from "../../config";
+import { MultisigWallet } from "../../logic/contracts/multisig_wallet";
 
 const OwnersContainer = styled.div`
 
@@ -47,6 +48,14 @@ const AddOwner = ({ ethereum, owners }) => {
     const provider = new ethers.providers.Web3Provider(ethereum);
     const [futureOwner, setFutureOwner] = useState("");
     const [isValid, setIsValid] = useState(false);
+
+    const addOwner = async() => {
+        const msg = new MultisigWallet();
+        await msg.addOwnerToMultisig(provider, futureOwner);
+        setFutureOwner("");
+        setIsValid(false);
+    }
+
     return (
         <AddOwnerContainer>
             <IsValid isValid={isValid}/>
@@ -75,7 +84,10 @@ const AddOwner = ({ ethereum, owners }) => {
                 e.preventDefault();
                 if (!isValid) {
                     alert('Not a valid address');
+                } else {
+                    addOwner();
                 }
+                
             }}>{isValid ? 'Add Owner' : 'Cannot Add Owner'} </AddOwnerButton>
         </AddOwnerContainer>
     )
@@ -157,7 +169,7 @@ const OwnerButton = styled.button`
     border: none;
     color: ${props => props.isMe ? Colors.primary: 'red'};
     margin-right: 5%;
-    text-align: center;
+    text-align: right;
 
 `;
 

@@ -95,7 +95,31 @@ class MultisigWallet extends Utils {
             console.log(err);
             throw new Error(err);
         }
-    } 
+    }
+
+    async addOwnerToMultisig(provider, account) {
+        try {
+            /// 1 -> Load Core MSG Contract
+            const contractConfig = this._contracts.getConfig('multisig_wallet');
+            const contract = new ethers.Contract(contractConfig['address'], contractConfig['abi'], provider.getSigner());
+            const count = await contract.callStatic.transactionCount();
+            /// 2 -> Add Owner to Safe
+            let transactionId = await (await contract.submitTransaction(
+                contract.address,
+                '0',
+                contract.interface.encodeFunctionData(
+                    'addOwner',
+                    [account]
+                )
+            ));
+            console.log("Transaction Id: ", transactionId);
+            let execute = await (await contract.executeTransaction(count));
+        
+        } catch (err) {
+            console.log(err);
+            throw new Error(err);
+        }
+    }
 }
 
 export {
