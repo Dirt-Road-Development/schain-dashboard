@@ -33,6 +33,7 @@ import { BigNumber, ethers } from "ethers";
 import { useConnectedMetaMask } from "metamask-react";
 import { LoadingIcon } from "../widgets";
 import { SFuelRegistry } from "../../logic/contracts/s_fuel_registry";
+import { SFuelWhitelist } from "../../logic/contracts/s_fuel_whitelist";
 
 const SFuelContractContainer = styled.div`
     height: 92.5%;
@@ -45,35 +46,13 @@ const SFuelContractContainer = styled.div`
 `;
 
 
-const SFuelContract = ({ contract }) => {
+const SFuelContract = ({ contractInfo }) => {
 
     const { ethereum, account }  = useConnectedMetaMask();
     const provider = new ethers.providers.Web3Provider(ethereum);
     
-    const _contract = new SFuelModel(contract);
-    console.log("Contract C2: ", _contract);
-    return (
-        <SFuelContractContainer>
-            <ContractStats contractInfo={_contract} provider={provider} account={account} />
-            <AboutInformation contractAddress={_contract.contractAddress} />
-        </SFuelContractContainer>
-    );
-}
-
-
-const ContractStatsContainer = styled.div`
-    width: 70%;
-    height: 100%;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-evenly;
-`;
-
-const ContractStats = ({ contractInfo, provider, account  }) => {
-
-
+    const _contract = new SFuelModel(contractInfo);
+    
     const [statState, setStatState] = useState({
         DEFAULT_ADMIN_ROLE: null,
         WHITELIST_MANAGER_ROLE: null,
@@ -128,6 +107,27 @@ const ContractStats = ({ contractInfo, provider, account  }) => {
     }, [])
 
     return (
+        <SFuelContractContainer>
+            <ContractStats statState={statState} />
+            <AboutInformation contractAddress={_contract.contractAddress} statState={statState} />
+        </SFuelContractContainer>
+    );
+}
+
+
+const ContractStatsContainer = styled.div`
+    width: 70%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-evenly;
+`;
+
+const ContractStats = ({ statState }) => {
+
+    return (
         <ContractStatsContainer>
             <ContractStat label="# of Default Admins" value={statState.DEFAULT_ADMIN_ROLE} />
             <ContractStat label="# of Whitelist Managers" value={statState.WHITELIST_MANAGER_ROLE} />
@@ -145,7 +145,7 @@ const ContractStats = ({ contractInfo, provider, account  }) => {
 const ContractStatContainer = styled.div`
     width: 30%;
     height: 26%;
-    border: 2px solid white;
+    border: 2px solid grey;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -198,15 +198,16 @@ const AboutInformationContainer = styled.div`
     height: 92.5%;
     position: absolute;
     right: 0;
-    top: 3.4%;
-    border: 2px solid white;
+    top: 1%;
 
 `;
-const AboutInformation = ({ contractAddress }) => {
+const AboutInformation = ({ contractAddress, statState }) => {
 
     return (
         <AboutInformationContainer>
             <WhitelistContract contractAddress={contractAddress} />
+            <AssignRole contractAddress={contractAddress} statState={statState} />
+            <RevokeRole contractAddress={contractAddress} statState={statState} />
             <FillContract contractAddress={contractAddress} />
             <DeleteWhitelist contractAddress={contractAddress} />
         </AboutInformationContainer>
@@ -214,21 +215,22 @@ const AboutInformation = ({ contractAddress }) => {
 }
 
 const ButtonContainer = styled.div`
-    width: 100%;
-    height: auto;
+    width: 90%;
+    margin: 5% 0;
+    height: 10%;
     display: flex;
     align-items: center;
     button {
-        width: 85%;
-        margin: 8px auto;
-        border: 1px solid grey;
-        background: none;
+        width: 100%;
+        height: 100%;
+        border: 2px solid grey;
         color: grey;
+        background: none;
         font-size: 1.15rem;
         padding: 16px;
-        border-radius: 16px;
+        border-radius: ${props => props.radius};
         &:hover {
-            background: ${Colors.primary};
+            background: ${props => props.isDelete ? 'red': Colors.primary};
             color: white;
         }
     }
@@ -264,7 +266,7 @@ const DeleteWhitelist = ({ contractAddress })  => {
     }
 
     return (
-        <ButtonContainer>
+        <ButtonContainer radius="0 0 16px 0" isDelete={true} >
             <button onClick={(e) => {
                 e.preventDefault();
                 deleteWhitelist(contractAddress);
@@ -275,13 +277,13 @@ const DeleteWhitelist = ({ contractAddress })  => {
 
 const WhitelistContractContainer = styled.div`
     width: 90%;
-    height: 20%;
-    margin: 5%;
+    height: 40%;
+    margin: 5% 5% 1% 5%;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    border: 1px solid grey;
-    border-radius: 16px 16px 0 0;
+    border: 2px solid grey;
+    border-radius: 0 16px 0 0;
     h2 {
         margin: 10px;
         color: grey;
@@ -297,7 +299,7 @@ const TextInput = styled.input`
     color: white;
     font-size: 0.75rem;
     text-align: center;
-    width: 92.5%;
+    width: 95%;
     &:focus {
         outline: none;
         box-shadow: 0px 0px 2px white;
@@ -355,6 +357,152 @@ const WhitelistButton = styled.button`
     border-radius: 0 0 16px 16px;
 `;
 
+const AssignRoleContainer = styled.div`
+    width: 90%;
+    height: 35%;
+    margin: 1% 5%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    border: 2px solid grey;
+    h2 {
+        margin: 10px;
+        color: grey;
+        font-size: 1.15rem;
+    }
+`;
+const AssignRole = ({ contractAddress, statState }) => {
+
+    const [futureAddress, setFutureAddress] = useState("");
+    const [currentRole, setCurrentRole] = useState("");
+    const [isValid, setIsValid] = useState(false);
+    
+    const { ethereum } = useConnectedMetaMask();
+
+    const roles = {
+        DEFAULT_ADMIN_ROLE: "0x0000000000000000000000000000000000000000000000000000000000000000",
+        WHITELIST_MANAGER_ROLE: "0x2a3dab589bcc9747970dd85ac3f222668741ae51f2a1bbb8f8355be28dd8a868",
+        CONTRACT_MANAGER_ROLE: "0x8135f02737a6b32709c1f229001b55183df0d6abcb3022e8bae091ad43fd9e6d"
+    };
+
+    const assignRole = async() => {
+        let sFuelWhitelist = new SFuelWhitelist();
+        // ethereum, contractAddress, assigneeAddress, role
+        let _void = await sFuelWhitelist.assignRole(ethereum, contractAddress, futureAddress, roles[currentRole]);
+        setIsValid(false);
+        setFutureAddress("");
+        setCurrentRole("");
+    }
+
+
+    if (!statState.HAS_DEFAULT_ADMIN_ROLE) {
+        return (
+            <AssignRoleContainer>
+                <p>Cannot Assign Roles</p>
+            </AssignRoleContainer>
+        );
+    }
+
+    return (
+        <AssignRoleContainer>
+            <h2>Assign Role</h2>
+            <SFuelRoleSelection currentRole={currentRole} setCurrentRole={setCurrentRole} statState={statState} />
+            <TextInput type='text' value={futureAddress} onChange={(e) => {
+                e.preventDefault();
+                setFutureAddress(e.target.value);
+                setIsValid(ethers.utils.isAddress(e.target.value))
+            }} />
+            {isValid && <WhitelistButton onClick={(e) => {
+                e.preventDefault();
+                assignRole();
+            }}>Assign Role</WhitelistButton>}
+        </AssignRoleContainer>
+    );
+}
+
+const RevokeRole = ({ contractAddress, statState }) => {
+
+    const [futureAddress, setFutureAddress] = useState("");
+    const [currentRole, setCurrentRole] = useState("");
+    const [isValid, setIsValid] = useState(false);
+    
+    const { ethereum } = useConnectedMetaMask();
+
+    const roles = {
+        DEFAULT_ADMIN_ROLE: "0x0000000000000000000000000000000000000000000000000000000000000000",
+        WHITELIST_MANAGER_ROLE: "0x2a3dab589bcc9747970dd85ac3f222668741ae51f2a1bbb8f8355be28dd8a868",
+        CONTRACT_MANAGER_ROLE: "0x8135f02737a6b32709c1f229001b55183df0d6abcb3022e8bae091ad43fd9e6d"
+    };
+
+    const revokeRole = async() => {
+        let sFuelWhitelist = new SFuelWhitelist();
+        // ethereum, contractAddress, assigneeAddress, role
+        let _void = await sFuelWhitelist.revokeRole(ethereum, contractAddress, futureAddress, roles[currentRole]);
+        setIsValid(false);
+        setFutureAddress("");
+        setCurrentRole("");
+    }
+
+
+    if (!statState.HAS_DEFAULT_ADMIN_ROLE) {
+        return (
+            <AssignRoleContainer>
+                <p>Cannot Revoke Roles</p>
+            </AssignRoleContainer>
+        );
+    }
+
+    return (
+        <AssignRoleContainer>
+            <h2>Revoke Role</h2>
+            <SFuelRoleSelection currentRole={currentRole} setCurrentRole={setCurrentRole} statState={statState} />
+            <TextInput type='text' value={futureAddress} onChange={(e) => {
+                e.preventDefault();
+                setFutureAddress(e.target.value);
+                setIsValid(ethers.utils.isAddress(e.target.value))
+            }} />
+            {isValid && <WhitelistButton onClick={(e) => {
+                e.preventDefault();
+                revokeRole();
+            }}>Revoke Role</WhitelistButton>}
+        </AssignRoleContainer>
+    );
+}
+
+const SFuelRoleSelectionContainer = styled.div`
+    width: 90%;
+    margin: 0 auto;
+    padding: 2.5%;
+    border: 1px solid grey;
+`;
+
+const SFuelRoleSelection = ({ currentRole, setCurrentRole, statState }) => {
+    return (
+        <SFuelRoleSelectionContainer>
+            {['DEFAULT_ADMIN_ROLE', 'CONTRACT_MANAGER_ROLE', 'WHITELIST_MANAGER_ROLE'].map((role, index) => {
+                return (
+                    <Role isSelected={currentRole === role} onClick={(e) => {
+                        e.preventDefault();
+                        setCurrentRole(role);
+                    }}>
+                        {role}
+                    </Role>
+                )
+            })}
+        </SFuelRoleSelectionContainer>
+    );
+}
+
+const Role = styled.div`
+    height: 35px;
+    color: ${props => props.isSelected ? 'white': 'grey'};
+    background: ${props => props.isSelected ? Colors.primary: 'none'};
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+`;
 
 export {
     SFuelContract
