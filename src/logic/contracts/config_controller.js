@@ -30,17 +30,20 @@ class ConfigController {
         return Promise.all([
             _contract.callStatic.DEFAULT_ADMIN_ROLE(),
             _contract.callStatic.DEPLOYER_ROLE(),
-            _contract.callStatic.MTM_ADMIN_ROLE()
-        ]).then(([a, b, c]) => {
+            _contract.callStatic.MTM_ADMIN_ROLE(),
+            _contract.callStatic.DEPLOYER_ADMIN_ROLE(),
+        ]).then(([a, b, c, d]) => {
             return Promise.all([
                 _contract.callStatic.hasRole(a, address),
                 _contract.callStatic.hasRole(b, address),
-                _contract.callStatic.hasRole(c, address)
-            ]).then(([d, e, f]) => {
+                _contract.callStatic.hasRole(c, address),
+                _contract.callStatic.hasRole(d, address),
+            ]).then(([d, e, f, g]) => {
                 return {
                     'DEFAULT_ADMIN_ROLE': d,
                     'DEPLOYER_ROLE': e,
-                    'MTM_ADMIN_ROLE': f
+                    'MTM_ADMIN_ROLE': f,
+                    'DEPLOYER_ADMIN_ROLE': g
                 }
             }).catch(err => console.log('inner', err))
         }).catch(err => console.log('outer', err));

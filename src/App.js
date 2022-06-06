@@ -37,7 +37,7 @@ import Addresses from './config/addresses';
 import Chains from './config/chains';
 import { useDispatch } from 'react-redux';
 import { setChainState, setMultisig, setRoles } from './state/data.slice';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { LoadingIcon } from './ui';
 
 const AppContainer = styled.div`
@@ -74,6 +74,41 @@ function App() {
 	// new ethers.providers.Web3Provider(ethereum)._networkPromise.then((val) => console.log(val))
 	const [isLoading, setIsLoading] = useState(true);
 
+
+	useEffect(() => {
+		const interval = setInterval(() => {
+
+			if (!status === 'connected') {
+				return;
+			}
+			const controller = new GlobalController(chain.rpcUrls.default);
+			Promise.all([
+				controller.initializeConfigController(),
+				controller.initializeRoles(account),
+				controller.initializeRoles(Addresses.multisig_wallet),
+				controller.initializeMultiSig(account)
+			]).then(([a, b, c, d]) => {
+				dispatch(setChainState(a));
+				dispatch(setRoles({
+					address: account,
+					roles: b
+				}));
+				dispatch(setRoles({
+					address: Addresses.multisig_wallet,
+					roles: c
+				}));
+				dispatch(setMultisig(d));
+				setIsLoading(false);
+			})
+			.catch((err) => {
+				console.log(err);
+			})
+		}, 5000);
+
+		return () => clearInterval(interval);
+	}, [])
+
+
 	let widget;
 	if (status === "initializing") widget = <div>Synchronisation with MetaMask ongoing...</div>
 
@@ -92,8 +127,6 @@ function App() {
 		);
 	}
 
-
-
 	/// If Here Connected
 	const chainIdInt = parseInt(chainId);
     let chain = Chains.find((value) => {
@@ -108,30 +141,6 @@ function App() {
 			<Widget.WrongNetwork />
 		</AppContainer>
 	}
-
-	const controller = new GlobalController(chain.rpcUrls.default);
-
-	Promise.all([
-		controller.initializeConfigController(),
-		controller.initializeRoles(account),
-		controller.initializeRoles(Addresses.multisig_wallet),
-		controller.initializeMultiSig(account)
-	]).then(([a, b, c, d]) => {
-		dispatch(setChainState(a));
-		dispatch(setRoles({
-			address: account,
-			roles: b
-		}));
-		dispatch(setRoles({
-			address: Addresses.multisig_wallet,
-			roles: c
-		}));
-		dispatch(setMultisig(d));
-		setIsLoading(false);
-	})
-	.catch((err) => {
-		console.log(err);
-	})
 	
 	if (isLoading) return <AppContainer><LoadingContainer><LoadingIcon primary={true} /><h1>Loading SKALE Chain UI</h1></LoadingContainer></AppContainer>
 
