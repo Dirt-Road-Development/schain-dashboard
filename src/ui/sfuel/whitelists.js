@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import { Colors } from "../../config";
+import { SFuelModel } from "../../models";
 
 const WhitelistsContainer = styled.div`
     height: 100%;
@@ -10,10 +12,96 @@ const WhitelistsContainer = styled.div`
     color: white;
     font-size: 2rem;
 `;
-const Whitelists = ({ records }) => {
+
+const ContractsListContainer = styled.div`
+    position: absolute;
+    top: 13%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+`;
+
+const ContractDisplayContainer = styled.div`
+    width: 100%;
+    height: 50px;
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
+    display: flex;
+    flex-direction: row;
+    &:hover {
+        background-color: ${Colors.primary};
+    }
+`;
+
+const DisplayText = styled.p`
+    align-self: center;
+    margin-left: 0.5%;
+    font-size: 1.15rem;
+    width: calc(100%/6);
+    max-width: calc(100%/6);
+    overflow: hidden;
+    border-right: 0.5px solid grey;
+`;
+
+const ContractDisplay = ({ contract, setCurrentPage, index }) => {
+
+    const _shortenAddress = (_str) => _str.substring(0, 12) + '...' + _str.substring(32);
+
+    return (
+        <ContractDisplayContainer onClick={(e) => {
+            e.preventDefault();
+            setCurrentPage('contract_' + index)
+        }}>
+            <DisplayText>{contract.dAppName}</DisplayText>
+            <DisplayText>{_shortenAddress(contract.contractAddress)}</DisplayText>
+            <DisplayText>{contract.whitelistType === 'contract' ? 'Contract' : 'User'} Whitelist</DisplayText>
+            <DisplayText>{contract.isActive ? 'Active': 'Inactive'}</DisplayText>
+            <DisplayText>{_shortenAddress(contract.owner)}</DisplayText>
+            <DisplayText>{new Date(contract.timestamp * 1000).toLocaleString()}</DisplayText>
+
+        </ContractDisplayContainer>
+    )
+}
+
+const ContractsHeaderBarContainer = styled.div`
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    top: 10%;
+    width: 100%;
+    height: auto;
+    padding-bottom: 15px;
+`;
+
+const HeaderText = styled.p`
+    width: calc(100%/ 6);
+    text-align: center;
+    font-size: 1rem;
+`;
+
+const ContractsHeaderBar = () => {
+    return (
+        <ContractsHeaderBarContainer>
+            {['dApp Name', 'Address', 'Type', 'Active', 'Owner', 'Created'].map((_str, index) => {
+                return <HeaderText key={index}>{_str}</HeaderText>;
+            })}
+        </ContractsHeaderBarContainer>
+    );
+}
+
+const Whitelists = ({ contracts, setCurrentPage }) => {
     return (
         <WhitelistsContainer>
-            {records && records.length > 0 ? <p>Records</p> : <p>No Whitelists</p>}
+            {contracts && contracts.length === 0 && <p>No Deployed Whitelist Contracts</p>}
+            <ContractsHeaderBar />
+            <ContractsListContainer>
+                {contracts && contracts.map((contract, index) => {
+                    const _contract = new SFuelModel(contract);
+                    if (_contract.owner === '0x0000000000000000000000000000000000000000') return null;
+                    return <ContractDisplay contract={_contract} setCurrentPage={setCurrentPage} index={index} />;
+                })}
+            </ContractsListContainer>
         </WhitelistsContainer>
     );
 }

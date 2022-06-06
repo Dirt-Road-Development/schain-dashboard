@@ -31,7 +31,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import addresses from "../../config/addresses";
-import { setData } from "../../state/data.slice";
+import { setData, setSFuelContracts } from "../../state/data.slice";
 import { Title } from "../widgets/title";
 import * as Component from './components';
 import { LoadingIcon } from '../widgets';
@@ -51,6 +51,7 @@ const SFuelPage = () => {
     const dispatch = useDispatch();
     const provider = new ethers.providers.Web3Provider(ethereum);
     const hasSFuelRegistry = useSelector((state) => state.chain_state.hasSFuelRegistry);
+    const sFuelContracts = useSelector((state) => state.chain_state.sFuelContracts);
     const [currentPage, setCurrentPage] = useState('main');
 
     useEffect(() => {
@@ -65,11 +66,23 @@ const SFuelPage = () => {
                 key: 'hasSFuelRegistry',
                 value: response === '0x' ? false : true
             }));
+            await loadRegistry();
         } catch (err) {
             if (timesChecked < 10) {
                 setTimesChecked(timesChecked + 1);
                 await checkRegistry();
             }
+        }
+    }
+
+    const loadRegistry = async() => {
+        try {
+            const s_fuel_registry = new SFuelRegistry();
+            let data = await s_fuel_registry.loadRegistry(ethereum);
+            console.log("Whitelist Data: ", data);
+            dispatch(setSFuelContracts(data));
+        } catch (err) {
+            alert('Error Loading Registry');
         }
     }
 
@@ -82,6 +95,13 @@ const SFuelPage = () => {
 
     }
 
+    const deployWhitelist = async(_dAppName, _type) => {
+        const s_fuel_registry_class = new SFuelRegistry();
+        /// ethereum, chainId, dAppName, contractType, account
+        let deployWhitelist = await s_fuel_registry_class.deployWhitelist(ethereum, chainId, _dAppName, _type, account);
+        await checkRegistry();
+        await loadRegistry();
+    }
 
     if (hasSFuelRegistry === undefined) {
         return <div style={{ height: '100%', display: 'flex', flexDirection: 'column', alignContent: 'center', justifyContent: 'center', alignItems: 'center'}}>
@@ -101,12 +121,15 @@ const SFuelPage = () => {
         </div>
     }
 
+    
     return (
         <SFuelPageContainer>
             <Title title="SFuel"/>
             <Component.CreateWhitelistButton currentPage={currentPage} setCurrentPage={setCurrentPage} />
-            {currentPage === 'create_whitelist' && <Component.CreateWhitelist />}
-            {currentPage === 'main' && <Component.Whitelists />}
+            {currentPage === 'create_whitelist' && <Component.CreateWhitelist deploy={deployWhitelist}/>}
+            {currentPage === 'main' && <Component.Whitelists contracts={sFuelContracts} setCurrentPage={setCurrentPage} />}
+            {currentPage.includes('contract') && <Component.SFuelContract contract={sFuelContracts[parseInt(currentPage.split('_')[1])]} />}
+            {currentPage === 'main' && <p style={{ color: 'grey', textAlign: 'center', position: 'absolute', bottom: '15px', left: '0', right: '0'}}>Click on a Whitelist to Manage it</p>}
         </SFuelPageContainer>
 
     );
