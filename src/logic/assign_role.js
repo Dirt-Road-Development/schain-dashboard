@@ -168,21 +168,17 @@ class AssignRole extends Utils {
     }
 
     async _getRole(role, contractName, contract) {
-        console.log("GET ROLE -- ASIGNEE");
         if (role === 'DEFAULT_ADMIN_ROLE') {
-            console.log("DEFAULT_ADMIN_ROLE");
             return '0x0000000000000000000000000000000000000000000000000000000000000000';
         }
         if (contractName === 'etherbase') {
-            console.log("ETHER_MANAGER_ROLE");
             return await contract.callStatic.ETHER_MANAGER_ROLE();
         } else if (contractName === 'config_controller') {
-            console.log("DEPLOYER_ROLE");
             if (role === 'DEPLOYER_ROLE') {
-                console.log("DEPLOYER_ROLE");
                 return await contract.callStatic.DEPLOYER_ROLE();
+            } else if (role === 'DEPLOYER_ADMIN_ROLE') {
+                return await contract.callStatic.DEPLOYER_ADMIN_ROLE();
             } else {
-                console.log("MTM_ADMIN_ROLE");
                 return await contract.callStatic.MTM_ADMIN_ROLE();
             }
         } else if (contractName === 'marionette') {

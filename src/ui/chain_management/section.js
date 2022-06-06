@@ -52,7 +52,7 @@ const Section = ({ type }) => {
     const selector = isFCD ? 'freeContractDeploymentEnabled' : 'multiTransactionModeEnabled';
 
     const isEnabled = useSelector((state) => state.chain_state[selector]);
-    
+    // const canChangeRole = useSelector((state) => state.chain_state)    
     return (
         <SectionContainer margin={margin} border={border}>
             <TitleContainer><h2>{title}</h2></TitleContainer>

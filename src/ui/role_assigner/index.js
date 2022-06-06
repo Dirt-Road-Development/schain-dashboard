@@ -44,7 +44,7 @@ const RoleAssignerPageContainer = styled.div`
 const ROLES = {
     Etherbase: ['DEFAULT_ADMIN_ROLE', 'ETHER_MANAGER_ROLE'],
     Marionette: ['DEFAULT_ADMIN_ROLE', 'IMA_ROLE', 'PUPPETEER_ROLE'],
-    'Config Controller': ['DEFAULT_ADMIN_ROLE', 'DEPLOYER_ROLE', 'MTM_ADMIN_ROLE']
+    'Config Controller': ['DEFAULT_ADMIN_ROLE', 'DEPLOYER_ADMIN_ROLE', 'DEPLOYER_ROLE', 'MTM_ADMIN_ROLE']
 };
 
 

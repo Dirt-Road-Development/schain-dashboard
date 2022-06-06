@@ -54,13 +54,14 @@ const RoleSection = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    &:nth-child(1) {
-        // border-left: 2px solid ${Colors.primary};
-        border-right: 2px solid ${Colors.primary};
-    }
-    &:nth-child(3) {
+    &:nth-child(n-1) {
         border-left: 2px solid ${Colors.primary};
-        // border-right: 2px solid ${Colors.primary};
+    }
+    &:nth-child(1) {
+        border-left: none;
+    }
+    &:nth-child(:last-child) {
+        border-right: none;
     }
 `;
 const RoleName = styled.p`
