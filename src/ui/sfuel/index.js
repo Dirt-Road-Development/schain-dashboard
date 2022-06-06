@@ -128,7 +128,7 @@ const SFuelPage = () => {
             <Component.CreateWhitelistButton currentPage={currentPage} setCurrentPage={setCurrentPage} />
             {currentPage === 'create_whitelist' && <Component.CreateWhitelist deploy={deployWhitelist}/>}
             {currentPage === 'main' && <Component.Whitelists contracts={sFuelContracts} setCurrentPage={setCurrentPage} />}
-            {currentPage.includes('contract') && <Component.SFuelContract contract={sFuelContracts[parseInt(currentPage.split('_')[1])]} />}
+            {currentPage.includes('contract') && <Component.SFuelContract contractInfo={sFuelContracts[parseInt(currentPage.split('_')[1])]} />}
             {currentPage === 'main' && <p style={{ color: 'grey', textAlign: 'center', position: 'absolute', bottom: '15px', left: '0', right: '0'}}>Click on a Whitelist to Manage it</p>}
         </SFuelPageContainer>
 
