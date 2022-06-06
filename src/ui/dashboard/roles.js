@@ -58,9 +58,7 @@ const RolesInformationContainer = styled.div`
 
 
 const RolesByContractContainer = styled.div`
-    height: auto;
-    min-height: 30%;
-    max-height: 30%;
+    height: ${props => props.height};
     position: relative;
     border-bottom: 0.5px solid ${Colors.primary};
 `;
@@ -81,7 +79,7 @@ const RolesListContainer = styled.div`
 `;
 
 const RoleContainer = styled.div`
-    height: 25%;
+    height: 20%;
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -131,9 +129,18 @@ const RolesByContract = ({ key1, roles }) => {
             return 'Pre-Deployed Multisig'
         }
     }
+    let length = Object.entries(roles).length;
+    let height = '20%';
+    if (length === 4) {
+        height = '35%';
+    } else if (length === 3) {
+        height = '25%';
+    } else if (length === 2) {
+        height = '20%';
+    }
 
     return (
-        <RolesByContractContainer key={key1}>
+        <RolesByContractContainer key={key1} height={height}>
             <RolesByContractTitle>{_getContractName(key1)}</RolesByContractTitle>
             <RolesListContainer>
                 {roles ? Object.entries(roles).map((role, index) => {
