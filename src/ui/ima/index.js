@@ -1,8 +1,20 @@
+import * as Component from './components';
+import styled from 'styled-components';
+import { Title } from '../widgets';
+
+const ImaPageContainer = styled.div`
+    height: 100%;
+    width: 100%;
+    position: relative;
+`;
+
 const ImaPage = () => {
     return (
-        <div>
-            <h1>ImaPage</h1>
-        </div>
+        <ImaPageContainer>
+            <Title title="IMA" />
+            <Component.Assets />
+            <Component.Manager />
+        </ImaPageContainer>
     );
 }
 
