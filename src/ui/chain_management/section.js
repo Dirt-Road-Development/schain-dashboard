@@ -1,5 +1,7 @@
+import { useConnectedMetaMask } from "metamask-react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
+import { ConfigController } from "../../logic/contracts/config_controller";
 import { Title } from "../widgets";
 
 const SectionContainer = styled.div`
@@ -98,7 +100,7 @@ const ChangeStateContainer = styled.div`
     width: 100%;
     button {
         background: ${props => props.color};
-        color: white;
+        color: black;
         border: none;
         border-radius: 16px;
         width: 50%;
@@ -107,11 +109,31 @@ const ChangeStateContainer = styled.div`
 `;
 const ChangeState = ({ isEnabled, isFCD, type }) => {
 
+    const configController = new ConfigController();
+    const { ethereum, account } = useConnectedMetaMask();
+
+    const roles = useSelector((state) => state.chain_state);
+    console.log("Roles: ", roles);
+
+    const hasRole = roles.roles[account]['config_controller'][isFCD ? 'DEPLOYER_ADMIN_ROLE' : 'MTM_ADMIN_ROLE'];
+    const isOnMultisig = roles.multisig.isOwner;
+
+    
+
     const text = isEnabled ? `Disable ${type}` : `Enable ${type}`;
 
     return (
-        <ChangeStateContainer color={isEnabled ? 'red' : 'green'}>
-            <button>{text}</button>
+        <ChangeStateContainer color={isEnabled ? '#ff4f00' : '#04ed4c'}>
+            <button onClick={(e) => {
+                e.preventDefault();
+                const functionName = isFCD ? 'fcd': 'mtm';
+                const flip = isEnabled ? 'disable' : 'enable';
+                configController.handleConfigController(ethereum, functionName, flip, hasRole, isOnMultisig)
+                    .then((res) => {
+                        window.location.reload();
+                    })
+                    .catch(err => console.log(err));
+            }}>{text}</button>
         </ChangeStateContainer>
     )
 }
