@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { AutomaticDeploymentButton } from "./manager_buttons";
+import { IMAButton } from "./manager_buttons";
 
 const ManagerContainer = styled.div`
     position: absolute;
@@ -10,17 +10,30 @@ const ManagerContainer = styled.div`
     width: 30%;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: flex-start;
 `;
+const Manager = ({ chainId }) => {
 
-const Manager = () => {
+    /// SChain Actions
+    if (parseInt(chainId) > 5) {
+        return (
+            <ManagerContainer>
+                <IMAButton label="auto_deploy_erc20" />
+                <IMAButton label="auto_deploy_erc721" />
+                <IMAButton label="auto_deploy_erc1155" />
+            </ManagerContainer>
+        );
+    }
+
+
+    /// Mainnet Actions
     return (
         <ManagerContainer>
-            <AutomaticDeploymentButton />
-            <AutomaticDeploymentButton />
-            <AutomaticDeploymentButton />
+            {/* <IMAButton label= />
+            <IMAButton label= />
+            <IMAButton label= /> */}
         </ManagerContainer>
-    )
+    );
 }
 
 export {

@@ -57,7 +57,7 @@ class ConfigController extends Utils {
             const provider = new ethers.providers.Web3Provider(ethereum);
             const contractConfig = this._contracts.getConfig('config_controller');
             const contract = new ethers.Contract(contractConfig.address, contractConfig.abi, provider.getSigner());
-            console.log("Contract: ", contract);
+            
             /// 2 -> Check Function Role [Direct/Multisig]
             let direct = hasRole;
             if (direct) {
