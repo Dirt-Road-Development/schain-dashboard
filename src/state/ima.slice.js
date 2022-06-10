@@ -17,30 +17,37 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  * 
  * /**
- * @file src/state/store.js
+ * @file src/state/ima.slice.js
  * @copyright TheGreatAxios and Lilius, Inc 2022-Present
  * 
  * Questions regarding the pseudonym of TheGreatAxios can be forwarded to thegreataxios@mylilius.com
  * 
  * Boilerplate from @reduxjs/toolit under MIT License
  * License Here https://github.com/reduxjs/redux-toolkit/blob/master/LICENSE
- * 
  */
 
-import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
-import navigationReducer from './navigation.slice';
-import dataReducer from './data.slice';
-import imaReducer from './ima.slice';
+ import { createSlice } from "@reduxjs/toolkit";
 
-const customizedMiddleware = getDefaultMiddleware({
-    serializableCheck: false
-});
-
-export default configureStore({
-    reducer: {
-        navigation: navigationReducer,
-        chain_state: dataReducer,
-        ima_state: imaReducer
-    },
-    middleware: (getDefaultMiddleware) => customizedMiddleware
-});
+ export const imaSlice = createSlice({
+     name: 'ima',
+     initialState: {
+        selectedChain: null,
+        isChainOwner: null,
+        tokens: {}
+     },
+     reducers: {
+         setSelectedChain: (state, action) => {
+            state['selectedChain'] = action.payload;
+         },
+         setChainOwner: (state, action) => {
+            state['isChainOwner'] = action.payload;
+         },
+         setTokensByChain: (state, action) => {
+            state['tokens'][action.payload.chainId] = action.payload.data;
+         }
+     }
+ });
+ 
+ export const { setSelectedChain, setChainOwner, setTokensByChain } = imaSlice.actions;
+ 
+ export default imaSlice.reducer;
