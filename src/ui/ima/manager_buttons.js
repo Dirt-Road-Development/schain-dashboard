@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Colors } from '../../config';
 
-const AutomaticDeploymentButtonContainer = styled.div`
+const IMAButtonContainer = styled.div`
     width: 75%;
     height: 5%;
     background: transparent;
@@ -17,14 +17,24 @@ const AutomaticDeploymentButtonContainer = styled.div`
     }
     border-radius: 16px;
 `;
-const AutomaticDeploymentButton = () => {
+const IMAButton = ({ label }) => {
+
+    const visibleLabel = () => {
+        if (label === 'auto_deploy_erc20') return 'ERC-20';
+        if (label === 'auto_deploy_erc721') return 'ERC-721';
+        if (label === 'auto_deploy_erc1155') return 'ERC-1155';
+    }
+
+
     return (
-        <AutomaticDeploymentButtonContainer>
-            Button
-        </AutomaticDeploymentButtonContainer>
+        <IMAButtonContainer onClick={(e) => {
+            e.preventDefault();
+        }}>
+            {visibleLabel()}
+        </IMAButtonContainer>
     )
 }
 
 export {
-    AutomaticDeploymentButton
+    IMAButton
 }

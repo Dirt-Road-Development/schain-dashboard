@@ -37,7 +37,6 @@ const AssetList = () => {
         <AssetListContainer>
             <AssetTitle>Title</AssetTitle>
             <AssetsContainer>
-
             </AssetsContainer>
         </AssetListContainer>
     )

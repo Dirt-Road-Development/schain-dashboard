@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import styled from "styled-components";
 import { AssetList } from "./asset_list";
 
@@ -14,6 +15,20 @@ const AssetsContainer = styled.div`
     justify-content: flex-start;
 `;
 const Assets = () => {
+
+
+    // useEffect(() => {
+    //     if (mInstance && chain) {
+    //         const box = new IMADepositBox(mInstance, sInstance, chain);
+    //         box.getTokenMappings()
+    //             .then((res) => {
+    //                 console.log("RES: ", res);
+    //             })
+    //             .catch((err) => {
+    //                 console.log(err);
+    //             })
+    //     }
+    // }, [])
     return (
         <AssetsContainer>
             <AssetList />
