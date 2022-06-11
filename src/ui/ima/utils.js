@@ -5,6 +5,9 @@ export const visibleLabel = (label) => {
     if (label === 'add_erc20') return 'Add ERC-20'
     if (label === 'add_erc721') return 'Add ERC-721'
     if (label === 'add_erc1155') return 'Add ERC-1155'
+    if (label === 'add_erc20_s2s') return 'Add ERC-20 - S2S';
+    if (label === 'add_erc721_s2s') return 'Add ERC-721 - S2S';
+    if (label === 'add_erc1155_s2s') return 'Add ERC-1155 - S2S';
 }
 
 export const getSteps = (page) => {

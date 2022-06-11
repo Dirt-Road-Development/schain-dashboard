@@ -39,12 +39,27 @@ const Action = ({ currentPage }) => {
 
     const { chainId } = useConnectedMetaMask();
     const [currentStep, setCurrentStep] = useState(0);
+    const [isS2S, setIsS2S] = useState(false);
     const [steps, setSteps] = useState([]);
+
+    const nextStep = () => {
+        let _steps = steps;
+        _steps[currentStep].isComplete = true;
+        _steps[currentStep].isActive = false;
+        setCurrentStep(currentStep + 1);
+        _steps[currentStep].isActive = true;
+        setSteps(_steps);
+        
+        
+    }
 
     useEffect(() => {
         const steps = getSteps(currentPage);
         setSteps(steps);
-    }, [current]);
+        if (currentPage) {
+            setIsS2S(currentPage.includes('S2S'));
+        }
+    }, [currentPage]);
 
     return (
         <ActionContainer>
@@ -53,7 +68,7 @@ const Action = ({ currentPage }) => {
                 <ActionChain>Connected to: {parseInt(chainId) > 100 ? 'SKALE Chain': 'Ethereum'}</ActionChain>
             </ActionHeader>
             <Steps steps={steps} currentStep={currentStep} />
-            <RenderAction step={steps[currentStep]} currentStep={currentStep} currentPage={currentPage} />
+            <RenderAction step={steps[currentStep]} currentStep={currentStep} currentPage={currentPage} setCurrentStep={nextStep} isS2S={isS2S} />
         </ActionContainer>
     );
 }

@@ -1,8 +1,9 @@
 import { ethers } from 'ethers';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Colors } from '../../../../config';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleCheck, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 
 const ERCPreDeployedDeployContainer = styled.div`
     width: 100%;
@@ -30,10 +31,10 @@ const Fields = styled.div`
 
 const Field = styled.input`
     width: 100%;
-    height: 20%;
+    height: 15%;
     color: white;
-    padding: 16px 0;
-    margin: 16px 0;
+    padding: 12px 0;
+    margin: 12px 0;
     border: none;
     border-bottom: 1px solid grey;
     background: none;
@@ -75,8 +76,8 @@ const Row = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    padding: 8px 0;
-    margin: 8px 0;
+    padding: 6px 0;
+    margin: 6px 0;
 `;
 
 const CheckButton = styled.button`
@@ -98,7 +99,7 @@ const CheckButton = styled.button`
     border-radius: ${props => props.isYes ? '16px 0 0 16px' : '0 16px 16px 0'};
 `;
 
-const ERCPreDeployedDeploy = ({ type, address, setAddress, nextStep }) => {
+const ERCPreDeployedDeploy = ({ type, address, setAddress, nextStep, customParams, setCustomParams }) => {
 
     const _aboutContent = (type) =>  `The pre-deployed contract section is for ${type.toUpperCase()} contracts that are already deployed on the target chain. Simply put in your address and confirm the buttons`;
     
@@ -111,11 +112,14 @@ const ERCPreDeployedDeploy = ({ type, address, setAddress, nextStep }) => {
         isContract: null
     });
 
+    useEffect(() => {
+        checkCanProceed();
+    }, [checks, address])
+
     const handleAddress = (e) => {
         e.preventDefault();
         if (ethers.utils.isAddress(e.target.value)) {
             setAddress(e.target.value);
-            checkCanProceed()
         }
     }
 
@@ -126,13 +130,44 @@ const ERCPreDeployedDeploy = ({ type, address, setAddress, nextStep }) => {
             ...checks,
             [e.target.name]: e.target.value
         });
-        checkCanProceed()
+    }
+
+    const handleAbi = e => {
+        e.preventDefault();
+        var reader = new FileReader();
+        reader.onload = onReaderLoad;
+        reader.readAsText(e.target.files[0]);
+    }
+
+    const onReaderLoad = (e) => {
+        try {
+            let abiObj = JSON.parse(e.target.result);
+            setCustomParams({
+                ...customParams,
+                abi: abiObj,
+                abiIsValid: true
+            });
+        } catch (err) {
+            setCustomParams({
+                ...customParams,
+                abi: null,
+                abiIsValid: false
+            })
+            alert('Error: Invalid ABI');
+        } finally {
+            checkCanProceed();
+        }
     }
 
     const checkCanProceed = () => {
-        if (address.substring(0,2) === '0x' && address.length === 42 && !Object.values(checks).includes(false)) {
+        if (!address || address.length !== 42) {
+            console.log(1);
+            setCanProceed(false);
+        } else if (address.substring(0,2) === '0x' && !Object.values(checks).includes(false) && !Object.values(checks).includes(null) && customParams.abi !== null) {
+            console.log(2);
             setCanProceed(true);
         } else {
+            console.log(3);
             setCanProceed(false);
         }
     }
@@ -144,6 +179,11 @@ const ERCPreDeployedDeploy = ({ type, address, setAddress, nextStep }) => {
             <Fields>
                 <Label>Contract Address</Label>
                 <Field name="name" onChange={handleAddress} type='text' placeholder='0x...'/>
+                <Label>ABI - Upload a JSON File that is ONLY the ABI</Label>
+                <Row>
+                    <Field style={{ border: 'none', padding: '0', margin: '0' }} id="abi" name="abi" type="file" onChange={handleAbi} />
+                    {customParams.abiIsValid !== null && <FontAwesomeIcon className='stepIcon' icon={customParams.abiIsValid ? faCircleCheck : faCircleXmark} size="1x" width="25px" color={customParams.abiIsValid ? '#00ff00' : 'red'}/>}
+                </Row>
                 <Label>I Confirm this is a deployed smart contract</Label>
                 <Row>
                     <CheckButton name="isContract" isYes={true} color={checks.isContract} value={true} onClick={handleCheck}>Yes</CheckButton>
