@@ -31,23 +31,15 @@
  export const imaSlice = createSlice({
      name: 'ima',
      initialState: {
-        selectedChain: null,
-        isChainOwner: null,
-        tokens: {}
+        selectedPage: null
      },
      reducers: {
-         setSelectedChain: (state, action) => {
-            state['selectedChain'] = action.payload;
-         },
-         setChainOwner: (state, action) => {
-            state['isChainOwner'] = action.payload;
-         },
-         setTokensByChain: (state, action) => {
-            state['tokens'][action.payload.chainId] = action.payload.data;
+         setIMAPage: (state, action) => {
+            state['selectedPage'] = action.payload;
          }
      }
  });
  
- export const { setSelectedChain, setChainOwner, setTokensByChain } = imaSlice.actions;
+ export const { setIMAPage } = imaSlice.actions;
  
  export default imaSlice.reducer;
