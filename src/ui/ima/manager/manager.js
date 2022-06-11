@@ -13,28 +13,19 @@ const ManagerContainer = styled.div`
     justify-content: flex-start;
 `;
 const Manager = ({ chainId }) => {
-    /// SChain Actions
-    if (parseInt(chainId) !== 1 || parseInt(chainId) !== 4) {
-        return (
-            <ManagerContainer>
-                <IMAButton label="add_erc20" />
-                <IMAButton label="add_erc721" />
-                <IMAButton label="add_erc1155" />
-                <IMAButton label="auto_deploy_erc20" />
-                <IMAButton label="auto_deploy_erc721" />
-                <IMAButton label="auto_deploy_erc1155" />
-            </ManagerContainer>
-        );
-    } else {
-        /// Mainnet Actions
     return (
         <ManagerContainer>
             <IMAButton label="add_erc20" />
             <IMAButton label="add_erc721" />
             <IMAButton label="add_erc1155" />
+            <IMAButton label="add_erc20_s2s" />
+            <IMAButton label="add_erc721_s2s" />
+            <IMAButton label="add_erc1155_s2s" />
+            <IMAButton label="auto_deploy_erc20" />
+            <IMAButton label="auto_deploy_erc721" />
+            <IMAButton label="auto_deploy_erc1155" />
         </ManagerContainer>
     );
-    }
 }
 
 export {

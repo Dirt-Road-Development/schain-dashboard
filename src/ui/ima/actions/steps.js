@@ -35,6 +35,14 @@ const StepNumber = styled.h6`
 const StepTitle = styled.h5`
     position: absolute;
     left: 7.5%;
+    color: ${(props) => {
+        console.log(props);
+        if (props.currentStep) {
+            return 'white;';
+        } else {
+            return props.color ? '#00ff00;' : '#ff0000;';
+        }
+    }});
 `;
 
 const StepCompletion = styled.div`
@@ -49,12 +57,13 @@ const Steps = ({ currentStep, steps }) => {
     return (
         <StepsContainer>
             {steps && steps.map((step, index) => {
+                console.log("isCompleted: ", step);
                 return (
-                    <StepContainer key={index} width={numberSteps} isCompletedStep={step.isCompleted} isCurrentStep={currentStep === index}>
+                    <StepContainer key={index} width={numberSteps} isCompletedStep={step.isComplete} isCurrentStep={currentStep === index}>
                        <StepNumber>{index + 1}</StepNumber>
-                       <StepTitle>{step.name}</StepTitle>
+                       <StepTitle currentStep={currentStep === index} color={step.isComplete}>{step.name}</StepTitle>
                        <StepCompletion>
-                       <FontAwesomeIcon className='stepIcon' icon={step.isCompleted ? faCircleCheck : faCircleXmark} size="1x" width="25px" color={step.isCompleted ? '#00ff00' : 'grey'}/>
+                       <FontAwesomeIcon className='stepIcon' icon={step.isComplete ? faCircleCheck : faCircleXmark} size="1x" width="25px" color={step.isComplete ? '#00ff00' : 'grey'}/>
                        </StepCompletion>
                     </StepContainer>
                 )
