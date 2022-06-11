@@ -28,7 +28,7 @@ const RenderAction = ({ step, currentStep, currentPage, setCurrentStep, isS2S })
 
     const buildComponent = () => {
         if (!currentPage) {
-            return <p>No Page Selected</p>;
+            return <SelectPage />;
         }
         if (currentPage.includes('add')) {
             if (currentStep === 0) {
@@ -55,4 +55,22 @@ const RenderAction = ({ step, currentStep, currentPage, setCurrentStep, isS2S })
 
 export {
     RenderAction
+}
+const SelectPageContainer = styled.div`
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    p {
+        font-size: 1.15rem;
+        color: white;
+    }
+`;
+const SelectPage = () => {
+    return (
+        <SelectPageContainer>
+            <p>Select Action on the Right</p>
+        </SelectPageContainer>
+    )
 }
