@@ -118,7 +118,10 @@ const ERCAutomaticDeploy = ({ type, contractParams, setContractParams, nextStep 
                 {type === 'erc20' && <Label>Number of Decimals</Label>}
                 {type === 'erc20' && <Field name="decimals" onChange={handleInput} type='number' min="1" max="18" placeholder='Ex: 18'/>}
             </Fields>
-            {isDeployable && <DeployContract onClick={nextStep}>Deploy Contract</DeployContract>}
+            {isDeployable && <DeployContract onClick={(e) => {
+                e.preventDefault();
+                nextStep();
+            }}>Deploy Contract</DeployContract>}
         </ERCAutomaticDeployContainer>
     );
 }
