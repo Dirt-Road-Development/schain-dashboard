@@ -13,27 +13,28 @@ const ManagerContainer = styled.div`
     justify-content: flex-start;
 `;
 const Manager = ({ chainId }) => {
-
     /// SChain Actions
-    if (parseInt(chainId) > 5) {
+    if (parseInt(chainId) !== 1 || parseInt(chainId) !== 4) {
         return (
             <ManagerContainer>
+                <IMAButton label="add_erc20" />
+                <IMAButton label="add_erc721" />
+                <IMAButton label="add_erc1155" />
                 <IMAButton label="auto_deploy_erc20" />
                 <IMAButton label="auto_deploy_erc721" />
                 <IMAButton label="auto_deploy_erc1155" />
             </ManagerContainer>
         );
-    }
-
-
-    /// Mainnet Actions
+    } else {
+        /// Mainnet Actions
     return (
         <ManagerContainer>
-            {/* <IMAButton label= />
-            <IMAButton label= />
-            <IMAButton label= /> */}
+            <IMAButton label="add_erc20" />
+            <IMAButton label="add_erc721" />
+            <IMAButton label="add_erc1155" />
         </ManagerContainer>
     );
+    }
 }
 
 export {

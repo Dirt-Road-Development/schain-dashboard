@@ -1,5 +1,8 @@
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { Colors } from '../../config';
+import { Colors } from '../../../config';
+import { setIMAPage } from '../../../state/ima.slice';
+import { visibleLabel } from '../utils';
 
 const IMAButtonContainer = styled.div`
     width: 75%;
@@ -19,18 +22,14 @@ const IMAButtonContainer = styled.div`
 `;
 const IMAButton = ({ label }) => {
 
-    const visibleLabel = () => {
-        if (label === 'auto_deploy_erc20') return 'ERC-20';
-        if (label === 'auto_deploy_erc721') return 'ERC-721';
-        if (label === 'auto_deploy_erc1155') return 'ERC-1155';
-    }
-
+    const dispatch = useDispatch();
 
     return (
         <IMAButtonContainer onClick={(e) => {
             e.preventDefault();
+            dispatch(setIMAPage(label));
         }}>
-            {visibleLabel()}
+            {visibleLabel(label)}
         </IMAButtonContainer>
     )
 }
