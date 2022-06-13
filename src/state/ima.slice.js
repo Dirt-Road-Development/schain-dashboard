@@ -33,6 +33,7 @@
      initialState: {
         selectedPage: null,
         addTokenIMA: {
+            isActive: null,
             isComplete: null,
             type: null,
             S2S: null,
