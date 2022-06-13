@@ -70,79 +70,13 @@ const queryClient = new QueryClient()
 
 function App() {
 	const dispatch = useDispatch();
+
 	const { status, account, connect, chainId } = useMetaMask();
 
-	// new ethers.providers.Web3Provider(ethereum)._networkPromise.then((val) => console.log(val))
 	const [isLoading, setIsLoading] = useState(true);
 
-	
-	// const initializeChain = () => {
-	// 	console.log("FIRING");
-	// 	if (status !== 'connected') {
-	// 		return;
-	// 	}
-	// 	const controller = new GlobalController(chain.rpcUrls.default);
-	// 	return Promise.all([
-	// 		controller.initializeConfigController(),
-	// 		controller.initializeRoles(account),
-	// 		controller.initializeRoles(Addresses.multisig_wallet),
-	// 		controller.initializeMultiSig(account)
-	// 	]).then(([a, b, c, d]) => {
-	// 		dispatch(setChainState(a));
-	// 		dispatch(setRoles({
-	// 			address: account,
-	// 			roles: b
-	// 		}));
-	// 		dispatch(setRoles({
-	// 			address: Addresses.multisig_wallet,
-	// 			roles: c
-	// 		}));
-	// 		dispatch(setMultisig(d));
-	// 		setIsLoading(false);
-	// 		return;
-	// 	})
-	// 	.catch((err) => {
-	// 		console.log(err);
-	// 	})
-	// }
-	// initializeChain();
-	// setInterval(initializeChain, 10000);
-	// useEffect(() => {
-	// 	const interval = setInterval(() => {
-
-	// 		if (!status === 'connected') {
-	// 			return;
-	// 		}
-	// 		const controller = new GlobalController(chain.rpcUrls.default);
-	// 		Promise.all([
-	// 			controller.initializeConfigController(),
-	// 			controller.initializeRoles(account),
-	// 			controller.initializeRoles(Addresses.multisig_wallet),
-	// 			controller.initializeMultiSig(account)
-	// 		]).then(([a, b, c, d]) => {
-	// 			dispatch(setChainState(a));
-	// 			dispatch(setRoles({
-	// 				address: account,
-	// 				roles: b
-	// 			}));
-	// 			dispatch(setRoles({
-	// 				address: Addresses.multisig_wallet,
-	// 				roles: c
-	// 			}));
-	// 			dispatch(setMultisig(d));
-	// 			setIsLoading(false);
-	// 		})
-	// 		.catch((err) => {
-	// 			console.log(err);
-	// 		})
-	// 	}, 5000);
-
-	// 	return () => clearInterval(interval);
-	// }, [])
-
-
 	let widget;
-	if (status === "initializing") widget = <div>Synchronisation with MetaMask ongoing...</div>
+	if (status === "initializing") widget = <div>Synchronization with MetaMask ongoing...</div>
 
     if (status === "unavailable") widget = <div>MetaMask not available :(</div>
 
@@ -173,7 +107,7 @@ function App() {
 			<Widget.WrongNetwork />
 		</AppContainer>
 	}
-	// initializeChain();
+	
 	const controller = new GlobalController(chain.rpcUrls.default);
 	Promise.all([
 		controller.initializeConfigController(),
@@ -194,7 +128,7 @@ function App() {
 		setIsLoading(false);
 	})
 	.catch((err) => {
-		console.log(err);
+		throw new Error(err);
 	})
 	
 	if (isLoading) return <AppContainer><LoadingContainer><LoadingIcon primary={true} /><h1>Loading SKALE Chain UI</h1></LoadingContainer></AppContainer>

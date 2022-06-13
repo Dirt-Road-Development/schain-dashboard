@@ -57,7 +57,7 @@ class ContractFunctions extends Utils {
             return [a,b];
         })
         .catch((err) => {
-            console.log(err);
+            throw new Error(err);
         })
     }
 
@@ -68,7 +68,6 @@ class ContractFunctions extends Utils {
                 Marionette.getRoles(_contracts[1], address),
                 ConfigController.getRoles(_contracts[2], address)
             ]).then(([a, b, c]) => {
-                console.log(a, b, c);
                 return {
                     'etherbase': a,
                     'marionette': b,

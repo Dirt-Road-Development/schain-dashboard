@@ -11,7 +11,6 @@ class DeployContract {
 
     setType(_type) {
         this.type = _type;
-        console.log(this.type);
     }
 
     async automatedDeploy(ethereum, type, args) {
@@ -19,13 +18,11 @@ class DeployContract {
             const provider = new ethers.providers.Web3Provider(ethereum);
             
             const factory = new ethers.ContractFactory(AUTOMATED_IMA_CONTRACTS[type]['abi'], AUTOMATED_IMA_CONTRACTS[type].bytecode, provider.getSigner());
-            console.log("Factory: ", factory);
 
             return await this._deployment(factory, args, type);
 
             
         } catch (err) {
-            console.log("ERROR: ", err);
             throw new Error(err);
         }
     }
@@ -79,7 +76,6 @@ class DeployContract {
                 abi: factory.interface
             };
         } catch (err) {
-            console.log("Deployment Error: ", err);
             throw new Error(err);
         }
     }

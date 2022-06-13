@@ -57,18 +57,14 @@ class SFuelRegistry extends Utils {
             /// Step 4 -> Send Remaining S-Fuel back to Owner
             let _drain = await this._drainInsecureWallet(chainId, _provider.provider.selectedAddress);
             /// Step 5 -> Complete
-            console.log("Registry Deployed");
         } catch (err) {
-            console.log(err);
             throw new Error(err);
         }
         
     }
 
     async _deployRegistry(wallet, account) {
-        console.log("Account: ", account);
         try {
-            console.log(wallet);
             const _contract = this._contracts.getConfig('s_fuel_registry');
             const _bytecode = S_FUEL_REGISTRY_BYTE_CODE;
             
@@ -91,7 +87,6 @@ class SFuelRegistry extends Utils {
                 gasLimit: ethers.utils.hexlify(5000000)
             });
     
-            console.log("Drain Insecure Wallet Tx Hash: ", await drainInsecureWallet);
         } catch (err) {
             throw new Error(err);
         }
@@ -108,7 +103,6 @@ class SFuelRegistry extends Utils {
                 gasLimit: ethers.utils.hexlify(500000)
             });
         } catch (err) {
-            console.log("Internal: ", err);
             throw new Error(err);
         }
     }
@@ -137,11 +131,9 @@ class SFuelRegistry extends Utils {
             const _deployed = await this._deployWhitelist(provider);
             /// 2 -> Give Contract ETHER_MANAGER_ROLE
             const _assignEtherManager = await _assignRole.buildTransaction(ethereum, 'etherbase', 'ETHER_MANAGER_ROLE', _deployed.address, 'msg_marionette');
-            console.log(_assignEtherManager);
 
             /// 3 -> Add Whitelist to Registry
             const _addToRegistry = await this._addToRegistry(contract, dAppName, contractType, _deployed.address);
-            console.log("Add To Registry: ", _addToRegistry);
         
             /// 4 -> Fill Up Contract
             let _fillUp = await _deployed.fillContract({
@@ -149,13 +141,10 @@ class SFuelRegistry extends Utils {
                 gasLimit: ethers.utils.hexlify(50000000),
             })
 
-            console.log("Fill Up: ", _fillUp);
             /// 5 -> Check Contract Balance
             let _contractBalance = await _deployed.callStatic.getBalance(_deployed.address);
-            console.log('Contract Balance: ', _contractBalance);
 
         } catch (err) {
-            console.log(err);
             throw new Error(err);
         }
     }
@@ -203,15 +192,11 @@ class SFuelRegistry extends Utils {
             let contract = new ethers.Contract(_contract['address'], _contract['abi'], provider.getSigner());
             return await contract.callStatic.getContracts();
         } catch (err) {
-            console.log("ERROR: ", err);
             throw new Error(err);
         }
     }
 
     async deleteWhitelist(ethereum, whitelistAddress) {
-        
-        console.log("Whitelist V1: ", whitelistAddress);
-
         try {
             const revokeRole = new RevokeRole();
             /// 1 -> Provider
@@ -229,7 +214,6 @@ class SFuelRegistry extends Utils {
             });
             await this.loadRegistry();
         } catch (err) {
-            console.log(err);
             throw new Error(err);
         }
     }
@@ -246,19 +230,8 @@ class SFuelRegistry extends Utils {
                 gasPrice: 10000000,
                 gasLimit: 50000000
             })).wait();
-
-            console.log("Receipt: ", receipt);
-                console.log("--------------EVENTS--------------")
-                for (let event of receipt.events) {
-                    if (event.event != undefined) {
-                        console.log(`${event.event}(${event.args})`);
-                    }
-                }
-                console.log("----------------------------------")
-                console.log(`Gas used: ${receipt.gasUsed}`)
-                console.log(`Tx hash: ${receipt.transactionHash}`)
+            return receipt;
         } catch (err) {
-            console.log("Error: ", err);
             throw new Error(err);
         }
     }
@@ -270,21 +243,9 @@ class SFuelRegistry extends Utils {
 
             let receipt = await (await contract.grantRole("0x5ce17f380ca23160a7c5ce147cd0292497d6246fba3530e88f1c6691cf3ce206", whitelistee, {
                 gasLimit: ethers.utils.hexlify(50000000)
-            })).wait()
-
-            console.log("Receipt: ", receipt);
-                console.log("--------------EVENTS--------------")
-                for (let event of receipt.events) {
-                    if (event.event != undefined) {
-                        console.log(`${event.event}(${event.args})`);
-                    }
-                }
-                console.log("----------------------------------")
-                console.log(`Gas used: ${receipt.gasUsed}`)
-                console.log(`Tx hash: ${receipt.transactionHash}`)
-
+            })).wait();
+            return receipt;
         } catch (err) {
-            console.log(err);
             throw new Error(err);
         }
     }

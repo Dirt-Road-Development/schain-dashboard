@@ -37,9 +37,8 @@ class IMAEncoder extends Utils {
         return this._getConfig().address;
     }
 
-    async isTokenRegistered(chainName, token) {
+    async isTokenRegistered(chainName, token, provider) {
         const contractConfig = this._getConfig();
-        const provider = new ethers.providers.JsonRpcProvider(MAINNET_RPC);
         const contract = new ethers.Contract(contractConfig.address, contractConfig.abi, provider);
         try {
             let value = false;

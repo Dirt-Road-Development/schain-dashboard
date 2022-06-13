@@ -68,7 +68,6 @@ const AddOwner = ({ ethereum, owners }) => {
                 } else {
                     provider.getCode(e.target.value)
                         .then((res) => {
-                            console.log(res);
                             if (res === '0x') {
                                 setIsValid(true);
                             } else {
@@ -76,7 +75,7 @@ const AddOwner = ({ ethereum, owners }) => {
                             }
                         })
                         .catch((err) => {
-                            console.log(err);
+                            throw new Error(err);
                         })   
                 }
             }}/>
