@@ -1,3 +1,28 @@
+/**
+ * @license
+ * 
+ * SChain Dashboard
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * 
+ * /**
+ * @file src/ui/ima/actions/deploy/index.js
+ * @copyright TheGreatAxios and Lilius, Inc 2022-Present
+ * 
+ * Questions regarding the pseudonym of TheGreatAxios can be forwarded to thegreataxios@mylilius.com
+ */
+
 import { useState } from "react"
 import { DeployContainer } from "./containers"
 import { DeploymentType } from "./type"
@@ -8,12 +33,16 @@ import { ERCPreDeployedDeploy } from "./deployed"
 import { useConnectedMetaMask } from "metamask-react"
 import { LoadingIcon } from "../../../widgets"
 import { Colors } from "../../../../config"
+import { useDispatch } from "react-redux"
+import { useEffect } from "react"
+import { setAddTokenIMA } from "../../../../state/ima.slice"
 
 const DeployContractSchain = ({ type, setCurrentStep, state, setState }) => {
 
     const [deployType, setDeployType] = useState('automated');
     const { ethereum } = useConnectedMetaMask();
     const imaDeployer = new DeployContract(deployType);
+    const dispatch = useDispatch();
 
     const [contractParams, setContractParams] = useState({
         name: null,
@@ -49,6 +78,10 @@ const DeployContractSchain = ({ type, setCurrentStep, state, setState }) => {
                     console.log("RES: ", res);
                     state.targetAddress = res.contractAddress;
                     state.targetABI = res.abi;
+                    dispatch(setAddTokenIMA({
+                        targetAddress: res.contractAddress,
+                        targetABI: res.abi
+                    }));
                     setState(state);
                     setCurrentStep();
                     setIsLoading(false);
@@ -64,6 +97,10 @@ const DeployContractSchain = ({ type, setCurrentStep, state, setState }) => {
                 .then((res) => {
                     state.targetAddress = res.contractAddress;
                     state.targetABI = res.abi;
+                    dispatch(setAddTokenIMA({
+                        targetAddress: res.contractAddress,
+                        targetABI: res.abi
+                    }));
                     setState(state);
                     setCurrentStep()
                     setIsLoading(false);
@@ -78,6 +115,10 @@ const DeployContractSchain = ({ type, setCurrentStep, state, setState }) => {
                 .then((res) => {
                     state.targetAddress = res;
                     state.targetABI = customParams.abi;
+                    dispatch(setAddTokenIMA({
+                        targetAddress: res,
+                        targetABI: customParams.abi
+                    }));
                     setState(state);
                     setCurrentStep();
                     setIsLoading(false);
