@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import { setAddTokenIMA } from "../../../state/ima.slice";
 import { DeployContractSchain } from "./deploy";
 import { IMAAssignRole } from "./roles";
 
@@ -13,11 +15,9 @@ const RenderActionContainer = styled.div`
 `;
 
 const RenderAction = ({ step, currentStep, currentPage, setCurrentStep, isS2S }) => {
-    console.log("Current Page: ", currentPage);
-    const type = null;
 
     const [state, setState] = useState({
-        type: type,
+        type: null,
         S2S: isS2S,
         targetABI: null,
         targetAddress: null,
@@ -25,6 +25,9 @@ const RenderAction = ({ step, currentStep, currentPage, setCurrentStep, isS2S })
         targetName: null,
         originName: null
     });
+
+    const store = useSelector((s) => s.ima_state.addTokenIMA);
+    const dispatch = useDispatch();
 
     const buildComponent = () => {
         if (!currentPage) {
@@ -45,7 +48,38 @@ const RenderAction = ({ step, currentStep, currentPage, setCurrentStep, isS2S })
         }
     }
 
+    useEffect(() => {
+        if (store.isComplete === false || store.isComplete === true) {
+            setState(store);
+        }
+    }, []);
 
+    useEffect(() => {
+        if (currentPage) {
+            if (!state.type) {
+                setState({
+                    ...state,
+                    type: currentPage.split('_')[1]
+                });
+            }
+            if (!store.type) setAddTokenIMA({
+                type: currentPage.split('_')[1],
+                isActive: true,
+                isComplete: false
+            })
+            if (store.type !== currentPage.split('_')[1]) {
+                dispatch(setAddTokenIMA({ 
+                    type: currentPage.split('_')[1],
+                    isActive: true,
+                    isComplete: false
+                }));
+            }
+        }
+    }, [currentPage]);
+
+    useEffect(() => {
+        dispatch(setAddTokenIMA(state))
+    }, [state]);
     return (
         <RenderActionContainer>
             {buildComponent()}

@@ -3,25 +3,36 @@ import addresses from "../../config/addresses";
 
 class IMARole {
 
+    MINTER_ROLE = "0x9f2df0fed2c77648de5860a4cc508cd0818c85b8b8a1ab4ceeef8d981c8956a6"
+    BURNER_ROLE = ethers.utils.keccak256(ethers.utils.toUtf8Bytes("BURNER_ROLE"));
+
     constructor(abi, address, ethereum) {
         this.provider = new ethers.providers.Web3Provider(ethereum);
         this.contract = new ethers.Contract(address, abi, this.provider.getSigner());
     }
 
-    async assignRole(isS2S, role, type) {
+    async initializeChecks(type) {
+        console.log("Type: ", type);
+        const _tokenManagerAddress = this._getTokenManagerAddress(type);
+        const calls = [this.contract.callStatic.hasRole(this.MINTER_ROLE, _tokenManagerAddress)];
+        if (this.contract['BURNER_ROLE']) calls.push(this.contract.callStatic.hasRole(this.BURNER_ROLE, _tokenManagerAddress))
+        try { 
+            return Promise.all(calls).then((res) => {
+                return res;
+            }).catch((err) => {
+                throw new Error(err);
+            });
+        } catch (err) {
+            throw new Error(err);
+        }
+    }
+
+    async assignRole(role, type) {
         try {
+            console.log("Contract: ", this.contract);
             const _assignType = this._getFunctionType(role);
             const _tokenManagerAddress = this._getTokenManagerAddress(type);
-            if (_assignType === 'addMinter') {
-                /// Add Token Manager via addMinter Function
-                return await this._addMinter(_tokenManagerAddress);
-            } else if (_assignType === 'grantRole') {
-                /// Add Token Manager via grantRole Function
-                return await this._grantRole(_tokenManagerAddress);
-            } else {
-                /// Throw Error (Should be Impossible)
-                throw new Error('Impossible');
-            }
+            return await this._grantRole(_tokenManagerAddress, role);
         } catch (err) {
             console.log(err);
             throw new Error(err);
@@ -29,22 +40,18 @@ class IMARole {
     }
 
     /// Checks for How to Assign Minter Role to Contract
-    _getFunctionType(type) {
-        // const possibleRoles = ['MINTER_ROLE'];
-        // const possibleFunctions = ['grantRole', 'addMinter'];
-        console.log(this.contract);
-        if (this.contract['addMinter']) {
-            return 'addMinter';
-        } else if (this.contract['grantRole']) {
-            if (this.contract['MINTER_ROLE']) {
+    _getFunctionType(role) {
+        if (this.contract['grantRole']) {
+            if (role === 'minter' && this.contract['MINTER_ROLE']) {
+                return 'grantRole';
+            } else if (role === 'burner' && this.contract['BURNER_ROLE']) {
                 return 'grantRole';
             } else {
-                throw new Error(`This contract does not contain ${type} functionality`);
+                throw new Error(`This contract does not contain ${role} functionality`);
             }
         } else {
-            throw new Error(`This contract does not contain ${type} functionality`);
+            throw new Error(`This contract does not contain ${role} functionality`);
         }
-        
     }
 
     /// Gets Address of Token Manager
@@ -52,36 +59,28 @@ class IMARole {
         return addresses[`token_manager_${type}`];
     }
 
-    /// Assigns Minter role via addMinter Function
-    async _addMinter(assigneeAddress) {
+    /// Assigns [Minter/Burner] Role via Grant Role Function
+    async _grantRole(assigneeAddress, role) {
+        console.log("ROLE: ", role);
+        let assignment = role === 'minter' ? await this.contract.callStatic.MINTER_ROLE() : await this.contract.calls.BURNER_ROLE();
         try {
-            console.log("ADD MINTER");
-        } catch (err) {
-            throw new Error(err);
-        }    
-    }
-
-    /// Assigns Minter Role via addMinter Function
-    async _grantRole(assigneeAddress) {
-        console.log(this.contract);
-        try {
-            const MINTER_ROLE = await this.contract.callStatic.MINTER_ROLE();
-            const _hasRoleBefore = await this.contract.callStatic.hasRole(MINTER_ROLE, assigneeAddress);
+            const _hasRoleBefore = await this.contract.callStatic.hasRole(assignment, assigneeAddress);
             if (_hasRoleBefore) {
                 return {
                     hasRole: _hasRoleBefore
                 };
             }
-            const _assignFn = await (await this.contract.grantRole(MINTER_ROLE, assigneeAddress, {
+            const _assignFn = await (await this.contract.grantRole(assignment, assigneeAddress, {
                 gasLimit: ethers.utils.hexlify(5000000)
             })).wait();
 
-            const _hasRoleAfter = await this.contract.callStatic.hasRole(MINTER_ROLE, assigneeAddress);
+            const _hasRoleAfter = await this.contract.callStatic.hasRole(assignment, assigneeAddress);
 
             return {
                 txHash: _assignFn,
                 hasRole: _hasRoleAfter
             };
+
         } catch (err) {
             console.log("ERROR: ", err);
             throw new Error('Error Granting Role');

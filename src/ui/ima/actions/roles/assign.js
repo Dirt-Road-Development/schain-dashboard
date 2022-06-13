@@ -8,7 +8,7 @@ const AssignContainer = styled.div`
     width: 100%;
 `;
 
-const Assign = ({ state, assignRole, isS2S }) => {
+const Assign = ({ isS2S, state, assignRole }) => {
 
     return (
         <AssignContainer>
