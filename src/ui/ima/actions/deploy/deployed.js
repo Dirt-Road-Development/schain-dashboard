@@ -107,7 +107,7 @@ const Row = styled.div`
 
 const CheckButton = styled.button`
     background: ${props => {
-        console.log(props);
+        
         if (props.color === 'true' && props.isYes === true) {
             return 'green;';
         } else if (props.color === 'false' && props.isNo === true) {
@@ -150,7 +150,7 @@ const ERCPreDeployedDeploy = ({ type, address, setAddress, nextStep, customParam
 
     const handleCheck = (e) => {
         e.preventDefault();
-        console.log(e.target.value);
+        
         setChecks({
             ...checks,
             [e.target.name]: e.target.value
@@ -186,13 +186,10 @@ const ERCPreDeployedDeploy = ({ type, address, setAddress, nextStep, customParam
 
     const checkCanProceed = () => {
         if (!address || address.length !== 42) {
-            console.log(1);
             setCanProceed(false);
         } else if (address.substring(0,2) === '0x' && !Object.values(checks).includes(false) && !Object.values(checks).includes(null) && customParams.abi !== null) {
-            console.log(2);
             setCanProceed(true);
         } else {
-            console.log(3);
             setCanProceed(false);
         }
     }

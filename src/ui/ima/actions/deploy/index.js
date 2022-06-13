@@ -75,7 +75,7 @@ const DeployContractSchain = ({ type, setCurrentStep, state, setState }) => {
             setIsLoading(true);
             imaDeployer.automatedDeploy(ethereum, type, _getContractParams())
                 .then((res) => {
-                    console.log("RES: ", res);
+                    
                     state.targetAddress = res.contractAddress;
                     state.targetABI = res.abi;
                     dispatch(setAddTokenIMA({

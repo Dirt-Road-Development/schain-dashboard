@@ -41,7 +41,7 @@ const ImaPage = () => {
 
     const { ethereum, chainId } = useConnectedMetaMask();
     const imaState = useSelector((state) => state.ima_state);
-    console.log("IMA STATE: ", imaState);
+    
 
     return (
         <ImaPageContainer>

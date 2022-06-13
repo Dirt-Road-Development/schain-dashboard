@@ -44,7 +44,7 @@ const WatcherContainer = styled.div`
 `;
 
 const _9_WatchingRegistrationStatus = ({ isRegistered }) => {
-    console.log("IS Registered: ", isRegistered);
+    
     return (
         <StepContainer>
             <WatcherContainer>

@@ -175,7 +175,7 @@ const Roles = () => {
         roles: rolesState[account]
     };
     const multisig = useSelector((state) => state.chain_state.multisig.isOwner);
-    console.log("MSG On Roles: ", multisig);
+    
     state['multisig_wallet'] = {
         IS_OWNER: multisig
     };

@@ -51,7 +51,6 @@ const MinterBurnerButton = ({ type, assignRole }) => {
     const [icon, setIcon] = useState(null);
     const [text, setText] = useState(null);
     useEffect(() => {
-        console.log("UPDATING");
         const _color = () => {
             if (!assignStatus) {
                 return 'red';
@@ -102,7 +101,6 @@ const MinterBurnerButton = ({ type, assignRole }) => {
                 })
                 .catch((err) => {
                     setAssignStatus(null);
-                    console.log(err);
                 })
         }
         

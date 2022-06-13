@@ -67,8 +67,12 @@ const Action = ({ currentPage }) => {
     const [currentStep, setCurrentStep] = useState(0);
     const [isS2S, setIsS2S] = useState(false);
     const [steps, setSteps] = useState([]);
-
+    
     const nextStep = () => {
+        if (currentStep === 3) {
+            window.location.reload();
+            
+        }
         let _steps = steps;
         _steps[currentStep].isComplete = true;
         _steps[currentStep].isActive = false;

@@ -42,8 +42,12 @@ class Marionette {
                     'IMA_ROLE': e,
                     'PUPPETEER_ROLE': f
                 };
-            }).catch(err => console.log('inner', err))
-        }).catch(err => console.log('outer', err));
+            }).catch(err => {
+                throw new Error(err)
+            })
+        }).catch(err => {
+            throw new Error(err);
+        });
     }
 }
 

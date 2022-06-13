@@ -33,7 +33,6 @@ class Etherbase {
             _contract.callStatic.DEFAULT_ADMIN_ROLE(),
             _contract.callStatic.ETHER_MANAGER_ROLE()
         ]).then(([a, b]) => {
-            console.log(a, b);
             return Promise.all([
                 _contract.callStatic.hasRole(a, address),
                 _contract.callStatic.hasRole(b, address),
@@ -42,9 +41,13 @@ class Etherbase {
                     'DEFAULT_ADMIN_ROLE': c,
                     'ETHER_MANAGER_ROLE': d,
                 }
-            }).catch(err => console.log(err, 'inner'))
+            }).catch(err => {
+                throw new Error(err)
+            })
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+            throw new Error(err)
+        });
     }
 }
 

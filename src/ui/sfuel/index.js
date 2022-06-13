@@ -61,7 +61,6 @@ const SFuelPage = () => {
     const checkRegistry = async() => {
         try {
             const response = await provider.getCode(addresses.s_fuel_registry);
-            console.log("Response: ", response);
             dispatch(setData({
                 key: 'hasSFuelRegistry',
                 value: response === '0x' ? false : true
@@ -79,14 +78,11 @@ const SFuelPage = () => {
         try {
             const s_fuel_registry = new SFuelRegistry();
             let data = await s_fuel_registry.loadRegistry(ethereum);
-            console.log("Whitelist Data: ", data);
             dispatch(setSFuelContracts(data));
         } catch (err) {
             alert('Error Loading Registry');
         }
     }
-
-    console.log("Has SFuel Registry: ", hasSFuelRegistry);
 
     const deploySFuelRegistry = async () => {
         const s_fuel_registry_class = new SFuelRegistry();

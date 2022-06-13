@@ -47,12 +47,11 @@ const IMAAssignRole = ({ type, setCurrentStep, isS2S, state }) => {
             .then((res) => {
                 setCanProceed(res);
             }).catch((err) =>{
-                console.log(err);
+                throw new Error(err);
             })
     }, []);
 
     const assign = async(_role) => {
-        console.log("Role: ", _role);
         return await roleAssigner.assignRole(_role.toLowerCase(), type)
             .then((res) => {
                 let hasRole = res.hasRole;

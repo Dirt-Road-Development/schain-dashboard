@@ -23,17 +23,126 @@
  * Questions regarding the pseudonym of TheGreatAxios can be forwarded to thegreataxios@mylilius.com
  */
 
+import { useConnectedMetaMask } from "metamask-react";
+import { useState } from "react";
 import styled from "styled-components";
+import { Colors } from "../../../../config";
+import { IMASchain } from "../../../../logic/ima/schain";
+import { LoadingIcon } from "../../../widgets";
 
-const MainnetLinkContainer = styled.div``;
-const MainnetLint = () => {
+const MainnetLinkContainer = styled.div`
+
+    height: 100%;
+    width: 100%;
+    min-height: 100%;
+    position: relative;
+`;
+
+const Container = styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 35%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+`;
+
+const RegisterButton = styled.button`
+
+    position: absolute;
+    bottom: 5%;
+    left: 0;
+    right: 0;
+    padding: 16px 0;
+    border-radius: 16px;
+    border: 1px solid ${Colors.primary};
+    color: white;
+    background: none;
+    &:hover {
+        background: white;
+        color: ${Colors.primary};
+    }
+`;
+
+const MainnetLink = ({ state, setCurrentPage }) => {
+
+    const [button, setButton] = useState(null);
+    const { ethereum } = useConnectedMetaMask();
+    const schain = new IMASchain(ethereum, state.type);
+
+    const registerContract = (e) => {
+        e.preventDefault();
+        setButton('loading');
+        schain.registerToken(state.targetName.toLowerCase(), state.originAddress, state.targetAddress)
+            .then((res) => {
+                if (res.message === 'Token already mapped') {
+                    setButton('already_registered');
+                } else if (res.message === 'Token Added Successfully') {
+                    setButton('registered');
+                }
+            })
+            .catch((err) => {
+                throw new Error(err);
+            })
+    }
+
     return (
         <MainnetLinkContainer>
-            Mainnet Link
+            <Container>
+               <Statement label="Token Type" text={state.type} />
+               <Statement label="Target Chain" text={state.targetName} />
+               <Statement label="Clone Token Address" text={state.targetAddress} />
+               <Statement label="Origin Token Address" text={state.originAddress} />
+               <Statement label="Mainnet Registration" text="Registered" />
+               {['registered', 'already_registered'].includes(button) && <Statement label="SChain Registration" text="Registered" />}
+            </Container>
+            {!button && <RegisterButton onClick={registerContract}>Register on SKALE Chain</RegisterButton>}
+            {button === 'loading' && <RegisterButton><LoadingIcon /></RegisterButton>}
+            {button === 'registered' && <RegisterButton onClick={(e) => {
+                e.preventDefault();
+                setCurrentPage();
+            }}>Token Mapping Complete | Click to Reset IMA Page</RegisterButton>}
+            {button === 'already_registered' && <RegisterButton onClick={(e) => {
+                e.preventDefault();
+                setCurrentPage();
+            }}>Token Already Registered | Click to IMA Page</RegisterButton>}
         </MainnetLinkContainer>
     );
 }
 
+const StatementContainer = styled.div`
+    width: 100%;
+    height: 25%;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+`;
+const Label = styled.h5`
+    font-size: 1rem;
+    color: grey;
+    width: 30%;
+`;
+const Text = styled.p`
+    width: 60%;
+
+    font-size: 1.15rem;
+    color: white;
+`;
+
+const Statement = ({ label, text }) => {
+    return (
+        <StatementContainer>
+            <Label>{label}</Label>
+            <Text>{text}</Text>
+        </StatementContainer>
+    )
+}
+
 export {
-    MainnetLinkContainer
+    MainnetLink
 }

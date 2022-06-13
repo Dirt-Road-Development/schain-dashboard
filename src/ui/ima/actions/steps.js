@@ -61,7 +61,6 @@ const StepTitle = styled.h5`
     position: absolute;
     left: 7.5%;
     color: ${(props) => {
-        console.log(props);
         if (props.currentStep) {
             return 'white;';
         } else {
@@ -82,7 +81,7 @@ const Steps = ({ currentStep, steps }) => {
     return (
         <StepsContainer>
             {steps && steps.map((step, index) => {
-                console.log("isCompleted: ", step);
+    
                 return (
                     <StepContainer key={index} width={numberSteps} isCompletedStep={step.isComplete} isCurrentStep={currentStep === index}>
                        <StepNumber>{index + 1}</StepNumber>

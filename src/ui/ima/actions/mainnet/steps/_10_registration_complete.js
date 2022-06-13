@@ -40,7 +40,7 @@ const Container = styled.div`
 `;
 
 const _10_RegistrationComplete = ({ state }) => {
-    console.log(state);
+    
     return (
         <StepContainer>
             <Container>

@@ -32,6 +32,7 @@ import { setAddTokenIMA } from "../../../state/ima.slice";
 import { DeployContractSchain } from "./deploy";
 import { RegisterOnMainnet } from "./mainnet";
 import { IMAAssignRole } from "./roles";
+import { MainnetLink } from "./schain/mainnet_link";
 
 const RenderActionContainer = styled.div`
 
@@ -46,7 +47,7 @@ const RenderAction = ({ step, currentStep, currentPage, setCurrentStep, isS2S })
 
     const { chainId } = useConnectedMetaMask();
     const getChainName = chains.find((chain) => chain.id === parseInt(chainId));
-    console.log("CHain: ", getChainName);
+    
 
     const [state, setState] = useState({
         type: null,
@@ -60,13 +61,7 @@ const RenderAction = ({ step, currentStep, currentPage, setCurrentStep, isS2S })
         originId: null
     });
 
-    // const store = useSelector((s) => s.ima_state.addTokenIMA);
     const dispatch = useDispatch();
-
-    // useEffect(() => {
-    //     console.log("Store on Load: ", store);
-    //     setState(store);
-    // }, []);
 
     const buildComponent = () => {
         if (!currentPage) {
@@ -80,7 +75,7 @@ const RenderAction = ({ step, currentStep, currentPage, setCurrentStep, isS2S })
             } else if (currentStep === 2) {
                 return <RegisterOnMainnet type={currentPage.split('_')[1]} state={state} setState={setState} setCurrentStep={setCurrentStep} />
             } else if (currentStep === 3) {
-                // return <M
+                return <MainnetLink type={currentPage.split('_')[1]} state={state} setCurrentPage={setCurrentStep} />
             } else {
                 return <p>Error</p>;
             }

@@ -121,17 +121,16 @@ const RegisterOnMainnet = ({ type, state, setState, setCurrentStep }) => {
 
     useEffect(() => {
         const interval = setInterval(async() => {
-            console.log(state);
-            console.log("INTERVAL");
+            
             if (state.originAddress) {
-                console.log("HAS ORIGIN");
+                
                 let isRegistered = await encoder.isTokenRegistered(state.targetName, state.originAddress, provider);
-                console.log("IS REGISTERED | INTERVAL: ", isRegistered);
+                
                 setIsRegistered(isRegistered);
                 if (isRegistered) setCurrentStep();
             }
             
-        }, 2000);
+        }, 3500);
 
         return () => clearInterval(interval);
     }, [])
@@ -143,14 +142,13 @@ const RegisterOnMainnet = ({ type, state, setState, setCurrentStep }) => {
         const isValid = ethers.utils.isAddress(e.target.value) && e.target.value !== "0x0000000000000000000000000000000000000000";
         setIsValidAddress(isValid);
         if (isValid) {
-            // dispatch(setAddTokenIMA({ originAddress: e.target.value }))
-            setState({
-                ...state,
-                originAddress: e.target.value
-            })
             let _encodedData = encoder.encodeRegisterOnMainnet(state.targetName, e.target.value);
             setEncodedData(_encodedData);
-            console.log("STATE: ", state);
+            let _state = state;
+            _state.originAddress = e.target.value;
+            setState(_state);
+            dispatch(setAddTokenIMA({ originAddress: e.target.value }))
+            
         }
     }
 

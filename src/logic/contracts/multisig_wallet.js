@@ -92,7 +92,6 @@ class MultisigWallet extends Utils {
                 throw new Error(err);
             })
         } catch (err) {
-            console.log(err);
             throw new Error(err);
         }
     }
@@ -112,11 +111,9 @@ class MultisigWallet extends Utils {
                     [account]
                 )
             ));
-            console.log("Transaction Id: ", transactionId);
             let execute = await (await contract.executeTransaction(count));
         
         } catch (err) {
-            console.log(err);
             throw new Error(err);
         }
     }

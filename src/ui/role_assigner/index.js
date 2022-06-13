@@ -103,7 +103,6 @@ const RoleAssignerPage = () => {
         } else if (isMultiSigOwner && roles[addresses.multisig_wallet]['marionette']['PUPPETEER_ROLE']) {
             return 'msg_marionette';
         } else {
-            console.log("ERROR");
             throw new Error('You do not have access to assign a role');
         }
     }
@@ -119,12 +118,9 @@ const RoleAssignerPage = () => {
         /// Checks Preference Options
         let contractKey = getContractKey(contract);
         let routeSelection = getRouteSelection(contractKey);
-        console.log("ROUTE SELECTION", routeSelection);
+        
         assign_role.buildTransaction(ethereum, getContractKey(contract), role, assignee, routeSelection)
-            .then((res) => {
-                console.log("RESPONSE: ", res);
-            })
-            .catch(err => console.log(err));
+            .catch(err => alert(JSON.parse(err)));
 
     }
 
