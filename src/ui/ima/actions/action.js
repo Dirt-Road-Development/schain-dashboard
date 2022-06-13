@@ -1,8 +1,11 @@
+import { useConnectedMetaMask } from "metamask-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import chains from "../../../config/chains";
 import { setAddTokenIMA } from "../../../state/ima.slice";
 import { DeployContractSchain } from "./deploy";
+import { RegisterOnMainnet } from "./mainnet";
 import { IMAAssignRole } from "./roles";
 
 const RenderActionContainer = styled.div`
@@ -16,14 +19,20 @@ const RenderActionContainer = styled.div`
 
 const RenderAction = ({ step, currentStep, currentPage, setCurrentStep, isS2S }) => {
 
+    const { chainId } = useConnectedMetaMask();
+    const getChainName = chains.find((chain) => chain.id === parseInt(chainId));
+    console.log("CHain: ", getChainName);
+
     const [state, setState] = useState({
         type: null,
         S2S: isS2S,
         targetABI: null,
         targetAddress: null,
         originAddress: null,
-        targetName: null,
-        originName: null
+        targetName: getChainName.name.toLowerCase(),
+        targetId: parseInt(chainId),
+        originName: null,
+        originId: null
     });
 
     const store = useSelector((s) => s.ima_state.addTokenIMA);
@@ -39,7 +48,7 @@ const RenderAction = ({ step, currentStep, currentPage, setCurrentStep, isS2S })
             } else if (currentStep === 1) {
                 return <IMAAssignRole type={currentPage.split('_')[1]} setCurrentStep={setCurrentStep} isS2S={state.isS2S} state={state} />
             } else if (currentStep === 2) {
-
+                return <RegisterOnMainnet type={currentPage.split('_')[1]} state={store} setCurrentStep={setCurrentStep} />
             } else if (currentStep === 3) {
 
             } else {

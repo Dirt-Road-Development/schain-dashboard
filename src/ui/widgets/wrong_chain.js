@@ -56,7 +56,8 @@ const AddChainsContainer = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: center;
+    flex-wrap: wrap;
 `;
 const AddChainContainer = styled.div`
     height: 50px;
