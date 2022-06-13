@@ -58,7 +58,7 @@ const MultiSigPage = () => {
                 required: Number(res[3]),
                 balance: Number(res[4]) === 0 ? "0" : ethers.utils.formatEther(res[4])
             })
-            console.log("Result: ", res);
+
         }, 5000);
 
         return () => clearInterval(interval);

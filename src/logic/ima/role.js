@@ -12,7 +12,6 @@ class IMARole {
     }
 
     async initializeChecks(type) {
-        console.log("Type: ", type);
         const _tokenManagerAddress = this._getTokenManagerAddress(type);
         const calls = [this.contract.callStatic.hasRole(this.MINTER_ROLE, _tokenManagerAddress)];
         if (this.contract['BURNER_ROLE']) calls.push(this.contract.callStatic.hasRole(this.BURNER_ROLE, _tokenManagerAddress))
@@ -29,12 +28,10 @@ class IMARole {
 
     async assignRole(role, type) {
         try {
-            console.log("Contract: ", this.contract);
             const _assignType = this._getFunctionType(role);
             const _tokenManagerAddress = this._getTokenManagerAddress(type);
             return await this._grantRole(_tokenManagerAddress, role);
         } catch (err) {
-            console.log(err);
             throw new Error(err);
         }
     }
@@ -61,7 +58,6 @@ class IMARole {
 
     /// Assigns [Minter/Burner] Role via Grant Role Function
     async _grantRole(assigneeAddress, role) {
-        console.log("ROLE: ", role);
         let assignment = role === 'minter' ? await this.contract.callStatic.MINTER_ROLE() : await this.contract.calls.BURNER_ROLE();
         try {
             const _hasRoleBefore = await this.contract.callStatic.hasRole(assignment, assigneeAddress);
@@ -82,7 +78,6 @@ class IMARole {
             };
 
         } catch (err) {
-            console.log("ERROR: ", err);
             throw new Error('Error Granting Role');
         }
     }

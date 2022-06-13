@@ -35,14 +35,12 @@ class AssignRole extends Utils {
     async buildTransaction(ethereum, contract, role, to, txType) {
         const _config = this._contracts.getConfig(contract);
         const provider = new ethers.providers.Web3Provider(ethereum);
-        console.log(provider.getSigner())
         const _contract = new ethers.Contract(_config['address'], _config['abi'], provider.getSigner());
     
         const roleHash = await this._getRole(role, contract, _contract);
         const transactionHash = await this._sendTransaction(to, _contract, roleHash, txType, provider);
 
         let hasRole = await _contract.callStatic.hasRole(roleHash, to);
-        console.log(hasRole);
         return {
             transactionHash,
             hasRole
@@ -95,14 +93,6 @@ class AssignRole extends Utils {
     }
     async _normal(to, contract, roleHash, provider) {
         try {
-            // console.log(contract);
-            // console.log(ethers.utils.isHexString(contract.interface.encodeFunctionData(
-            //     'addToWhitelist',
-            //     [
-            //         // roleHash,
-            //         to
-            //     ]
-            // )))
             let receipt =  await (await provider.sendTransaction({
                 to: contract.address,
                 value: '0',
@@ -113,32 +103,7 @@ class AssignRole extends Utils {
                     ]
                 )
             })).wait();
-            // console.log(contract);
-            // console.log(roleHash);
-            // let dma = await contract.callStatic.DEFAULT_ADMIN_ROLE();
-            // console.log(await contract.hasRole(dma, provider.getSigner().address));
-            // let estimate = await contract.estimateGas.grantRole(roleHash, to);
-            // let receipt = await (await contract.addToWhitelist(to, {
-            //     gasPrice: ethers.utils.hexlify(10000000),
-            //     gasLimit: ethers.utils.hexlify(50000000)
-            // })).wait();
-
-            
-            console.log("Receipt: ", receipt);
-            console.log("--------------EVENTS--------------")
-            for (let event of receipt.events) {
-                if (event.event != undefined) {
-                    console.log(`${event.event}(${event.args})`);
-                }
-            }
-            console.log("----------------------------------")
-            console.log(`Gas used: ${receipt.gasUsed}`)
-            console.log(`Tx hash: ${receipt.transactionHash}`)
-
-                
-            // });
         } catch (err) {
-            console.log(err);
             throw new Error(err);
         }
     }
@@ -183,10 +148,8 @@ class AssignRole extends Utils {
             }
         } else if (contractName === 'marionette') {
             if (role === 'PUPPETEER_ROLE') {
-                console.log("PUPPETEER_ROLE");
                 return await contract.callStatic.PUPPETEER_ROLE();
             } else {
-                console.log("IMA_ROLE");
                 return await contract.callStatic.IMA_ROLE();
             }
         }

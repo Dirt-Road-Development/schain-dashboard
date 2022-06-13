@@ -1,3 +1,28 @@
+/**
+ * @license
+ * 
+ * SChain Dashboard
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * 
+ * /**
+ * @file src/ui/ima/actions/mainnet/index.js
+ * @copyright TheGreatAxios and Lilius, Inc 2022-Present
+ * 
+ * Questions regarding the pseudonym of TheGreatAxios can be forwarded to thegreataxios@mylilius.com
+ */
+
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -6,7 +31,7 @@ import { setAddTokenIMA } from "../../../../state/ima.slice";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleCheck, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { IMAEncoder } from "../../../../logic/ima/encode";
-import { Colors } from "../../../../config";
+import { Colors, MAINNET_RPC } from "../../../../config";
 import { ActiveStep } from "./active_step";
 import { 
     _1_InputTokenAddress,
@@ -83,7 +108,7 @@ const CompleteButton = styled.button`
     border-radius: 16px;
 `;
 
-const RegisterOnMainnet = ({ type, state, setCurrentStep }) => {
+const RegisterOnMainnet = ({ type, state, setState, setCurrentStep }) => {
 
     const encoder = new IMAEncoder(type);
 
@@ -92,15 +117,20 @@ const RegisterOnMainnet = ({ type, state, setCurrentStep }) => {
     const [address, setAddress] = useState(null);
     const [isRegistered, setIsRegistered] = useState(false);
     const [encodedData, setEncodedData] = useState(null);
+    const provider = new ethers.providers.JsonRpcProvider(MAINNET_RPC);
 
     useEffect(() => {
         const interval = setInterval(async() => {
+            
             if (state.originAddress) {
-                let isRegistered = await encoder.isTokenRegistered(state.targetName, state.originAddress);
+                
+                let isRegistered = await encoder.isTokenRegistered(state.targetName, state.originAddress, provider);
+                
                 setIsRegistered(isRegistered);
+                if (isRegistered) setCurrentStep();
             }
             
-        }, 5000);
+        }, 3500);
 
         return () => clearInterval(interval);
     }, [])
@@ -112,9 +142,13 @@ const RegisterOnMainnet = ({ type, state, setCurrentStep }) => {
         const isValid = ethers.utils.isAddress(e.target.value) && e.target.value !== "0x0000000000000000000000000000000000000000";
         setIsValidAddress(isValid);
         if (isValid) {
-            dispatch(setAddTokenIMA({ originAddress: e.target.value }))
             let _encodedData = encoder.encodeRegisterOnMainnet(state.targetName, e.target.value);
             setEncodedData(_encodedData);
+            let _state = state;
+            _state.originAddress = e.target.value;
+            setState(_state);
+            dispatch(setAddTokenIMA({ originAddress: e.target.value }))
+            
         }
     }
 
@@ -129,6 +163,7 @@ const RegisterOnMainnet = ({ type, state, setCurrentStep }) => {
         if (activeStep === 9) canContinue = isRegistered;
         if (activeStep === 10) {
             setCurrentStep();
+            return;
         }
         if (canContinue) {
             setActiveStep(activeStep + 1);

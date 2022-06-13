@@ -34,22 +34,15 @@ class RevokeRole extends Utils {
 
     async buildTransaction(ethereum, contract, role, to, txType) {
 
-        console.log("Ethereum: ", ethereum);
-        console.log("Contract: ", contract);
-        console.log("Role: ", role);
-        console.log("To: ", to);
-        console.log("Tx Type: ", txType);
 
         const _config = this._contracts.getConfig(contract);
         const provider = new ethers.providers.Web3Provider(ethereum);
-        console.log(provider.getSigner())
         const _contract = new ethers.Contract(_config['address'], _config['abi'], provider.getSigner());
     
         const roleHash = await this._getRole(role, contract, _contract);
         const transactionHash = await this._sendTransaction(to, _contract, roleHash, txType, provider);
 
         let hasRole = await _contract.callStatic.hasRole(roleHash, to);
-        console.log(hasRole);
         return {
             transactionHash,
             hasRole

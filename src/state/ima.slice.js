@@ -49,7 +49,7 @@
             state['selectedPage'] = action.payload;
          },
          setAddTokenIMA: (state, action) => {
-            console.log("PAYLOAD: ", action.payload);
+            
             Object.entries(action.payload).map((entry, index) => {
                 state['addTokenIMA'][entry[0]] = entry[1];
             })

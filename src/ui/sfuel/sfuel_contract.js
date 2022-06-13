@@ -86,7 +86,6 @@ const SFuelContract = ({ contractInfo }) => {
                 contract.callStatic.getRoleMemberCount(WHITELISTED_CONTRACT),
                 contract.callStatic.getActiveState()
             ]).then(([a, b, c, d, e, f, g, h, i]) => {
-                console.log("D: ", d);
                 setStatState({
                     DEFAULT_ADMIN_ROLE: Number(a),
                     WHITELIST_MANAGER_ROLE: Number(b),
@@ -99,7 +98,7 @@ const SFuelContract = ({ contractInfo }) => {
                     IS_PAUSED: i
                 })
             }).catch((err) => {
-                console.log("Error Loading Contract Data", err);
+                throw new Error(err);
             });
         }, 5000);
 
@@ -260,10 +259,8 @@ const DeleteWhitelist = ({ contractAddress })  => {
     const { ethereum } = useConnectedMetaMask();
 
     const deleteWhitelist = async() => {
-        console.log("Delete Whitelist - Index.js")
         const s_fuel_registry_class = new SFuelRegistry();
         const _delete = await s_fuel_registry_class.deleteWhitelist(ethereum, contractAddress);
-        console.log("Delete Whitelist: ", _delete);
     }
 
     return (

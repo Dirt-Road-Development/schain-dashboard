@@ -47,8 +47,12 @@ class ConfigController extends Utils {
                     'MTM_ADMIN_ROLE': f,
                     'DEPLOYER_ADMIN_ROLE': g
                 }
-            }).catch(err => console.log('inner', err))
-        }).catch(err => console.log('outer', err));
+            }).catch(err => {
+                throw new Error(err);
+            })
+        }).catch(err => {
+            throw new Error(err);
+        })
     }
 
     async handleConfigController(ethereum, functionName, flip, hasRole, isOnMultisig) {
@@ -92,7 +96,6 @@ class ConfigController extends Utils {
             }
             /// 4 -> Return Tx Hash
         } catch (err) {
-            console.log("Error: ", err);
             throw new Error(err);
         }
     }

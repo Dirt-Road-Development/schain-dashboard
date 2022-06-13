@@ -22,7 +22,6 @@ class SFuelWhitelist extends Utils {
 
             return receipt;
         } catch (err) {
-            console.log(err);
             throw new Error(err);
         }
     }
@@ -42,7 +41,6 @@ class SFuelWhitelist extends Utils {
 
             return receipt;
         } catch (err) {
-            console.log(err);
             throw new Error(err);
         }
     }

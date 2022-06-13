@@ -113,7 +113,7 @@ const ChangeState = ({ isEnabled, isFCD, type }) => {
     const { ethereum, account } = useConnectedMetaMask();
 
     const roles = useSelector((state) => state.chain_state);
-    console.log("Roles: ", roles);
+    
 
     const hasRole = roles.roles[account]['config_controller'][isFCD ? 'DEPLOYER_ADMIN_ROLE' : 'MTM_ADMIN_ROLE'];
     const isOnMultisig = roles.multisig.isOwner;
@@ -132,7 +132,7 @@ const ChangeState = ({ isEnabled, isFCD, type }) => {
                     .then((res) => {
                         window.location.reload();
                     })
-                    .catch(err => console.log(err));
+                    .catch(err => alert(JSON.parse(err)));
             }}>{text}</button>
         </ChangeStateContainer>
     )

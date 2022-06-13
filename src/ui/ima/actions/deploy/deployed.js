@@ -1,3 +1,28 @@
+/**
+ * @license
+ * 
+ * SChain Dashboard
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * 
+ * /**
+ * @file src/ui/ima/actions/deploy/deployed.js
+ * @copyright TheGreatAxios and Lilius, Inc 2022-Present
+ * 
+ * Questions regarding the pseudonym of TheGreatAxios can be forwarded to thegreataxios@mylilius.com
+ */
+
 import { ethers } from 'ethers';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -82,7 +107,7 @@ const Row = styled.div`
 
 const CheckButton = styled.button`
     background: ${props => {
-        console.log(props);
+        
         if (props.color === 'true' && props.isYes === true) {
             return 'green;';
         } else if (props.color === 'false' && props.isNo === true) {
@@ -125,7 +150,7 @@ const ERCPreDeployedDeploy = ({ type, address, setAddress, nextStep, customParam
 
     const handleCheck = (e) => {
         e.preventDefault();
-        console.log(e.target.value);
+        
         setChecks({
             ...checks,
             [e.target.name]: e.target.value
@@ -161,13 +186,10 @@ const ERCPreDeployedDeploy = ({ type, address, setAddress, nextStep, customParam
 
     const checkCanProceed = () => {
         if (!address || address.length !== 42) {
-            console.log(1);
             setCanProceed(false);
         } else if (address.substring(0,2) === '0x' && !Object.values(checks).includes(false) && !Object.values(checks).includes(null) && customParams.abi !== null) {
-            console.log(2);
             setCanProceed(true);
         } else {
-            console.log(3);
             setCanProceed(false);
         }
     }
