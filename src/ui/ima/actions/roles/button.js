@@ -14,7 +14,7 @@ const Label = styled.h3`
 const Icon = styled.div`
     position: absolute;
     right: 5%;
-    color: ${props => props.color};
+    color: ${props => props.textColor};
     font-size: 2rem;
 `;
 
@@ -83,7 +83,7 @@ const MinterBurnerButton = ({ type, assignRole }) => {
     }
 
     return (
-        <MinterBurnerContainer color={color} onClick={handleAssign}>
+        <MinterBurnerContainer textColor={color} onClick={handleAssign}>
             <Label>{text}</Label>
             <Icon color={color}>
                 {icon}

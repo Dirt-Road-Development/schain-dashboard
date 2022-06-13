@@ -31,15 +31,31 @@
  export const imaSlice = createSlice({
      name: 'ima',
      initialState: {
-        selectedPage: null
+        selectedPage: null,
+        addTokenIMA: {
+            isComplete: null,
+            type: null,
+            S2S: null,
+            targetABI: null,
+            targetAddress: null,
+            originAddress: null,
+            targetName: null,
+            originName: null
+        }
      },
      reducers: {
          setIMAPage: (state, action) => {
             state['selectedPage'] = action.payload;
+         },
+         setAddTokenIMA: (state, action) => {
+            console.log("PAYLOAD: ", action.payload);
+            Object.entries(action.payload).map((entry, index) => {
+                state['addTokenIMA'][entry[0]] = entry[1];
+            })
          }
      }
  });
  
- export const { setIMAPage } = imaSlice.actions;
+ export const { setIMAPage, setAddTokenIMA } = imaSlice.actions;
  
  export default imaSlice.reducer;
