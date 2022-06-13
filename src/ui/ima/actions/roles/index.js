@@ -16,8 +16,19 @@ const IMAAssignRole = ({ type, setCurrentStep, isS2S, state }) => {
         burner: false
     });
 
+    useEffect(() => {
+        /// On Initial Load Check Address on Manager Type to Proceed Past If Already Checked
+        roleAssigner.initializeChecks(type)
+            .then((res) => {
+                setCanProceed(res);
+            }).catch((err) =>{
+                console.log(err);
+            })
+    }, []);
+
     const assign = async(_role) => {
-        return await roleAssigner.assignRole(isS2S, _role.toLowerCase(), type)
+        console.log("Role: ", _role);
+        return await roleAssigner.assignRole(_role.toLowerCase(), type)
             .then((res) => {
                 let hasRole = res.hasRole;
                 setCanProceed({
