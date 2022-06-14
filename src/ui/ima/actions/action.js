@@ -34,7 +34,7 @@ import { RegisterOnMainnet } from "./mainnet";
 import { IMAAssignRole } from "./roles";
 import { MainnetLink } from "./schain/mainnet_link";
 import {
-    SelectChain
+    SelectChain, SelectOtherChain
 } from './s2s';
 
 const RenderActionContainer = styled.div`
@@ -76,10 +76,12 @@ const RenderAction = ({ step, currentStep, currentPage, setCurrentStep, isS2S })
             /// Select Origin/Target Setting
             if (currentStep === 0) {
                 return <SelectChain state={state} setState={setState} setCurrentStep={setCurrentStep} />
-            /// Connect SKALE Chains
             } else if (currentStep === 1) {
-                return <p>Connect SKALE </p>
+                return <SelectOtherChain state={state} setState={setState} setCurrentStep={setCurrentStep} />
             } else if (currentStep === 2) {
+                /// Connect SKALE Chains
+                return <p>Connect SKALE </p>
+            } else if (currentStep === 3) {
                 /// If Origin -> Input Deployed Contract Address, Input Deployed Clone Address
                 if (state.isTargetChain === true) {
                     return <p>Is Target Chain</p>
@@ -90,13 +92,13 @@ const RenderAction = ({ step, currentStep, currentPage, setCurrentStep, isS2S })
                     return <p>Error: Neither</p>
                 }
                 /// If Target -> Deploy Clone, Input Deployed Contract Address
-            } else if (currentStep === 3) {
+            } else if (currentStep === 4) {
                 /// If Origin -> Register Origin and Clone Address on Origin Chain
                 /// If Target -> Check Registration is Complete
-            } else if (currentStep === 4) {
+            } else if (currentStep === 5) {
                 /// If Origin -> Done 
                 /// If Target -> Register Origin and Clone Address on Target Chain
-            } else if (currentStep === 5) {
+            } else if (currentStep === 6) {
                 /// Register MINTER and BURNER to TokenManager on Target Chain
             } else {
                 return <p>Error</p>

@@ -62,11 +62,16 @@ export const getSteps = (page) => {
         }
     ];
 
-    if (page.includes('s2s')) return [
+    if (page && page.includes('s2s')) return [
         {
             name: 'Select Chain',
             isComplete: false,
             isActive: true,
+        },
+        {
+            name: 'Other Chain',
+            isComplete: false,
+            isActive: false
         },
         {
             name: 'Connect Chains',
