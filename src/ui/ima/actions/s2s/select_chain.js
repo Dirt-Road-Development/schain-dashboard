@@ -1,5 +1,7 @@
+import { useConnectedMetaMask } from "metamask-react";
 import styled from "styled-components";
 import { Colors } from "../../../../config";
+import chains from "../../../../config/chains";
 
 const SelectChainContainer = styled.div`
     width: 100%;
@@ -51,9 +53,21 @@ const ChainContainer = styled.div`
 `;
 const SelectChain = ({ state, setState, setCurrentStep }) => {
 
+    const { chainId } = useConnectedMetaMask();
+    const chain = chains.find((chain) => chain.id === parseInt(chainId));
+
     const handleSelection = (isTargetChain) => {
         let _state = state;
         _state['isTargetChain'] = isTargetChain;
+        _state[isTargetChain ? 'targetName' : 'originName'] = chain.name.toLowerCase();
+        _state[isTargetChain ? 'targetId' : 'originId'] = chain.id;
+        if (isTargetChain) {
+            _state['originName'] = null;
+            _state['originId'] = null;
+        } else {
+            _state['targetName'] = null;
+            _state['targetId'] = null;
+        }
         setState(_state);
         setCurrentStep();
     }
