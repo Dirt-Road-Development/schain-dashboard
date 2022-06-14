@@ -63,6 +63,8 @@ const ActionChain = styled.h5`
 `;
 const Action = ({ currentPage }) => {
 
+    console.log("Current Page: ", currentPage);
+
     const { chainId } = useConnectedMetaMask();
     const [currentStep, setCurrentStep] = useState(0);
     const [isS2S, setIsS2S] = useState(false);

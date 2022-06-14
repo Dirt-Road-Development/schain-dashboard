@@ -60,6 +60,39 @@ export const getSteps = (page) => {
             isComplete: false,
             isActive: true
         }
+    ];
+
+    if (page.includes('s2s')) return [
+        {
+            name: 'Select Chain',
+            isComplete: false,
+            isActive: true,
+        },
+        {
+            name: 'Connect Chains',
+            isComplete: false,
+            isActive: false
+        },
+        {
+            name: 'Token Deployment',
+            isComplete: false,
+            isActive: false
+        },
+        {
+            name: 'Origin Registration',
+            isComplete: false,
+            isActive: true
+        },
+        {
+            name: 'Target Registration',
+            isComplete: false,
+            isActive: true
+        },
+        {
+            name: 'Assign Roles',
+            isComplete: false,
+            isActive: true
+        }
     ]
     // if (label === 'add_erc721') return 'Add ERC-721'
     // if (label === 'add_erc1155') return 'Add ERC-1155'
