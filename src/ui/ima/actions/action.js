@@ -33,6 +33,9 @@ import { DeployContractSchain } from "./deploy";
 import { RegisterOnMainnet } from "./mainnet";
 import { IMAAssignRole } from "./roles";
 import { MainnetLink } from "./schain/mainnet_link";
+import {
+    SelectChain
+} from './s2s';
 
 const RenderActionContainer = styled.div`
 
@@ -58,7 +61,8 @@ const RenderAction = ({ step, currentStep, currentPage, setCurrentStep, isS2S })
         targetName: getChainName.name.toLowerCase(),
         targetId: parseInt(chainId),
         originName: null,
-        originId: null
+        originId: null,
+        isTargetChain: null
     });
 
     const dispatch = useDispatch();
@@ -66,8 +70,52 @@ const RenderAction = ({ step, currentStep, currentPage, setCurrentStep, isS2S })
     const buildComponent = () => {
         if (!currentPage) {
             return <SelectPage />;
+            // 0x01be23585060835e02b77ef475b0cc51aa1e0709
         }
-        if (currentPage.includes('add')) {
+        if (currentPage.includes('add') && currentPage.includes('s2s')) {
+            /// Select Origin/Target Setting
+            if (currentStep === 0) {
+                return <SelectChain state={state} setState={setState} setCurrentStep={setCurrentStep} />
+            /// Connect SKALE Chains
+            } else if (currentStep === 1) {
+                return <p>Connect SKALE </p>
+            } else if (currentStep === 2) {
+                /// If Origin -> Input Deployed Contract Address, Input Deployed Clone Address
+                if (state.isTargetChain === true) {
+                    return <p>Is Target Chain</p>
+                } else if (state.isTargetChain === false) {
+                    return <p>Is NOT Target Chain</p>
+                    // return <IMAAssignRole type={currentPage.split('_')[1]} setCurrentStep={setCurrentStep} isS2S={state.isS2S} state={state} />
+                } else {
+                    return <p>Error: Neither</p>
+                }
+                /// If Target -> Deploy Clone, Input Deployed Contract Address
+            } else if (currentStep === 3) {
+                /// If Origin -> Register Origin and Clone Address on Origin Chain
+                /// If Target -> Check Registration is Complete
+            } else if (currentStep === 4) {
+                /// If Origin -> Done 
+                /// If Target -> Register Origin and Clone Address on Target Chain
+            } else if (currentStep === 5) {
+                /// Register MINTER and BURNER to TokenManager on Target Chain
+            } else {
+                return <p>Error</p>
+            }
+
+            /**
+             * } else if (currentStep === 1) {
+                return <DeployContractSchain type={currentPage.split('_')[1]} setCurrentStep={setCurrentStep} state={state} setState={setState} />;
+            } else if (currentStep === 2 && state.targetABI) {
+                return <IMAAssignRole type={currentPage.split('_')[1]} setCurrentStep={setCurrentStep} isS2S={state.isS2S} state={state} />
+            } else if (currentStep === 3) {
+                return <RegisterOnMainnet type={currentPage.split('_')[1]} state={state} setState={setState} setCurrentStep={setCurrentStep} />
+            } else if (currentStep === 4) {
+                return <MainnetLink type={currentPage.split('_')[1]} state={state} setCurrentPage={setCurrentStep} />
+            } else {
+                return <p>Error</p>;
+            }
+             */
+        } else if (currentPage.includes('add')) {
             if (currentStep === 0) {
                 return <DeployContractSchain type={currentPage.split('_')[1]} setCurrentStep={setCurrentStep} state={state} setState={setState} />;
             } else if (currentStep === 1 && state.targetABI) {
@@ -79,6 +127,8 @@ const RenderAction = ({ step, currentStep, currentPage, setCurrentStep, isS2S })
             } else {
                 return <p>Error</p>;
             }
+        } else {
+            return <p>Error: No Matching Check</p>
         }
     }
 
