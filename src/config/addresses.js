@@ -8,6 +8,7 @@ const mainnet = {
     deposit_box_erc20: "0x8fB1A35bB6fB9c47Fb5065BE5062cB8dC1687669",
     deposit_box_erc721: "0x7343d31eb99Fd31424bcca9f0a7EAFBc1F515f2d",
     deposit_box_erc1155: "0x3C02FdEe8E05B6dc4d44a6555b3ff5762D03871a",
+    token_manager_linker: "0xD2aAA00800000000000000000000000000000000",
     deposit_box_erc721_with_metadata: "0x9f8196D864ee9476bF8DBE68aD07cc555d6B7986",
 };
 
