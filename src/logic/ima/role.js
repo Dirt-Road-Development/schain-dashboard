@@ -9,6 +9,7 @@ class IMARole {
     constructor(abi, address, ethereum) {
         this.provider = new ethers.providers.Web3Provider(ethereum);
         this.contract = new ethers.Contract(address, abi, this.provider.getSigner());
+        console.log(this.contract);
     }
 
     async initializeChecks(type) {
@@ -32,12 +33,15 @@ class IMARole {
             const _tokenManagerAddress = this._getTokenManagerAddress(type);
             return await this._grantRole(_tokenManagerAddress, role);
         } catch (err) {
+            console.log(err);
             throw new Error(err);
         }
     }
 
     /// Checks for How to Assign Minter Role to Contract
     _getFunctionType(role) {
+        console.log("ROLE: ", role);
+        console.log(this.contract);
         if (this.contract['grantRole']) {
             if (role === 'minter' && this.contract['MINTER_ROLE']) {
                 return 'grantRole';
@@ -58,7 +62,7 @@ class IMARole {
 
     /// Assigns [Minter/Burner] Role via Grant Role Function
     async _grantRole(assigneeAddress, role) {
-        let assignment = role === 'minter' ? await this.contract.callStatic.MINTER_ROLE() : await this.contract.calls.BURNER_ROLE();
+        let assignment = role === 'minter' ? await this.contract.callStatic.MINTER_ROLE() : await this.contract.callStatic.BURNER_ROLE();
         try {
             const _hasRoleBefore = await this.contract.callStatic.hasRole(assignment, assigneeAddress);
             if (_hasRoleBefore) {
