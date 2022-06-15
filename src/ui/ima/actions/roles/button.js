@@ -40,7 +40,10 @@ const Label = styled.h3`
 const Icon = styled.div`
     position: absolute;
     right: 5%;
-    color: ${props => props.textColor};
+    color: ${props => {
+        console.log(props);
+        return props.color;
+    }};
     font-size: 2rem;
 `;
 
@@ -52,12 +55,12 @@ const MinterBurnerButton = ({ type, assignRole }) => {
     const [text, setText] = useState(null);
     useEffect(() => {
         const _color = () => {
-            if (!assignStatus) {
-                return 'red';
-            } else if (assignStatus === 'assigning') {
+            if (assignStatus === 'assigning') {
                 return 'yellow';
             } else if (assignStatus === 'assigned') {
                 return 'green';
+            } else {
+                return 'red';
             }
         }
         
@@ -100,6 +103,7 @@ const MinterBurnerButton = ({ type, assignRole }) => {
                     }
                 })
                 .catch((err) => {
+                    console.log(err);
                     setAssignStatus(null);
                 })
         }
