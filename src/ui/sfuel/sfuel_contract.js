@@ -313,7 +313,7 @@ const WhitelistContract = ({ contractAddress }) => {
 
     const whitelistContract = async() => {
         const s_fuel_registry_class = new SFuelRegistry();
-        const _whitelist = await s_fuel_registry_class.addToWhitelist(ethereum, contractAddress, whitelistee);
+        const _whitelist = await s_fuel_registry_class.whitelistContract(ethereum, contractAddress, whitelistee);
     }
 
     return (
@@ -326,7 +326,7 @@ const WhitelistContract = ({ contractAddress }) => {
                 if (isValidAddress) {
                     provider.getCode(e.target.value)
                         .then((res => {
-                            setValidAddress((res === '0x'))
+                            setValidAddress(!(res === '0x'))
                         }))
                         .catch(err => setValidAddress(false));
                 }

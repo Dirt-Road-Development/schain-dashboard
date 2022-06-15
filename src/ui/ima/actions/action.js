@@ -34,6 +34,7 @@ import { RegisterOnMainnet } from "./mainnet";
 import { IMAAssignRole } from "./roles";
 import { MainnetLink } from "./schain/mainnet_link";
 import {
+    ConnectChains,
     SelectChain, SelectOtherChain
 } from './s2s';
 
@@ -80,7 +81,7 @@ const RenderAction = ({ step, currentStep, currentPage, setCurrentStep, isS2S })
                 return <SelectOtherChain state={state} setState={setState} setCurrentStep={setCurrentStep} />
             } else if (currentStep === 2) {
                 /// Connect SKALE Chains
-                return <p>Connect SKALE </p>
+                return <ConnectChains state={state} setState={setState} setCurrentStep={setCurrentStep} />
             } else if (currentStep === 3) {
                 /// If Origin -> Input Deployed Contract Address, Input Deployed Clone Address
                 if (state.isTargetChain === true) {
