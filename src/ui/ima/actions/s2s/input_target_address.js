@@ -28,6 +28,7 @@ import { useConnectedMetaMask } from "metamask-react";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Colors } from "../../../../config";
+import chains from "../../../../config/chains";
 
 const InputTargetAddressContainer = styled.div`
 
@@ -81,7 +82,10 @@ color: white;
 const InputTargetAddress = ({ state, setState, setCurrentStep }) => {
 
     const { ethereum } = useConnectedMetaMask();
-    const provider = new ethers.providers.Web3Provider(ethereum);
+    console.log(state);
+    const chain = chains.find((chain) => chain.id === (state.isTargetChain ? state.originId : state.targetId));
+    console.log("CHAIN: ", chain);
+    const provider = new ethers.providers.JsonRpcProvider(chain.rpcUrls.default);
 
     const [isValid, setIsValid] = useState(false);
 

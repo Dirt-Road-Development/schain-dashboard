@@ -31,6 +31,8 @@ import { Colors } from "../../../../config";
 import chains from "../../../../config/chains";
 import { RegisterReady } from "./register_ready";
 import { Skale2Skale } from "../../../../logic/ima/s2s";
+import { LoadingIcon } from "../../../widgets";
+import { RegisteringToken } from "./registering_token";
 
 const RegisterTokenContainer = styled.div`
     position: relative;
@@ -95,8 +97,7 @@ const RegisterToken = ({ state, setState, setCurrentStep }) => {
     const s2s = new Skale2Skale(state.originId, state.targetId, state.type);
 
     const { ethereum } = useConnectedMetaMask();
-    const chainId = state.isTargetChain ? state.originId : state.targetId;
-    const chain = chains.find((chain) => chain.id === chainId);
+    const chain = chains.find((chain) => chain.id === state.originId);
     const provider = new ethers.providers.JsonRpcProvider(chain.rpcUrls.default);
 
     const [isValid, setIsValid] = useState(false);
@@ -131,16 +132,16 @@ const RegisterToken = ({ state, setState, setCurrentStep }) => {
 
     const registerToken = () => {
         try {
-            // setRegistered('loading');
+            setRegistered('loading');
             s2s.registerToken(ethereum, state.isTargetChain, state.originAddress, state.targetAddress)
                 .then((res) => {
-                    console.log("Result: ",res)
+                    setRegistered('registered');
                 }).catch((err) => {
-                    console.log(err);
                     throw new Error(err);
                 })
         } catch (err) {
             setRegistered('ready');
+            alert('Error: Please Try Again');
             console.log(err);
         }
     }
@@ -149,9 +150,9 @@ const RegisterToken = ({ state, setState, setCurrentStep }) => {
         if (registered === 'ready') {
             return <RegisterReady state={state} registerToken={registerToken} />
         } else if (registered === 'loading') {
-
-        } else if (registered === 'registered') {
-
+            return (
+                <RegisteringToken />
+            );
         } else {
             return null;
         }
@@ -167,7 +168,7 @@ const RegisterToken = ({ state, setState, setCurrentStep }) => {
             {isValid && registered === 'registered' && <ContinueContainer onClick={(e) => {
                 e.preventDefault();
                 setCurrentStep();
-            }}>Click to Proceed</ContinueContainer>}
+            }}>Token Registered | Click to Proceed</ContinueContainer>}
         </RegisterTokenContainer>
     );
 }
@@ -175,3 +176,5 @@ const RegisterToken = ({ state, setState, setCurrentStep }) => {
 export {
     RegisterToken
 }
+
+

@@ -147,17 +147,13 @@ class Skale2Skale extends Utils {
         try {
             /// 0 -> Create Provider &&  Create Contract [token_manager_type]
             const provider = new ethers.providers.Web3Provider(ethereum);
-            console.log(this.type);
-            console.log(this._contracts);
             const config = this._contracts.getConfig(`token_manager_${this.type}`);
-            console.log("Config: ", config);
             const contract = new ethers.Contract(config.address, config.abi, provider);
-            console.log("Contract: ", contract);
             
             /// 1 -> Check if Added to Check
             /// If True -> Return 
             const chainName = isTargetChain ? this.originChain.name.toLowerCase() : this.targetChain.name.toLowerCase();
-            const isMapped = await this._checkSchainMapping(chainName, originAddress, targetAddress);
+            const isMapped = await this._checkSchainMapping(chainName, originAddress, targetAddress, contract);
             if (isMapped) {
                 return {
                     success: true
@@ -181,23 +177,24 @@ class Skale2Skale extends Utils {
         }
     }
 
-    async _checkSchainMapping(chainName, originToken, targetToken) {
+    async _checkSchainMapping(chainName, originToken, targetToken, tokenManager) {
         try {
 
             // const _function = this.tokenManager.callStatic[`clonesErc${this.type.substring(3)}`];
             let isMapped;
             if (this.type === 'erc20') {
-                let check = await this.tokenManager.callStatic.clonesErc20(ethers.utils.keccak256(ethers.utils.toUtf8Bytes(chainName)), originToken);
+                let check = await tokenManager.callStatic.clonesErc20(ethers.utils.keccak256(ethers.utils.toUtf8Bytes(chainName)), originToken);
                 isMapped = check === targetToken;
             } else if (this.type === 'erc721') {
-                let check = await this.tokenManager.callStatic.clonesErc721(ethers.utils.keccak256(ethers.utils.toUtf8Bytes(chainName)), originToken);
+                let check = await tokenManager.callStatic.clonesErc721(ethers.utils.keccak256(ethers.utils.toUtf8Bytes(chainName)), originToken);
                 isMapped = check === targetToken;
             } else if (this.type === 'erc1155') {
-                let check = await this.tokenManager.callStatic.clonesErc1155(ethers.utils.keccak256(ethers.utils.toUtf8Bytes(chainName)), originToken);
+                let check = await tokenManager.callStatic.clonesErc1155(ethers.utils.keccak256(ethers.utils.toUtf8Bytes(chainName)), originToken);
                 isMapped = check === targetToken;
             }
             return isMapped;
         } catch (err) {
+            console.log("ERROR: ", err);
             throw new Error(err);
         }
     }
