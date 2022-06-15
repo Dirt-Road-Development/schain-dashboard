@@ -35,6 +35,7 @@ import { IMAAssignRole } from "./roles";
 import { MainnetLink } from "./schain/mainnet_link";
 import {
     ConnectChains,
+    InputTargetAddress,
     SelectChain, SelectOtherChain
 } from './s2s';
 
@@ -85,10 +86,9 @@ const RenderAction = ({ step, currentStep, currentPage, setCurrentStep, isS2S })
             } else if (currentStep === 3) {
                 /// If Origin -> Input Deployed Contract Address, Input Deployed Clone Address
                 if (state.isTargetChain === true) {
-                    return <p>Is Target Chain</p>
+                    return <DeployContractSchain type={currentPage.split('_')[1]} setCurrentStep={setCurrentStep} state={state} setState={setState} />;
                 } else if (state.isTargetChain === false) {
-                    return <p>Is NOT Target Chain</p>
-                    // return <IMAAssignRole type={currentPage.split('_')[1]} setCurrentStep={setCurrentStep} isS2S={state.isS2S} state={state} />
+                    return <InputTargetAddress state={state} setState={setState} setCurrentStep={setCurrentStep} />
                 } else {
                     return <p>Error: Neither</p>
                 }
@@ -96,6 +96,7 @@ const RenderAction = ({ step, currentStep, currentPage, setCurrentStep, isS2S })
             } else if (currentStep === 4) {
                 /// If Origin -> Register Origin and Clone Address on Origin Chain
                 /// If Target -> Check Registration is Complete
+                return <p>Registration V1</p>
             } else if (currentStep === 5) {
                 /// If Origin -> Done 
                 /// If Target -> Register Origin and Clone Address on Target Chain

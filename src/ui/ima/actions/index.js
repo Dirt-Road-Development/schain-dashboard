@@ -71,9 +71,8 @@ const Action = ({ currentPage }) => {
     const [steps, setSteps] = useState([]);
     
     const nextStep = () => {
-        if (currentStep === 3) {
+        if (currentStep === 3 && !currentPage.includes('s2s')) {
             window.location.reload();
-            
         }
         let _steps = steps;
         _steps[currentStep].isComplete = true;
