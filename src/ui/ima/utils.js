@@ -84,12 +84,7 @@ export const getSteps = (page) => {
             isActive: false
         },
         {
-            name: 'Origin Registration',
-            isComplete: false,
-            isActive: true
-        },
-        {
-            name: 'Target Registration',
+            name: 'Token Registration',
             isComplete: false,
             isActive: true
         },
