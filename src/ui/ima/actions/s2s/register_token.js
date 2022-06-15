@@ -17,20 +17,22 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  * 
  * /**
- * @file src/ui/ima/actions/s2s/input_target_address.js
+ * @file src/ui/ima/actions/s2s/register_token.js
  * @copyright TheGreatAxios and Lilius, Inc 2022-Present
  * 
  * Questions regarding the pseudonym of TheGreatAxios can be forwarded to thegreataxios@mylilius.com
  */
 
+import { useState } from "react";
 import { ethers } from "ethers";
 import { useConnectedMetaMask } from "metamask-react";
-import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Colors } from "../../../../config";
+import chains from "../../../../config/chains";
+import { RegisterReady } from "./register_ready";
+import { Skale2Skale } from "../../../../logic/ima/s2s";
 
-const InputTargetAddressContainer = styled.div`
-
+const RegisterTokenContainer = styled.div`
     position: relative;
     height: 100%;
     width: 100%;
@@ -60,36 +62,45 @@ const TextField = styled.input`
 `;
 
 const ContinueContainer = styled.div`
-position: absolute;
-bottom: 5%;
-left: 25%;
-right: 25%;
-width: 50%;
-height: 35px;
-border-radius: 16px;
-border: 1px solid ${Colors.primary};
-display: flex;
-align-items: center;
-justify-content: center;
-color: white;
-&:hover {
-    background: white;
-    color: ${Colors.primary};
-}
+    position: absolute;
+    bottom: 5%;
+    left: 25%;
+    right: 25%;
+    width: 50%;
+    height: 35px;
+    border-radius: 16px;
+    border: 1px solid ${Colors.primary};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    &:hover {
+        background: white;
+        color: ${Colors.primary};
+    }
 `;
 
-const InputTargetAddress = ({ state, setState, setCurrentStep }) => {
+const RegistrationContentContainer = styled.div`
+    position: absolute;
+    top: 20%;
+    left: 5%;
+    right: 5%;
+    bottom: 25%;
+    height: 65%;
+    width: 90%;
+`;
+
+const RegisterToken = ({ state, setState, setCurrentStep }) => {
+    console.log(state);
+    const s2s = new Skale2Skale(state.originId, state.targetId, state.type);
 
     const { ethereum } = useConnectedMetaMask();
-    const provider = new ethers.providers.Web3Provider(ethereum);
+    const chainId = state.isTargetChain ? state.originId : state.targetId;
+    const chain = chains.find((chain) => chain.id === chainId);
+    const provider = new ethers.providers.JsonRpcProvider(chain.rpcUrls.default);
 
     const [isValid, setIsValid] = useState(false);
-
-    useEffect(() => {
-        if (state.targetAddress && ethers.utils.isAddress(state.targetAddress)) {
-            setIsValid(true);
-        }
-    }, []);
+    const [registered, setRegistered] = useState(null);
 
     const handleAddress = (e) => {
         e.preventDefault();
@@ -103,8 +114,9 @@ const InputTargetAddress = ({ state, setState, setCurrentStep }) => {
                         if (_isValid) {
                             setState({
                                 ...state,
-                                targetAddress: e.target.value
+                                originAddress: e.target.value
                             });
+                            setRegistered('ready');
                         }
                     } else {
                         setIsValid(false);
@@ -117,18 +129,49 @@ const InputTargetAddress = ({ state, setState, setCurrentStep }) => {
         }
     }
 
+    const registerToken = () => {
+        try {
+            // setRegistered('loading');
+            s2s.registerToken(ethereum, state.isTargetChain, state.originAddress, state.targetAddress)
+                .then((res) => {
+                    console.log("Result: ",res)
+                }).catch((err) => {
+                    console.log(err);
+                    throw new Error(err);
+                })
+        } catch (err) {
+            setRegistered('ready');
+            console.log(err);
+        }
+    }
+
+    const widget = () => {
+        if (registered === 'ready') {
+            return <RegisterReady state={state} registerToken={registerToken} />
+        } else if (registered === 'loading') {
+
+        } else if (registered === 'registered') {
+
+        } else {
+            return null;
+        }
+    }
+
     return (
-        <InputTargetAddressContainer>
-            <Label>Input the Target Chain Clone Address</Label>
+        <RegisterTokenContainer>
+            <Label>Input the Origin Chain Token Address</Label>
             <TextField onChange={handleAddress} type='text' placeholder='0x...' />
-            {isValid && <ContinueContainer onClick={(e) => {
+            <RegistrationContentContainer>
+                {widget()}
+            </RegistrationContentContainer>
+            {isValid && registered === 'registered' && <ContinueContainer onClick={(e) => {
                 e.preventDefault();
                 setCurrentStep();
             }}>Click to Proceed</ContinueContainer>}
-        </InputTargetAddressContainer>
+        </RegisterTokenContainer>
     );
 }
 
 export {
-    InputTargetAddress
+    RegisterToken
 }
