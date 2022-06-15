@@ -16,7 +16,7 @@ class DeployContract {
     async automatedDeploy(ethereum, type, args) {
         try {
             const provider = new ethers.providers.Web3Provider(ethereum);
-            
+            console.log(type);
             const factory = new ethers.ContractFactory(AUTOMATED_IMA_CONTRACTS[type]['abi'], AUTOMATED_IMA_CONTRACTS[type].bytecode, provider.getSigner());
 
             return await this._deployment(factory, args, type);
@@ -68,14 +68,25 @@ class DeployContract {
             
             let contractAddress = contract.address;
     
-            let deployedTx = await contract.deployTransaction.wait();
-    
+            let receipt = await contract.deployTransaction.wait();
+            console.log("--------------EVENTS--------------")
+            for (let event of receipt.events) {
+                if (event.event != undefined) {
+                    console.log(`${event.event}(${event.args})`);
+                    console.log("Receipt: ", await event.getTransactionReceipt());
+                }
+            }
+            console.log("----------------------------------")
+            console.log(`Gas used: ${receipt.gasUsed}`)
+            console.log(`Tx hash: ${receipt.transactionHash}`)
+            // console.log(`Receipt: `, await provider.getTransactionReceipt(receipt.transactionHash));
             return {
                 contractAddress,
-                deployedTx,
+                deployedTx: receipt,
                 abi: factory.interface
             };
         } catch (err) {
+            console.log(err);
             throw new Error(err);
         }
     }
