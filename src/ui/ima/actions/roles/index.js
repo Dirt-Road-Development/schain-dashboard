@@ -62,6 +62,7 @@ const IMAAssignRole = ({ type, setCurrentStep, isS2S, state }) => {
                 return res;
             })
             .catch((err) => {
+                console.log("ERROR: ", err);
                 alert("ERROR Assigning Role: ", err);
             })
     }

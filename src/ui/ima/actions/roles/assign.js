@@ -35,7 +35,7 @@ const AssignContainer = styled.div`
 `;
 
 const Assign = ({ isS2S, state, assignRole }) => {
-
+    console.log(isS2S);
     return (
         <AssignContainer>
             <MinterBurnerButton type="Minter" assignRole={assignRole} />
