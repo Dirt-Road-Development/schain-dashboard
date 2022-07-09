@@ -27,10 +27,10 @@
 import styled from 'styled-components';
 import { Title } from '../widgets';
 import { useConnectedMetaMask } from 'metamask-react';
-import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Manager } from './manager/manager';
 import { Action } from './actions';
+import { AutoDeployment } from './AutoDeployment';
 const ImaPageContainer = styled.div`
     height: 100%;
     width: 100%;
@@ -39,14 +39,15 @@ const ImaPageContainer = styled.div`
 
 const ImaPage = () => {
 
-    const { ethereum, chainId } = useConnectedMetaMask();
+    const { chainId } = useConnectedMetaMask();
     const imaState = useSelector((state) => state.ima_state);
     
 
     return (
         <ImaPageContainer>
             <Title title="IMA" />
-            <Action chainId={chainId} currentPage={imaState.selectedPage} />
+            {imaState.selectedPage === 'auto_deployment' && <AutoDeployment chainId={chainId} />}
+            {imaState.selectedPage !== 'auto_deployment' && <Action chainId={chainId} currentPage={imaState.selectedPage} />}
             <Manager chainId={chainId} />
         </ImaPageContainer>
     );

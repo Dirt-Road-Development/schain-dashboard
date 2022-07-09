@@ -24,9 +24,10 @@
  */
 
 export const visibleLabel = (label) => {
-    if (label === 'auto_deploy_erc20') return 'Enable/Disable ERC-20 (Unfinished)';
-    if (label === 'auto_deploy_erc721') return 'Enable/Disable ERC-721 (Unfinished)';
-    if (label === 'auto_deploy_erc1155') return 'Enable/Disable ERC-1155 (Unfinished)';
+    if (label === 'auto_deployment') return 'Set Auto Deployment';
+    // if (label === 'auto_deploy_erc20') return 'Enable/Disable ERC-20 (Unfinished)';
+    // if (label === 'auto_deploy_erc721') return 'Enable/Disable ERC-721 (Unfinished)';
+    // if (label === 'auto_deploy_erc1155') return 'Enable/Disable ERC-1155 (Unfinished)';
     if (label === 'add_erc20') return 'Add ERC-20'
     if (label === 'add_erc721') return 'Add ERC-721'
     if (label === 'add_erc1155') return 'Add ERC-1155'
@@ -94,6 +95,8 @@ export const getSteps = (page) => {
             isActive: true
         }
     ]
+
+
     // if (label === 'add_erc721') return 'Add ERC-721'
     // if (label === 'add_erc1155') return 'Add ERC-1155'
     return [];
