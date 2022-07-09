@@ -23,7 +23,7 @@
  * Questions regarding the pseudonym of TheGreatAxios can be forwarded to thegreataxios@mylilius.com
  */
 
-export const MAINNET_RPC = process.env.REACT_APP_MAINNET_RPC;
+// export const MAINNET_RPC = process.env.REACT_APP_MAINNET_RPC;
 
 const _nativeCurrency = {
     decimals: 18,
@@ -37,6 +37,8 @@ const _ethCurrency = {
     symbol: "ETH"
 }
 
+export const MAINNET_RPC = 'https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161';
+
 const S_CHAIN_PREFIX = "https://staging-v2.skalenodes.com/v1/"
 const sChainExplorerUrl = (chainName) => `https://${chainName}.explorer.staging-v2.skalenodes.com/`
 const testnet_chains = [
@@ -46,7 +48,7 @@ const testnet_chains = [
         id: 4,
         nativeCurrency: _ethCurrency,
         rpcUrls: {
-            default: MAINNET_RPC
+            default: MAINNET_RPC // PUBLIC //MAINNET_RPC
         },
         blockExplorers: {
             default: {
