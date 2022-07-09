@@ -25,8 +25,11 @@
   "scripts": {
     "start": "GENERATE_SOURCEMAP=false react-scripts start",
     "build": "react-scripts build",
+    "build:testnet": "REACT_APP_ENV=testnet react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy:testnet": "npm run build:testnet && aws s3 sync build/ s3://schain-admin-portal-testnet",
+    "deploy:production": "build && aws s3 sync build/ s3://schain-admin-portal-mainnet"
   },
   "eslintConfig": {
     "extends": [

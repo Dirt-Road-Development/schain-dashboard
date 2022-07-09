@@ -23224,820 +23224,854 @@ const TESTNET_ABIS = {
     ],
     token_manager_erc721_with_metadata: [
         {
-            "type": "event",
             "anonymous": false,
-            "name": "DepositBoxWasChanged",
             "inputs": [
                 {
-                    "type": "address",
+                    "indexed": false,
+                    "internalType": "address",
                     "name": "oldValue",
-                    "indexed": false
+                    "type": "address"
                 },
                 {
-                    "type": "address",
+                    "indexed": false,
+                    "internalType": "address",
                     "name": "newValue",
-                    "indexed": false
+                    "type": "address"
                 }
-            ]
+            ],
+            "name": "DepositBoxWasChanged",
+            "type": "event"
         },
         {
-            "type": "event",
             "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": true,
+                    "internalType": "bytes32",
+                    "name": "chainHash",
+                    "type": "bytes32"
+                },
+                {
+                    "indexed": true,
+                    "internalType": "address",
+                    "name": "erc721OnMainChain",
+                    "type": "address"
+                },
+                {
+                    "indexed": true,
+                    "internalType": "address",
+                    "name": "erc721OnSchain",
+                    "type": "address"
+                }
+            ],
             "name": "ERC721TokenAdded",
-            "inputs": [
-                {
-                    "type": "bytes32",
-                    "name": "chainHash",
-                    "indexed": true
-                },
-                {
-                    "type": "address",
-                    "name": "erc721OnMainChain",
-                    "indexed": true
-                },
-                {
-                    "type": "address",
-                    "name": "erc721OnSchain",
-                    "indexed": true
-                }
-            ]
+            "type": "event"
         },
         {
-            "type": "event",
             "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": true,
+                    "internalType": "bytes32",
+                    "name": "chainHash",
+                    "type": "bytes32"
+                },
+                {
+                    "indexed": true,
+                    "internalType": "address",
+                    "name": "erc721OnMainChain",
+                    "type": "address"
+                },
+                {
+                    "indexed": true,
+                    "internalType": "address",
+                    "name": "erc721OnSchain",
+                    "type": "address"
+                }
+            ],
             "name": "ERC721TokenCreated",
-            "inputs": [
-                {
-                    "type": "bytes32",
-                    "name": "chainHash",
-                    "indexed": true
-                },
-                {
-                    "type": "address",
-                    "name": "erc721OnMainChain",
-                    "indexed": true
-                },
-                {
-                    "type": "address",
-                    "name": "erc721OnSchain",
-                    "indexed": true
-                }
-            ]
+            "type": "event"
         },
         {
-            "type": "event",
             "anonymous": false,
-            "name": "ERC721TokenReady",
             "inputs": [
                 {
-                    "type": "bytes32",
+                    "indexed": true,
+                    "internalType": "bytes32",
                     "name": "chainHash",
-                    "indexed": true
+                    "type": "bytes32"
                 },
                 {
-                    "type": "address",
+                    "indexed": true,
+                    "internalType": "address",
                     "name": "contractOnMainnet",
-                    "indexed": true
+                    "type": "address"
                 },
                 {
-                    "type": "uint256",
+                    "indexed": false,
+                    "internalType": "uint256",
                     "name": "tokenId",
-                    "indexed": false
+                    "type": "uint256"
                 }
-            ]
+            ],
+            "name": "ERC721TokenReady",
+            "type": "event"
         },
         {
-            "type": "event",
             "anonymous": false,
-            "name": "ERC721TokenReceived",
             "inputs": [
                 {
-                    "type": "bytes32",
+                    "indexed": true,
+                    "internalType": "bytes32",
                     "name": "chainHash",
-                    "indexed": true
+                    "type": "bytes32"
                 },
                 {
-                    "type": "address",
+                    "indexed": true,
+                    "internalType": "address",
                     "name": "erc721OnMainChain",
-                    "indexed": true
+                    "type": "address"
                 },
                 {
-                    "type": "address",
+                    "indexed": true,
+                    "internalType": "address",
                     "name": "erc721OnSchain",
-                    "indexed": true
+                    "type": "address"
                 },
                 {
-                    "type": "uint256",
+                    "indexed": false,
+                    "internalType": "uint256",
                     "name": "tokenId",
-                    "indexed": false
+                    "type": "uint256"
                 }
-            ]
+            ],
+            "name": "ERC721TokenReceived",
+            "type": "event"
         },
         {
-            "type": "event",
             "anonymous": false,
-            "name": "RoleAdminChanged",
             "inputs": [
                 {
-                    "type": "bytes32",
+                    "indexed": true,
+                    "internalType": "bytes32",
                     "name": "role",
-                    "indexed": true
+                    "type": "bytes32"
                 },
                 {
-                    "type": "bytes32",
+                    "indexed": true,
+                    "internalType": "bytes32",
                     "name": "previousAdminRole",
-                    "indexed": true
+                    "type": "bytes32"
                 },
                 {
-                    "type": "bytes32",
+                    "indexed": true,
+                    "internalType": "bytes32",
                     "name": "newAdminRole",
-                    "indexed": true
+                    "type": "bytes32"
                 }
-            ]
+            ],
+            "name": "RoleAdminChanged",
+            "type": "event"
         },
         {
-            "type": "event",
             "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": true,
+                    "internalType": "bytes32",
+                    "name": "role",
+                    "type": "bytes32"
+                },
+                {
+                    "indexed": true,
+                    "internalType": "address",
+                    "name": "account",
+                    "type": "address"
+                },
+                {
+                    "indexed": true,
+                    "internalType": "address",
+                    "name": "sender",
+                    "type": "address"
+                }
+            ],
             "name": "RoleGranted",
-            "inputs": [
-                {
-                    "type": "bytes32",
-                    "name": "role",
-                    "indexed": true
-                },
-                {
-                    "type": "address",
-                    "name": "account",
-                    "indexed": true
-                },
-                {
-                    "type": "address",
-                    "name": "sender",
-                    "indexed": true
-                }
-            ]
+            "type": "event"
         },
         {
-            "type": "event",
             "anonymous": false,
-            "name": "RoleRevoked",
             "inputs": [
                 {
-                    "type": "bytes32",
+                    "indexed": true,
+                    "internalType": "bytes32",
                     "name": "role",
-                    "indexed": true
+                    "type": "bytes32"
                 },
                 {
-                    "type": "address",
+                    "indexed": true,
+                    "internalType": "address",
                     "name": "account",
-                    "indexed": true
+                    "type": "address"
                 },
                 {
-                    "type": "address",
+                    "indexed": true,
+                    "internalType": "address",
                     "name": "sender",
-                    "indexed": true
+                    "type": "address"
                 }
-            ]
+            ],
+            "name": "RoleRevoked",
+            "type": "event"
         },
         {
-            "type": "function",
+            "inputs": [],
             "name": "AUTOMATIC_DEPLOY_ROLE",
-            "constant": true,
-            "stateMutability": "view",
-            "payable": false,
-            "inputs": [],
             "outputs": [
                 {
-                    "type": "bytes32",
-                    "name": ""
+                    "internalType": "bytes32",
+                    "name": "",
+                    "type": "bytes32"
                 }
-            ]
+            ],
+            "stateMutability": "view",
+            "type": "function"
         },
         {
-            "type": "function",
+            "inputs": [],
             "name": "DEFAULT_ADMIN_ROLE",
-            "constant": true,
-            "stateMutability": "view",
-            "payable": false,
-            "inputs": [],
             "outputs": [
                 {
-                    "type": "bytes32",
-                    "name": ""
+                    "internalType": "bytes32",
+                    "name": "",
+                    "type": "bytes32"
                 }
-            ]
+            ],
+            "stateMutability": "view",
+            "type": "function"
         },
         {
-            "type": "function",
+            "inputs": [],
             "name": "MAINNET_HASH",
-            "constant": true,
-            "stateMutability": "view",
-            "payable": false,
-            "inputs": [],
             "outputs": [
                 {
-                    "type": "bytes32",
-                    "name": ""
+                    "internalType": "bytes32",
+                    "name": "",
+                    "type": "bytes32"
                 }
-            ]
+            ],
+            "stateMutability": "view",
+            "type": "function"
         },
         {
-            "type": "function",
+            "inputs": [],
             "name": "MAINNET_NAME",
-            "constant": true,
-            "stateMutability": "view",
-            "payable": false,
-            "inputs": [],
             "outputs": [
                 {
-                    "type": "string",
-                    "name": ""
+                    "internalType": "string",
+                    "name": "",
+                    "type": "string"
                 }
-            ]
+            ],
+            "stateMutability": "view",
+            "type": "function"
         },
         {
-            "type": "function",
+            "inputs": [],
             "name": "TOKEN_REGISTRAR_ROLE",
-            "constant": true,
-            "stateMutability": "view",
-            "payable": false,
-            "inputs": [],
             "outputs": [
                 {
-                    "type": "bytes32",
-                    "name": ""
+                    "internalType": "bytes32",
+                    "name": "",
+                    "type": "bytes32"
                 }
-            ]
+            ],
+            "stateMutability": "view",
+            "type": "function"
         },
         {
-            "type": "function",
+            "inputs": [
+                {
+                    "internalType": "string",
+                    "name": "targetChainName",
+                    "type": "string"
+                },
+                {
+                    "internalType": "address",
+                    "name": "erc721OnMainChain",
+                    "type": "address"
+                },
+                {
+                    "internalType": "address",
+                    "name": "erc721OnSchain",
+                    "type": "address"
+                }
+            ],
             "name": "addERC721TokenByOwner",
-            "constant": false,
-            "payable": false,
-            "inputs": [
-                {
-                    "type": "string",
-                    "name": "targetChainName"
-                },
-                {
-                    "type": "address",
-                    "name": "erc721OnMainChain"
-                },
-                {
-                    "type": "address",
-                    "name": "erc721OnSchain"
-                }
-            ],
-            "outputs": []
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
         },
         {
-            "type": "function",
+            "inputs": [
+                {
+                    "internalType": "string",
+                    "name": "schainName",
+                    "type": "string"
+                },
+                {
+                    "internalType": "address",
+                    "name": "newTokenManager",
+                    "type": "address"
+                }
+            ],
             "name": "addTokenManager",
-            "constant": false,
-            "payable": false,
-            "inputs": [
-                {
-                    "type": "string",
-                    "name": "schainName"
-                },
-                {
-                    "type": "address",
-                    "name": "newTokenManager"
-                }
-            ],
-            "outputs": []
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
         },
         {
-            "type": "function",
+            "inputs": [
+                {
+                    "internalType": "contract ERC721OnChain",
+                    "name": "",
+                    "type": "address"
+                }
+            ],
             "name": "addedClones",
-            "constant": true,
-            "stateMutability": "view",
-            "payable": false,
-            "inputs": [
-                {
-                    "type": "address",
-                    "name": ""
-                }
-            ],
             "outputs": [
                 {
-                    "type": "bool",
-                    "name": ""
+                    "internalType": "bool",
+                    "name": "",
+                    "type": "bool"
                 }
-            ]
+            ],
+            "stateMutability": "view",
+            "type": "function"
         },
         {
-            "type": "function",
+            "inputs": [],
             "name": "automaticDeploy",
-            "constant": true,
-            "stateMutability": "view",
-            "payable": false,
-            "inputs": [],
             "outputs": [
                 {
-                    "type": "bool",
-                    "name": ""
+                    "internalType": "bool",
+                    "name": "",
+                    "type": "bool"
                 }
-            ]
+            ],
+            "stateMutability": "view",
+            "type": "function"
         },
         {
-            "type": "function",
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "newDepositBox",
+                    "type": "address"
+                }
+            ],
             "name": "changeDepositBoxAddress",
-            "constant": false,
-            "payable": false,
-            "inputs": [
-                {
-                    "type": "address",
-                    "name": "newDepositBox"
-                }
-            ],
-            "outputs": []
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
         },
         {
-            "type": "function",
+            "inputs": [
+                {
+                    "internalType": "bytes32",
+                    "name": "",
+                    "type": "bytes32"
+                },
+                {
+                    "internalType": "address",
+                    "name": "",
+                    "type": "address"
+                }
+            ],
             "name": "clonesErc721",
-            "constant": true,
-            "stateMutability": "view",
-            "payable": false,
-            "inputs": [
-                {
-                    "type": "bytes32",
-                    "name": ""
-                },
-                {
-                    "type": "address",
-                    "name": ""
-                }
-            ],
             "outputs": [
                 {
-                    "type": "address",
-                    "name": ""
+                    "internalType": "contract ERC721OnChain",
+                    "name": "",
+                    "type": "address"
                 }
-            ]
+            ],
+            "stateMutability": "view",
+            "type": "function"
         },
         {
-            "type": "function",
+            "inputs": [],
             "name": "communityLocker",
-            "constant": true,
-            "stateMutability": "view",
-            "payable": false,
-            "inputs": [],
             "outputs": [
                 {
-                    "type": "address",
-                    "name": ""
+                    "internalType": "contract ICommunityLocker",
+                    "name": "",
+                    "type": "address"
                 }
-            ]
+            ],
+            "stateMutability": "view",
+            "type": "function"
         },
         {
-            "type": "function",
+            "inputs": [],
             "name": "depositBox",
-            "constant": true,
-            "stateMutability": "view",
-            "payable": false,
-            "inputs": [],
             "outputs": [
                 {
-                    "type": "address",
-                    "name": ""
+                    "internalType": "address",
+                    "name": "",
+                    "type": "address"
                 }
-            ]
+            ],
+            "stateMutability": "view",
+            "type": "function"
         },
         {
-            "type": "function",
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "",
+                    "type": "address"
+                }
+            ],
             "name": "deprecatedClonesErc721",
-            "constant": true,
-            "stateMutability": "view",
-            "payable": false,
-            "inputs": [
-                {
-                    "type": "address",
-                    "name": ""
-                }
-            ],
             "outputs": [
                 {
-                    "type": "address",
-                    "name": ""
+                    "internalType": "contract ERC721OnChain",
+                    "name": "",
+                    "type": "address"
                 }
-            ]
+            ],
+            "stateMutability": "view",
+            "type": "function"
         },
         {
-            "type": "function",
+            "inputs": [],
             "name": "disableAutomaticDeploy",
-            "constant": false,
-            "payable": false,
-            "inputs": [],
-            "outputs": []
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
         },
         {
-            "type": "function",
+            "inputs": [],
             "name": "enableAutomaticDeploy",
-            "constant": false,
-            "payable": false,
-            "inputs": [],
-            "outputs": []
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
         },
         {
-            "type": "function",
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "contractOnMainnet",
+                    "type": "address"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "tokenId",
+                    "type": "uint256"
+                }
+            ],
             "name": "exitToMainERC721",
-            "constant": false,
-            "payable": false,
-            "inputs": [
-                {
-                    "type": "address",
-                    "name": "contractOnMainnet"
-                },
-                {
-                    "type": "uint256",
-                    "name": "tokenId"
-                }
-            ],
-            "outputs": []
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
         },
         {
-            "type": "function",
+            "inputs": [
+                {
+                    "internalType": "bytes32",
+                    "name": "role",
+                    "type": "bytes32"
+                }
+            ],
             "name": "getRoleAdmin",
-            "constant": true,
-            "stateMutability": "view",
-            "payable": false,
-            "inputs": [
-                {
-                    "type": "bytes32",
-                    "name": "role"
-                }
-            ],
             "outputs": [
                 {
-                    "type": "bytes32",
-                    "name": ""
+                    "internalType": "bytes32",
+                    "name": "",
+                    "type": "bytes32"
                 }
-            ]
+            ],
+            "stateMutability": "view",
+            "type": "function"
         },
         {
-            "type": "function",
+            "inputs": [
+                {
+                    "internalType": "bytes32",
+                    "name": "role",
+                    "type": "bytes32"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "index",
+                    "type": "uint256"
+                }
+            ],
             "name": "getRoleMember",
-            "constant": true,
-            "stateMutability": "view",
-            "payable": false,
-            "inputs": [
-                {
-                    "type": "bytes32",
-                    "name": "role"
-                },
-                {
-                    "type": "uint256",
-                    "name": "index"
-                }
-            ],
             "outputs": [
                 {
-                    "type": "address",
-                    "name": ""
+                    "internalType": "address",
+                    "name": "",
+                    "type": "address"
                 }
-            ]
+            ],
+            "stateMutability": "view",
+            "type": "function"
         },
         {
-            "type": "function",
+            "inputs": [
+                {
+                    "internalType": "bytes32",
+                    "name": "role",
+                    "type": "bytes32"
+                }
+            ],
             "name": "getRoleMemberCount",
-            "constant": true,
-            "stateMutability": "view",
-            "payable": false,
-            "inputs": [
-                {
-                    "type": "bytes32",
-                    "name": "role"
-                }
-            ],
             "outputs": [
                 {
-                    "type": "uint256",
-                    "name": ""
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
                 }
-            ]
+            ],
+            "stateMutability": "view",
+            "type": "function"
         },
         {
-            "type": "function",
+            "inputs": [
+                {
+                    "internalType": "bytes32",
+                    "name": "role",
+                    "type": "bytes32"
+                },
+                {
+                    "internalType": "address",
+                    "name": "account",
+                    "type": "address"
+                }
+            ],
             "name": "grantRole",
-            "constant": false,
-            "payable": false,
-            "inputs": [
-                {
-                    "type": "bytes32",
-                    "name": "role"
-                },
-                {
-                    "type": "address",
-                    "name": "account"
-                }
-            ],
-            "outputs": []
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
         },
         {
-            "type": "function",
+            "inputs": [
+                {
+                    "internalType": "bytes32",
+                    "name": "role",
+                    "type": "bytes32"
+                },
+                {
+                    "internalType": "address",
+                    "name": "account",
+                    "type": "address"
+                }
+            ],
             "name": "hasRole",
-            "constant": true,
-            "stateMutability": "view",
-            "payable": false,
-            "inputs": [
-                {
-                    "type": "bytes32",
-                    "name": "role"
-                },
-                {
-                    "type": "address",
-                    "name": "account"
-                }
-            ],
             "outputs": [
                 {
-                    "type": "bool",
-                    "name": ""
+                    "internalType": "bool",
+                    "name": "",
+                    "type": "bool"
                 }
-            ]
+            ],
+            "stateMutability": "view",
+            "type": "function"
         },
         {
-            "type": "function",
+            "inputs": [
+                {
+                    "internalType": "string",
+                    "name": "schainName",
+                    "type": "string"
+                }
+            ],
             "name": "hasTokenManager",
-            "constant": true,
-            "stateMutability": "view",
-            "payable": false,
-            "inputs": [
-                {
-                    "type": "string",
-                    "name": "schainName"
-                }
-            ],
             "outputs": [
                 {
-                    "type": "bool",
-                    "name": ""
+                    "internalType": "bool",
+                    "name": "",
+                    "type": "bool"
                 }
-            ]
+            ],
+            "stateMutability": "view",
+            "type": "function"
         },
         {
-            "type": "function",
+            "inputs": [
+                {
+                    "internalType": "string",
+                    "name": "newChainName",
+                    "type": "string"
+                },
+                {
+                    "internalType": "contract IMessageProxyForSchain",
+                    "name": "newMessageProxy",
+                    "type": "address"
+                },
+                {
+                    "internalType": "contract ITokenManagerLinker",
+                    "name": "newIMALinker",
+                    "type": "address"
+                },
+                {
+                    "internalType": "contract ICommunityLocker",
+                    "name": "newCommunityLocker",
+                    "type": "address"
+                },
+                {
+                    "internalType": "address",
+                    "name": "newDepositBox",
+                    "type": "address"
+                }
+            ],
             "name": "initialize",
-            "constant": false,
-            "payable": false,
-            "inputs": [
-                {
-                    "type": "string",
-                    "name": "newChainName"
-                },
-                {
-                    "type": "address",
-                    "name": "newMessageProxy"
-                },
-                {
-                    "type": "address",
-                    "name": "newIMALinker"
-                },
-                {
-                    "type": "address",
-                    "name": "newCommunityLocker"
-                },
-                {
-                    "type": "address",
-                    "name": "newDepositBox"
-                }
-            ],
-            "outputs": []
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
         },
         {
-            "type": "function",
+            "inputs": [
+                {
+                    "internalType": "address[]",
+                    "name": "contracts",
+                    "type": "address[]"
+                }
+            ],
             "name": "initializeAllClonesERC721",
-            "constant": false,
-            "payable": false,
-            "inputs": [
-                {
-                    "type": "address[]",
-                    "name": "contracts"
-                }
-            ],
-            "outputs": []
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
         },
         {
-            "type": "function",
+            "inputs": [
+                {
+                    "internalType": "string",
+                    "name": "newSchainName",
+                    "type": "string"
+                },
+                {
+                    "internalType": "contract IMessageProxyForSchain",
+                    "name": "newMessageProxy",
+                    "type": "address"
+                },
+                {
+                    "internalType": "contract ITokenManagerLinker",
+                    "name": "newIMALinker",
+                    "type": "address"
+                },
+                {
+                    "internalType": "contract ICommunityLocker",
+                    "name": "newCommunityLocker",
+                    "type": "address"
+                },
+                {
+                    "internalType": "address",
+                    "name": "newDepositBox",
+                    "type": "address"
+                }
+            ],
             "name": "initializeTokenManager",
-            "constant": false,
-            "payable": false,
-            "inputs": [
-                {
-                    "type": "string",
-                    "name": "newSchainName"
-                },
-                {
-                    "type": "address",
-                    "name": "newMessageProxy"
-                },
-                {
-                    "type": "address",
-                    "name": "newIMALinker"
-                },
-                {
-                    "type": "address",
-                    "name": "newCommunityLocker"
-                },
-                {
-                    "type": "address",
-                    "name": "newDepositBox"
-                }
-            ],
-            "outputs": []
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
         },
         {
-            "type": "function",
+            "inputs": [],
             "name": "messageProxy",
-            "constant": true,
-            "stateMutability": "view",
-            "payable": false,
-            "inputs": [],
             "outputs": [
                 {
-                    "type": "address",
-                    "name": ""
+                    "internalType": "contract IMessageProxyForSchain",
+                    "name": "",
+                    "type": "address"
                 }
-            ]
+            ],
+            "stateMutability": "view",
+            "type": "function"
         },
         {
-            "type": "function",
+            "inputs": [
+                {
+                    "internalType": "bytes32",
+                    "name": "fromChainHash",
+                    "type": "bytes32"
+                },
+                {
+                    "internalType": "address",
+                    "name": "sender",
+                    "type": "address"
+                },
+                {
+                    "internalType": "bytes",
+                    "name": "data",
+                    "type": "bytes"
+                }
+            ],
             "name": "postMessage",
-            "constant": false,
-            "payable": false,
-            "inputs": [
-                {
-                    "type": "bytes32",
-                    "name": "fromChainHash"
-                },
-                {
-                    "type": "address",
-                    "name": "sender"
-                },
-                {
-                    "type": "bytes",
-                    "name": "data"
-                }
-            ],
-            "outputs": []
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
         },
         {
-            "type": "function",
+            "inputs": [
+                {
+                    "internalType": "string",
+                    "name": "schainName",
+                    "type": "string"
+                }
+            ],
             "name": "removeTokenManager",
-            "constant": false,
-            "payable": false,
-            "inputs": [
-                {
-                    "type": "string",
-                    "name": "schainName"
-                }
-            ],
-            "outputs": []
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
         },
         {
-            "type": "function",
+            "inputs": [
+                {
+                    "internalType": "bytes32",
+                    "name": "role",
+                    "type": "bytes32"
+                },
+                {
+                    "internalType": "address",
+                    "name": "account",
+                    "type": "address"
+                }
+            ],
             "name": "renounceRole",
-            "constant": false,
-            "payable": false,
-            "inputs": [
-                {
-                    "type": "bytes32",
-                    "name": "role"
-                },
-                {
-                    "type": "address",
-                    "name": "account"
-                }
-            ],
-            "outputs": []
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
         },
         {
-            "type": "function",
+            "inputs": [
+                {
+                    "internalType": "bytes32",
+                    "name": "role",
+                    "type": "bytes32"
+                },
+                {
+                    "internalType": "address",
+                    "name": "account",
+                    "type": "address"
+                }
+            ],
             "name": "revokeRole",
-            "constant": false,
-            "payable": false,
-            "inputs": [
-                {
-                    "type": "bytes32",
-                    "name": "role"
-                },
-                {
-                    "type": "address",
-                    "name": "account"
-                }
-            ],
-            "outputs": []
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
         },
         {
-            "type": "function",
+            "inputs": [],
             "name": "schainHash",
-            "constant": true,
-            "stateMutability": "view",
-            "payable": false,
-            "inputs": [],
             "outputs": [
                 {
-                    "type": "bytes32",
-                    "name": ""
+                    "internalType": "bytes32",
+                    "name": "",
+                    "type": "bytes32"
                 }
-            ]
+            ],
+            "stateMutability": "view",
+            "type": "function"
         },
         {
-            "type": "function",
+            "inputs": [
+                {
+                    "internalType": "bytes4",
+                    "name": "interfaceId",
+                    "type": "bytes4"
+                }
+            ],
             "name": "supportsInterface",
-            "constant": true,
-            "stateMutability": "view",
-            "payable": false,
-            "inputs": [
-                {
-                    "type": "bytes4",
-                    "name": "interfaceId"
-                }
-            ],
             "outputs": [
                 {
-                    "type": "bool",
-                    "name": ""
+                    "internalType": "bool",
+                    "name": "",
+                    "type": "bool"
                 }
-            ]
+            ],
+            "stateMutability": "view",
+            "type": "function"
         },
         {
-            "type": "function",
-            "name": "tokenManagerLinker",
-            "constant": true,
-            "stateMutability": "view",
-            "payable": false,
             "inputs": [],
+            "name": "tokenManagerLinker",
             "outputs": [
                 {
-                    "type": "address",
-                    "name": ""
+                    "internalType": "contract ITokenManagerLinker",
+                    "name": "",
+                    "type": "address"
                 }
-            ]
+            ],
+            "stateMutability": "view",
+            "type": "function"
         },
         {
-            "type": "function",
+            "inputs": [
+                {
+                    "internalType": "bytes32",
+                    "name": "",
+                    "type": "bytes32"
+                }
+            ],
             "name": "tokenManagers",
-            "constant": true,
-            "stateMutability": "view",
-            "payable": false,
-            "inputs": [
-                {
-                    "type": "bytes32",
-                    "name": ""
-                }
-            ],
             "outputs": [
                 {
-                    "type": "address",
-                    "name": ""
+                    "internalType": "address",
+                    "name": "",
+                    "type": "address"
                 }
-            ]
+            ],
+            "stateMutability": "view",
+            "type": "function"
         },
         {
-            "type": "function",
+            "inputs": [
+                {
+                    "internalType": "string",
+                    "name": "targetSchainName",
+                    "type": "string"
+                },
+                {
+                    "internalType": "address",
+                    "name": "contractOnMainnet",
+                    "type": "address"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "tokenId",
+                    "type": "uint256"
+                }
+            ],
             "name": "transferToSchainERC721",
-            "constant": false,
-            "payable": false,
-            "inputs": [
-                {
-                    "type": "string",
-                    "name": "targetSchainName"
-                },
-                {
-                    "type": "address",
-                    "name": "contractOnMainnet"
-                },
-                {
-                    "type": "uint256",
-                    "name": "tokenId"
-                }
-            ],
-            "outputs": []
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
         },
         {
-            "type": "function",
-            "name": "transferredAmount",
-            "constant": true,
-            "stateMutability": "view",
-            "payable": false,
             "inputs": [
                 {
-                    "type": "address",
-                    "name": ""
+                    "internalType": "address",
+                    "name": "",
+                    "type": "address"
                 },
                 {
-                    "type": "uint256",
-                    "name": ""
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
                 }
             ],
+            "name": "transferredAmount",
             "outputs": [
                 {
-                    "type": "bytes32",
-                    "name": ""
+                    "internalType": "bytes32",
+                    "name": "",
+                    "type": "bytes32"
                 }
-            ]
+            ],
+            "stateMutability": "view",
+            "type": "function"
         }
     ],
 

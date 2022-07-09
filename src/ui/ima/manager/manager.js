@@ -46,9 +46,10 @@ const Manager = ({ chainId }) => {
             <IMAButton label="add_erc20_s2s" />
             <IMAButton label="add_erc721_s2s" />
             <IMAButton label="add_erc1155_s2s" />
-            <IMAButton label="auto_deploy_erc20" />
+            <IMAButton label="auto_deployment" />
+            {/* <IMAButton label="auto_deploy_erc20" />
             <IMAButton label="auto_deploy_erc721" />
-            <IMAButton label="auto_deploy_erc1155" />
+            <IMAButton label="auto_deploy_erc1155" /> */}
         </ManagerContainer>
     );
 }

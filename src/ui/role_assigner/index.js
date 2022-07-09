@@ -120,6 +120,9 @@ const RoleAssignerPage = () => {
         let routeSelection = getRouteSelection(contractKey);
         
         assign_role.buildTransaction(ethereum, getContractKey(contract), role, assignee, routeSelection)
+            .then((res)  => {
+                alert(res.hasRole ? "Role Assigned" : "Error Assigning Role");
+            })
             .catch(err => alert(JSON.parse(err)));
 
     }

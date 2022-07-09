@@ -33,7 +33,7 @@ const testnet = {
     token_manager_erc721: "0xD2aaa00600000000000000000000000000000000",
     token_manager_eth: "0xd2AaA00400000000000000000000000000000000",
     token_manager_linker: "0xD2aAA00800000000000000000000000000000000",
-    token_manager_erc721_with_metadata: "0x0dD4Bc01F278DFD9e93D63B063aA3334e390687c"
+    token_manager_erc721_with_metadata: "0xd2AaA00a00000000000000000000000000000000"
 };
 
 let addresses = {
