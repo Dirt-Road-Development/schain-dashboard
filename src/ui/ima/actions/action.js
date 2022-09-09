@@ -101,14 +101,7 @@ const RenderAction = ({ step, currentStep, currentPage, setCurrentStep, isS2S })
                 return <RegisterToken state={state} setState={setState} setCurrentStep={setCurrentStep} />
             } else if (currentStep === 5) {
                 /// If Target -> Register Origin and Clone Address on Target Chain
-                if (state.isTargetChain) {
-                    return <IMAAssignRole type={currentPage.split('_')[1]} setCurrentStep={setCurrentStep} isS2S={currentPage.includes('s2s')} state={state} />
-                } else {
-                    /// If Origin -> Done 
-                    return <p>Token is Registered Successfully. IMA Bridge Complete.</p>
-                }
-                
-                
+                return <IMAAssignRole type={currentPage.split('_')[1]} setCurrentStep={setCurrentStep} isS2S={currentPage.includes('s2s')} state={state} />
             } else if (currentStep === 6) {
                 /// Register MINTER and BURNER to TokenManager on Target Chain
             } else {

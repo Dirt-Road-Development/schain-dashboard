@@ -37,10 +37,14 @@ const _ethCurrency = {
     symbol: "ETH"
 }
 
-export const MAINNET_RPC = 'https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161';
+const isMainnet = process.env.REACT_APP_ENV === 'mainnet';
 
-const S_CHAIN_PREFIX = "https://staging-v2.skalenodes.com/v1/"
-const sChainExplorerUrl = (chainName) => `https://${chainName}.explorer.staging-v2.skalenodes.com/`
+export const MAINNET_RPC = isMainnet ? 'https://rpc.ankr.com/eth' : 'https://rpc.ankr.com/eth_rinkeby';
+
+const S_CHAIN_PREFIX = `https://${isMainnet ? 'mainnet' : 'staging-v2'}.skalenodes.com/v1/`;
+
+const sChainExplorerUrl = (chainName) => `https://${chainName}.explorer.${isMainnet ? 'mainnet' : 'staging-v2'}.skalenodes.com/`;
+
 const testnet_chains = [
     {
         name: 'Rinkeby',
@@ -232,13 +236,48 @@ const testnet_chains = [
     }
 ];
 
-const mainnet_chains = [];
+const mainnet_chains = [
+    {
+        name: 'Ethereum',
+        network: 'Ethereum',
+        id: 1,
+        nativeCurrency: _ethCurrency,
+        rpcUrls: {
+            default: MAINNET_RPC // PUBLIC //MAINNET_RPC
+        },
+        blockExplorers: {
+            default: {
+                name: 'Etherscan',
+                url: 'https://ethersan.io'
+            },
+            etherscan: {
+                name: 'Etherscan',
+                url: 'https://etherscan.io'
+            }
+        },
+        testnet: false
+    },
+    {
+        name: 'Calypso',
+        network: 'SKALE',
+        id: parseInt("0x5d456c62"),
+        nativeCurrency: _nativeCurrency,
+        rpcUrls: {
+            default: `${S_CHAIN_PREFIX}honorable-steel-rasalhague`
+        },
+        blockExplorers: {
+            default: { name: 'BlockScout', url: sChainExplorerUrl('honorable-steel-rasalhague') },
+            etherscan: { name: '', url: '' }
+        },
+        testnet: false
+    },
+];
 
-export default process.env.REACT_APP_ENV === 'testnet' ? testnet_chains : mainnet_chains;
+export default isMainnet ?  mainnet_chains : testnet_chains;
 
 
 export const getChainById = (chainId) => {
-    const _chains = process.env.REACT_APP_ENV === 'testnet' ? testnet_chains : mainnet_chains;
+    const _chains = isMainnet ? mainnet_chains : testnet_chains;
     return _chains.find((_chain, index) => _chain.id === Number(chainId));
     
 }

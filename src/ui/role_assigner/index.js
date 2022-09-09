@@ -44,7 +44,8 @@ const RoleAssignerPageContainer = styled.div`
 const ROLES = {
     Etherbase: ['DEFAULT_ADMIN_ROLE', 'ETHER_MANAGER_ROLE'],
     Marionette: ['DEFAULT_ADMIN_ROLE', 'IMA_ROLE', 'PUPPETEER_ROLE'],
-    'Config Controller': ['DEFAULT_ADMIN_ROLE', 'DEPLOYER_ADMIN_ROLE', 'DEPLOYER_ROLE', 'MTM_ADMIN_ROLE']
+    'Config Controller': ['DEFAULT_ADMIN_ROLE', 'DEPLOYER_ADMIN_ROLE', 'DEPLOYER_ROLE', 'MTM_ADMIN_ROLE'],
+    'File Storage': ['DEFAULT_ADMIN_ROLE', 'ALLOCATOR_ROLE']
 };
 
 
@@ -58,7 +59,7 @@ const RoleAssignerPage = () => {
     const [role, setCurrentRole] = useState(null);
     const [assignee, setAssignee] = useState(null);
     const [contractRoles, setContractRoles] = useState();
-    const [defaultAdminRoles, setDefaultAdminRoles] = useState([false, false, false, false, false]);
+    const [defaultAdminRoles, setDefaultAdminRoles] = useState([false, false, false, false, false, false]);
     // const ROUTE_PREFERENCE = ['direct', 'multisig', 'marionette', 'msg_marionette'];
 
     const roles = useSelector((state) => state.chain_state.roles);
@@ -70,14 +71,15 @@ const RoleAssignerPage = () => {
 
     useEffect(() => {
         if(roles[account]['marionette']['PUPPETEER_ROLE'] || isMultiSigOwner) {
-            setDefaultAdminRoles([true, true, true, true, true]);
+            setDefaultAdminRoles([true, true, true, true, true, true]);
         } else {
             setDefaultAdminRoles([
                 roles[account]['etherbase']['DEFAULT_ADMIN_ROLE'],
                 roles[account]['marionette']['DEFAULT_ADMIN_ROLE'],
                 roles[account]['config_controller']['DEFAULT_ADMIN_ROLE'],
                 false,
-                false
+                false,
+                roles[account]['filestorage']['DEFAULT_ADMIN_ROLE']
             ]);
         }
     }, []);
@@ -89,6 +91,8 @@ const RoleAssignerPage = () => {
             return 'marionette';
         } else if (key === 'Config Controller') {
             return 'config_controller';
+        } else if (key === 'File Storage') {
+            return 'filestorage';
         }
     }
 

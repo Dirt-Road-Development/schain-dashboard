@@ -28,7 +28,6 @@ import { Utils } from '../utils';
 class ConfigController extends Utils {
 
     static async getRoles(_contract, address) {
-
         return Promise.all([
             _contract.callStatic.DEFAULT_ADMIN_ROLE(),
             _contract.callStatic.DEPLOYER_ROLE(),
@@ -40,17 +39,19 @@ class ConfigController extends Utils {
                 _contract.callStatic.hasRole(b, address),
                 _contract.callStatic.hasRole(c, address),
                 _contract.callStatic.hasRole(d, address),
-            ]).then(([d, e, f, g]) => {
+            ]).then(([e, f, g, h]) => {
                 return {
-                    'DEFAULT_ADMIN_ROLE': d,
-                    'DEPLOYER_ROLE': e,
-                    'MTM_ADMIN_ROLE': f,
-                    'DEPLOYER_ADMIN_ROLE': g
+                    'DEFAULT_ADMIN_ROLE': e,
+                    'DEPLOYER_ROLE': f,
+                    'MTM_ADMIN_ROLE': g,
+                    'DEPLOYER_ADMIN_ROLE': h
                 }
             }).catch(err => {
+                console.log("Config Controller: ", err);
                 throw new Error(err);
             })
         }).catch(err => {
+            console.log("Config Controller: 2", err);
             throw new Error(err);
         })
     }

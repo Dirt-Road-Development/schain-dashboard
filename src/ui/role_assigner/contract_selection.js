@@ -80,11 +80,11 @@ const ContractName = styled.p`
 const ContractSelection = ({ currentContract, setContract, defaultAdminRoles }) => {
     return (
         <ContractSelectionContainer>
-            {['Etherbase', 'Marionette', 'Config Controller', 'Message Proxy', 'IMA'].map((key, index) => {
+            {['Etherbase', 'Marionette', 'Config Controller', 'Message Proxy', 'IMA', 'File Storage'].map((key, index) => {
                 let borderRadius = null;
                 if (index === 0) {
                     borderRadius = '16px 0 0 16px';
-                } else if (index === 4) {
+                } else if (index === 5) {
                     borderRadius = '0 16px 16px 0';
                 }
                 return (
@@ -94,7 +94,7 @@ const ContractSelection = ({ currentContract, setContract, defaultAdminRoles }) 
                             setContract(key);
                         }
                     }}key={index}>
-                        <ContractName canAssign={defaultAdminRoles[index]} br={borderRadius} active={currentContract === key}key={index}>{key}</ContractName>
+                        <ContractName canAssign={defaultAdminRoles[index]} br={borderRadius} active={currentContract === key} key={index}>{key}</ContractName>
                     </ContractSection>
                 );
             })}

@@ -76,39 +76,42 @@ class DeployContract {
     }
 
     async _deployment(factory, args, type) {
+        console.log("Args1: ", args);
         if (args.length === 3) args = args.pop();
+        console.log("Args2: ", args);
         try {
             
-            let contract;
-            if (type === 'erc721') {
-                contract = await factory.deploy(args.join(' ').trim(), {
-                    gasLimit: ethers.utils.hexlify(5000000)
-                });
-            } else {
-                contract = await factory.deploy(args, {
-                    gasLimit: ethers.utils.hexlify(5000000)
-                });
-            }
+            // let contract;
+            // if (type === 'erc721') {
+            //     contract = await factory.deploy(args.join(' ').trim(), {
+            //         gasLimit: ethers.utils.hexlify(5000000)
+            //     });
+            // } else {
+            //     contract = await factory.deploy(args, {
+            //         gasLimit: ethers.utils.hexlify(5000000)
+            //     });
+            // }
             
-            let contractAddress = contract.address;
+            // let contractAddress = contract.address;
     
-            let receipt = await contract.deployTransaction.wait();
-            console.log("--------------EVENTS--------------")
-            for (let event of receipt.events) {
-                if (event.event != undefined) {
-                    console.log(`${event.event}(${event.args})`);
-                    console.log("Receipt: ", await event.getTransactionReceipt());
-                }
-            }
-            console.log("----------------------------------")
-            console.log(`Gas used: ${receipt.gasUsed}`)
-            console.log(`Tx hash: ${receipt.transactionHash}`)
-            // console.log(`Receipt: `, await provider.getTransactionReceipt(receipt.transactionHash));
-            return {
-                contractAddress,
-                deployedTx: receipt,
-                abi: factory.interface
-            };
+            // let receipt = await contract.deployTransaction.wait();
+            // console.log("--------------EVENTS--------------")
+            // for (let event of receipt.events) {
+            //     if (event.event != undefined) {
+            //         console.log(`${event.event}(${event.args})`);
+            //         console.log("Receipt: ", await event.getTransactionReceipt());
+            //     }
+            // }
+            // console.log("----------------------------------")
+            // console.log(`Gas used: ${receipt.gasUsed}`)
+            // console.log(`Tx hash: ${receipt.transactionHash}`)
+            // // console.log(`Receipt: `, await provider.getTransactionReceipt(receipt.transactionHash));
+            // return {
+            //     contractAddress,
+            //     deployedTx: receipt,
+            //     abi: factory.interface
+            // };
+            throw new Error('error');
         } catch (err) {
             console.log(err);
             throw new Error(err);

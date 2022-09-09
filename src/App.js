@@ -109,6 +109,7 @@ function App() {
 	}
 	
 	const controller = new GlobalController(chain.rpcUrls.default);
+	console.log("ACCOUNT: ", account);
 	Promise.all([
 		controller.initializeConfigController(),
 		controller.initializeRoles(account),
@@ -124,10 +125,12 @@ function App() {
 			address: Addresses.multisig_wallet,
 			roles: c
 		}));
+		console.log(a, b, c);
 		dispatch(setMultisig(d));
 		setIsLoading(false);
 	})
 	.catch((err) => {
+		console.log(err);
 		throw new Error(err);
 	})
 	

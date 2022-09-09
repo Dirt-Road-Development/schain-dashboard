@@ -112,6 +112,7 @@ const ERCAutomaticDeploy = ({ type, contractParams, setContractParams, nextStep 
             ...contractParams,
             [e.target.name]: e.target.value
         });
+        console.log("Contract Params: ", contractParams);
         if (contractParams['name'] && contractParams['name'].length > 0) {
             if (type === 'erc721') {
                 if (contractParams['symbol'] && contractParams['symbol'].length > 0) {

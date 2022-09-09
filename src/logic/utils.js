@@ -49,7 +49,7 @@ class Utils {
 
     _buildMultiContracts(keys) {
         let _multiContracts = [];
-        let _rpcUrls = [this._buildProvider(this._rpcUrl), this._buildProvider(this._rpcUrl), this._buildProvider(this._rpcUrl)]
+        let _rpcUrls = [this._buildProvider(this._rpcUrl), this._buildProvider(this._rpcUrl), this._buildProvider(this._rpcUrl), this._buildProvider(this._rpcUrl)]
         keys.forEach((key, index) => {
             const _config = this._contracts.getConfig(key);
             const _contract = new ethers.Contract(_config.address, _config.abi, _rpcUrls[index]);

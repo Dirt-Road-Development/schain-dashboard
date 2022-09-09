@@ -61,7 +61,7 @@ class IMASchain extends Utils {
                 };
             }
             /// 3 -> Encode Function Data via TokenManager dynamic via Token Type
-            const _encodedTxData = this._encodeFunctionData(originToken, targetToken);
+            const _encodedTxData = this._encodeFunctionData(originToken, targetToken, chainName);
             /// 4 -> Send Transaction via Marionette via Multisig of Encoded Tx Data
             const _txHash = await this._sendTransaction(_encodedTxData, _marionette, _multisig_wallet);
             /// 5 -> Return Transaction Hash and Success or Failure to Update State
@@ -127,7 +127,7 @@ class IMASchain extends Utils {
         }
     }
 
-    _encodeFunctionData(originToken, targetToken) {
+    _encodeFunctionData(originToken, targetToken, chainName) {
         try {
             return this.tokenManager.interface.encodeFunctionData(
                 `add${this.type.toUpperCase()}TokenByOwner`,

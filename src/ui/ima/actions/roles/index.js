@@ -35,6 +35,7 @@ const IMAAssignRoleContainer = styled.div``;
 const IMAAssignRole = ({ type, setCurrentStep, isS2S, state }) => {
     
     const { ethereum } = useConnectedMetaMask();
+    console.log("State: ", state);
     const roleAssigner = new IMARole(state.targetABI, state.targetAddress, ethereum);
     const [canProceed, setCanProceed] = useState({
         minter: false,

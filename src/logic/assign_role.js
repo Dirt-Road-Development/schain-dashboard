@@ -33,32 +33,38 @@ class AssignRole extends Utils {
 
     /// Tx Type => normal, multisig, marionette
     async buildTransaction(ethereum, contract, role, to, txType) {
-        const _config = this._contracts.getConfig(contract);
-        const provider = new ethers.providers.Web3Provider(ethereum);
-        const _contract = new ethers.Contract(_config['address'], _config['abi'], provider.getSigner());
+        try {
+            const _config = this._contracts.getConfig(contract);
+            const provider = new ethers.providers.Web3Provider(ethereum);
+            const _contract = new ethers.Contract(_config['address'], _config['abi'], provider.getSigner());
+        
+            const roleHash = await this._getRole(role, contract, _contract);
+            const transactionHash = await this._sendTransaction(to, _contract, roleHash, txType, provider);
     
-        const roleHash = await this._getRole(role, contract, _contract);
-        const transactionHash = await this._sendTransaction(to, _contract, roleHash, txType, provider);
-
-        let hasRole = await _contract.callStatic.hasRole(roleHash, to);
-        return {
-            transactionHash,
-            hasRole
+            let hasRole = await _contract.callStatic.hasRole(roleHash, to);
+            return {
+                transactionHash,
+                hasRole
+            }
+        } catch (err) {
+            console.log("Error Building Transaction: ", err);
+            throw err;
         }
 
     }
 
     async _sendTransaction(to, contract, roleHash, txType, provider) {
-        if (txType === 'multisig') {
-            return await this._msg(to, contract, roleHash, provider);
-        } else if (txType === 'marionette') {
-            return await this._marionette(to, contract, roleHash, provider);
-        // } else if (txType === 'normal') {
-        //     return await this._normal(to, contract, roleHash, provider)
-        // } else if (txType === 'msg_marionette') {
-        } else {
+        console.log("Transaction Type: ", txType);
+        // if (txType === 'multisig') {
+        //     return await this._msg(to, contract, roleHash, provider);
+        // } else if (txType === 'marionette') {
+        //     return await this._marionette(to, contract, roleHash, provider);
+        // // } else if (txType === 'normal') {
+        // //     return await this._normal(to, contract, roleHash, provider)
+        // // } else if (txType === 'msg_marionette') {
+        // } else {
             return await this._msgMarionette(to, contract, roleHash, provider);
-        }
+        // }
     }
 
     async _msg(to, contract, roleHash, provider) {
@@ -109,6 +115,8 @@ class AssignRole extends Utils {
     }
 
     async _msgMarionette(to, contract, roleHash, provider) {
+        console.log("ROle Hash: ", roleHash);
+        console.log("Contract: ", await contract.callStatic.getRoleAdmin(roleHash));
         const _msgWalletC = this._buildMultiSigWallet(provider);
         const _marionetteC = this._buildMarionette(provider);
         try {
@@ -128,6 +136,7 @@ class AssignRole extends Utils {
                 ), { gasLimit: 5000000 }
             )).wait();
         } catch (err) {
+            console.log("ERROR: ", err);
             throw new Error(err);
         }
     }
@@ -152,6 +161,8 @@ class AssignRole extends Utils {
             } else {
                 return await contract.callStatic.IMA_ROLE();
             }
+        } else if (contractName === 'filestorage') {
+            return await contract.callStatic.ALLOCATOR_ROLE();
         }
     }
 

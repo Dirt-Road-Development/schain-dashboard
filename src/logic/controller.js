@@ -46,7 +46,8 @@ class GlobalController extends ContractFunctions {
 
     /// Initialize Wallet Role Data
     async initializeRoles(address) {
-        let _contracts = this._buildMultiContracts(['etherbase', 'marionette', 'config_controller']);
+        console.log("Address: ", address);
+        let _contracts = this._buildMultiContracts(['etherbase', 'marionette', 'config_controller', 'filestorage']);
         return await this._initializeRoles(_contracts, address);
     }
 

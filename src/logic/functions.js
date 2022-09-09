@@ -25,6 +25,7 @@
 
 import { ConfigController } from "./contracts/config_controller";
 import { Etherbase } from "./contracts/etherbase";
+import { FileStorage } from "./contracts/file_storage";
 import { Marionette } from "./contracts/marionette";
 import { MultisigWallet } from "./contracts/multisig_wallet";
 import { Utils } from "./utils";
@@ -62,18 +63,22 @@ class ContractFunctions extends Utils {
     }
 
     async _initializeRoles(_contracts, address) {
+        console.log("Contract: ", _contracts[3])
         try {
             return Promise.all([
                 Etherbase.getRoles(_contracts[0], address),
                 Marionette.getRoles(_contracts[1], address),
-                ConfigController.getRoles(_contracts[2], address)
-            ]).then(([a, b, c]) => {
+                ConfigController.getRoles(_contracts[2], address),
+                FileStorage.getDefaultAdminRole(_contracts[3], address)
+            ]).then(([a, b, c, d]) => {
                 return {
                     'etherbase': a,
                     'marionette': b,
-                    'config_controller': c
+                    'config_controller': c,
+                    'filestorage': d
                 };
             }).catch((err) => {
+                console.log("ERROR ", err);
                 throw new Error(err);
             });
         } catch (err) {
