@@ -37,10 +37,16 @@ class AssignRole extends Utils {
             const _config = this._contracts.getConfig(contract);
             const provider = new ethers.providers.Web3Provider(ethereum);
             const _contract = new ethers.Contract(_config['address'], _config['abi'], provider.getSigner());
-        
+            console.log("Contract Init: ", _contract);
+
+            
+
             const roleHash = await this._getRole(role, contract, _contract);
+            console.log(await _contract.callStatic.getRoleAdmin(roleHash));
+            console.log("Count: ", await _contract.callStatic.getRoleMemberCount("0x9544cf69999ca161b850d3ca69235f410d88604f143ae3be6650b68b133a5dae"))
+            const address = await provider.getSigner().getAddress();
+            console.log(await _contract.callStatic.hasRole("0x9544cf69999ca161b850d3ca69235f410d88604f143ae3be6650b68b133a5dae", address))
             const transactionHash = await this._sendTransaction(to, _contract, roleHash, txType, provider);
-    
             let hasRole = await _contract.callStatic.hasRole(roleHash, to);
             return {
                 transactionHash,
@@ -55,6 +61,16 @@ class AssignRole extends Utils {
 
     async _sendTransaction(to, contract, roleHash, txType, provider) {
         console.log("Transaction Type: ", txType);
+        // if (txType === 'normal') {
+        //     console.log("Normal");
+        //     console.log(contract);
+        // await this._normal(to, contract, roleHash, provider);
+        // const receipet =  await contract.grantRole(roleHash, to);
+        // console.log("RECEIPT: ", receipet);
+
+        // return receipet;
+        // }
+        // console.log("HERE");
         // if (txType === 'multisig') {
         //     return await this._msg(to, contract, roleHash, provider);
         // } else if (txType === 'marionette') {
@@ -100,15 +116,18 @@ class AssignRole extends Utils {
     async _normal(to, contract, roleHash, provider) {
         try {
             let receipt =  await (await provider.sendTransaction({
+                value: ethers.utils.hexlify(0),
                 to: contract.address,
-                value: '0',
                 data: contract.interface.encodeFunctionData(
-                    'addToWhitelist',
+                    'grantRole',
                     [
+                        roleHash,
                         to
                     ]
                 )
             })).wait();
+
+            console.log("Receipt");
         } catch (err) {
             throw new Error(err);
         }
@@ -130,7 +149,7 @@ class AssignRole extends Utils {
                         '0',
                         contract.interface.encodeFunctionData(
                             'grantRole',
-                            [roleHash, to]
+                            [roleHash, to] /// roleHash
                         )
                     ]
                 ), { gasLimit: 5000000 }
