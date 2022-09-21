@@ -1,6 +1,6 @@
 /**
  * @license
- * 
+ *
  * SChain Dashboard
  *
  * This program is free software: you can redistribute it and/or modify
@@ -15,11 +15,11 @@
  *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
- * 
+ *
  * /**
  * @file src/ui/role_assigner/contract_selection.js
  * @copyright TheGreatAxios and Lilius, Inc 2022-Present
- * 
+ *
  * Questions regarding the pseudonym of TheGreatAxios can be forwarded to thegreataxios@mylilius.com
  *
  */
@@ -80,7 +80,7 @@ const ContractName = styled.p`
 const ContractSelection = ({ currentContract, setContract, defaultAdminRoles }) => {
     return (
         <ContractSelectionContainer>
-            {['Etherbase', 'Marionette', 'Config Controller', 'Message Proxy', 'IMA'].map((key, index) => {
+          {['Etherbase', 'Marionette', 'Config Controller', 'Message Proxy sChain', 'IMA', 'Token Manager', 'Token Manager Linker'].map((key, index) => {
                 let borderRadius = null;
                 if (index === 0) {
                     borderRadius = '16px 0 0 16px';
@@ -102,6 +102,6 @@ const ContractSelection = ({ currentContract, setContract, defaultAdminRoles }) 
     );
 }
 
-export { 
+export {
     ContractSelection
 }

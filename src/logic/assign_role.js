@@ -1,6 +1,6 @@
 /**
  * @license
- * 
+ *
  * SChain Dashboard
  *
  * This program is free software: you can redistribute it and/or modify
@@ -15,11 +15,11 @@
  *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
- * 
+ *
  * /**
  * @file src/logic/assign_role.js
  * @copyright TheGreatAxios and Lilius, Inc 2022-Present
- * 
+ *
  * Questions regarding the pseudonym of TheGreatAxios can be forwarded to thegreataxios@mylilius.com
  */
 
@@ -36,7 +36,7 @@ class AssignRole extends Utils {
         const _config = this._contracts.getConfig(contract);
         const provider = new ethers.providers.Web3Provider(ethereum);
         const _contract = new ethers.Contract(_config['address'], _config['abi'], provider.getSigner());
-    
+
         const roleHash = await this._getRole(role, contract, _contract);
         const transactionHash = await this._sendTransaction(to, _contract, roleHash, txType, provider);
 
@@ -152,10 +152,16 @@ class AssignRole extends Utils {
             } else {
                 return await contract.callStatic.IMA_ROLE();
             }
+        } else if (contractName === 'message_proxy_chain') {
+          if (role === 'CHAIN_CONNECTOR_ROLE') {
+            return await contract.callStatic.CHAIN_CONNECTOR_ROLE();
+          }
+        } else if (contractName === 'token_manager_linker') {
+          return await contract.callStatic.REGISTRAR_ROLE();
+        } else if (contractName === 'token_manager') {
+          return await contract.callStatic.TOKEN_REGISTRAR_ROLE();
         }
     }
-
-    
 }
 
 export {

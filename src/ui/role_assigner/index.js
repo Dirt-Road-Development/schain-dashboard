@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /**
  * @license
- * 
+ *
  * SChain Dashboard
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,11 +16,11 @@
  *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
- * 
+ *
  * /**
  * @file src/ui/role_assigner/index.js
  * @copyright TheGreatAxios and Lilius, Inc 2022-Present
- * 
+ *
  * Questions regarding the pseudonym of TheGreatAxios can be forwarded to thegreataxios@mylilius.com
  *
  */
@@ -44,7 +44,10 @@ const RoleAssignerPageContainer = styled.div`
 const ROLES = {
     Etherbase: ['DEFAULT_ADMIN_ROLE', 'ETHER_MANAGER_ROLE'],
     Marionette: ['DEFAULT_ADMIN_ROLE', 'IMA_ROLE', 'PUPPETEER_ROLE'],
-    'Config Controller': ['DEFAULT_ADMIN_ROLE', 'DEPLOYER_ADMIN_ROLE', 'DEPLOYER_ROLE', 'MTM_ADMIN_ROLE']
+    'Config Controller': ['DEFAULT_ADMIN_ROLE', 'DEPLOYER_ADMIN_ROLE', 'DEPLOYER_ROLE', 'MTM_ADMIN_ROLE'],
+    'Message Proxy sChain': ['CHAIN_CONNECTOR_ROLE'],
+    'Token Manager Linker': ['REGISTRAR_ROLE'],
+    'Token Manager': ['TOKEN_REGISTRAR_ROLE']
 };
 
 
@@ -59,7 +62,6 @@ const RoleAssignerPage = () => {
     const [assignee, setAssignee] = useState(null);
     const [contractRoles, setContractRoles] = useState();
     const [defaultAdminRoles, setDefaultAdminRoles] = useState([false, false, false, false, false]);
-    // const ROUTE_PREFERENCE = ['direct', 'multisig', 'marionette', 'msg_marionette'];
 
     const roles = useSelector((state) => state.chain_state.roles);
     const isMultiSigOwner = useSelector((state) => state.chain_state.multisig.isOwner);
@@ -70,7 +72,7 @@ const RoleAssignerPage = () => {
 
     useEffect(() => {
         if(roles[account]['marionette']['PUPPETEER_ROLE'] || isMultiSigOwner) {
-            setDefaultAdminRoles([true, true, true, true, true]);
+            setDefaultAdminRoles([true, true, true, true, true, true, true]);
         } else {
             setDefaultAdminRoles([
                 roles[account]['etherbase']['DEFAULT_ADMIN_ROLE'],
@@ -89,11 +91,20 @@ const RoleAssignerPage = () => {
             return 'marionette';
         } else if (key === 'Config Controller') {
             return 'config_controller';
+        } else if (key === 'Message Proxy sChain') {
+            return 'message_proxy_chain';
+        } else if (key === 'Token Manager Linker') {
+            return 'token_manager_linker';
+        } else if (key === 'Token Manager') {
+          return 'token_manager';
         }
     }
 
     const getRouteSelection = (key) => {
         /// Route Preference 1
+        console.log("key: ", key);
+        console.log("Roles: ", roles[account]);
+
         if (roles[account][key]['DEFAULT_ADMIN_ROLE']) {
             return 'normal'
         } else if (isMultiSigOwner && roles[addresses.multisig_wallet][key]['DEFAULT_ADMIN_ROLE']) {
@@ -117,13 +128,15 @@ const RoleAssignerPage = () => {
         if (!isValidAddress || !hasContractAndRole) return;
         /// Checks Preference Options
         let contractKey = getContractKey(contract);
-        let routeSelection = getRouteSelection(contractKey);
-        
+        //let routeSelection = getRouteSelection(contractKey);
+        let routeSelection = 'msg_marionette';
         assign_role.buildTransaction(ethereum, getContractKey(contract), role, assignee, routeSelection)
             .then((res)  => {
                 alert(res.hasRole ? "Role Assigned" : "Error Assigning Role");
             })
-            .catch(err => alert(JSON.parse(err)));
+          .catch((err) => {
+            console.log("ERROR: ", err);
+          })
 
     }
 
