@@ -102,7 +102,7 @@ const testnet_chains = [
             default: { name: 'BlockScout', url: sChainExplorerUrl('fit-graffias') },
             etherscan: { name: '', url: '' }
         },
-        testnet: true
+       testnet: true
     },
     {
         name: 'Whispering-Turais',
@@ -232,7 +232,23 @@ const testnet_chains = [
     }
 ];
 
-const mainnet_chains = [];
+const mainnet_chains = [
+    {
+        name: 'Calypso',
+        network: 'SKALE',
+        id: parseInt("0x5d456c62"),
+        nativeCurrency: _nativeCurrency,
+        rpcUrls: {
+            default: `https://mainnet.skalenodes.com/v1/honorable-steel-rasalhague`
+        },
+        blockExplorers: {
+            default: { name: 'BlockScout', url: 'https://honorable-steel-rasalhague.explorer.mainnet.skalenodes.com/' },
+            etherscan: { name: '', url: '' }
+        },
+        testnet: true
+    }
+
+];
 
 export default process.env.REACT_APP_ENV === 'testnet' ? testnet_chains : mainnet_chains;
 

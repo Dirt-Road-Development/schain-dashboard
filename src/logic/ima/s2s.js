@@ -36,16 +36,17 @@ class Skale2Skale extends Utils {
         this.targetChain = chains.find((chain) => chain.id === targetId);
         this.originProvider = new ethers.providers.JsonRpcProvider(this.originChain.rpcUrls.default);
         this.targetProvider = new ethers.providers.JsonRpcProvider(this.targetChain.rpcUrls.default);
-        this.contractConfig = this._contracts.getConfig(`token_manager_linker`);
+        this.contractConfig = this._contracts.getConfig(`message_proxy_chain`);
         this.originContract = new ethers.Contract(this.contractConfig.address, this.contractConfig.abi, this.originProvider);
         this.targetContract = new ethers.Contract(this.contractConfig.address, this.contractConfig.abi, this.targetProvider);
     }
 
     async checkS2SConnection() {
         return Promise.all([
-            this.originContract.callStatic.hasSchain(this.targetChain.name.toLowerCase()),
-            this.targetContract.callStatic.hasSchain(this.originChain.name.toLowerCase())
+            this.originContract.callStatic.isConnectedChain(this.targetChain.name.toLowerCase()),
+            this.targetContract.callStatic.isConnectedChain(this.originChain.name.toLowerCase())
         ]).then((res) => {
+            console.log("RES1: ", res);
             return {
                 origin: res[0],
                 target: res[1]
