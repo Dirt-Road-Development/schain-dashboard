@@ -84,7 +84,6 @@ const testnet_chains = [
         rpcUrls: {
             default: `${S_CHAIN_PREFIX}fancy-rasalhague`
         },
-   3651836..4339625  hotfix/chain-connection -> hotfix/chai
         blockExplorers: {
             default: { name: 'BlockScout', url: sChainExplorerUrl('fancy-rasalhague') },
             etherscan: { name: '', url: '' }
@@ -232,7 +231,7 @@ const testnet_chains = [
         testnet: true
     },
     {
-        name: "roasted-thankful-unukalhai",
+        name: "Roasted-Thankful-Unukalhai",
         network: "SKALE",
         id: parseInt("0x1dc0981d"),
         rpcUrls: {
