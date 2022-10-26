@@ -229,6 +229,19 @@ const testnet_chains = [
             etherscan: { name: '', url: '' }
         },
         testnet: true
+    },
+    {
+        name: "roasted-thankful-unukalhai",
+        network: "SKALE",
+        id: parseInt(""),
+        rpcUrls: {
+            default: `${S_CHAIN_PREFIX}roasted-thankful-unukalhai`
+        },
+        blockExplorers: {
+            default: { name: 'BlockScout', url: sChainExplorerUrl('roasted-thankful-unukalhai') },
+            etherscan: { name: '', url: '' }
+        },
+        testnet: true
     }
 ];
 
