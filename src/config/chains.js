@@ -242,7 +242,21 @@ const testnet_chains = [
             etherscan: { name: '', url: '' }
         },
         testnet: true
+    },
+     {
+        name: "Calypso V3",
+        network: "SKALE",
+        id: parseInt("0x1482a7b2"),
+        rpcUrls: {
+            default: "https://staging-v3.skalenodes.com/v1/staging-utter-unripe-menkar"
+        },
+        blockExplorers: {
+            default: { name: 'BlockScout', url: "https://staging-utter-unripe-menkar.explorer.staging-v3.skalenodes.com" },
+            etherscan: { name: '', url: '' }
+        },
+        testnet: true
     }
+
 ];
 
 const mainnet_chains = [
