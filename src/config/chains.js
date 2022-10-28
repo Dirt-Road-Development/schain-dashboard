@@ -154,7 +154,7 @@ const testnet_chains = [
         rpcUrls: {
             default: `${S_CHAIN_PREFIX}attractive-merope`
         },
-        blockExplorers: {https://docs.cloud.coinbase.com/rosetta/docs/
+        blockExplorers: {
             default: { name: 'BlockScout', url: sChainExplorerUrl('attractive-merope') },
             etherscan: { name: '', url: '' }
         },
@@ -293,7 +293,7 @@ const mainnet_chains = [
 export default process.env.REACT_APP_ENV === 'testnet' ? testnet_chains : mainnet_chains;
 
 
-export const getChainById = (chainId) => {https://docs.cloud.coinbase.com/rosetta/docs/
+export const getChainById = (chainId) => {
     const _chains = process.env.REACT_APP_ENV === 'testnet' ? testnet_chains : mainnet_chains;
     return _chains.find((_chain, index) => _chain.id === Number(chainId));
     
