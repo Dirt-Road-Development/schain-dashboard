@@ -25813,10 +25813,11 @@ let sharedAbis = {
 }
 
 
-if (IS_MAINNET) {
-    Object.assign(sharedAbis, MAINNET_ABIS);
-} else {
-    Object.assign(sharedAbis, TESTNET_ABIS);
-}
+// if (IS_MAINNET) {
+//     Object.assign(sharedAbis, MAINNET_ABIS);
+// } else {
+//     Object.assign(sharedAbis, TESTNET_ABIS);
+// }
 
-export default sharedAbis;
+// export default sharedAbis;
+export default Object.assign(sharedAbis, TESTNET_ABIS);

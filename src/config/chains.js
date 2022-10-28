@@ -102,7 +102,7 @@ const testnet_chains = [
             default: { name: 'BlockScout', url: sChainExplorerUrl('fit-graffias') },
             etherscan: { name: '', url: '' }
         },
-        testnet: true
+       testnet: true
     },
     {
         name: 'Whispering-Turais',
@@ -154,7 +154,7 @@ const testnet_chains = [
         rpcUrls: {
             default: `${S_CHAIN_PREFIX}attractive-merope`
         },
-        blockExplorers: {
+        blockExplorers: {https://docs.cloud.coinbase.com/rosetta/docs/
             default: { name: 'BlockScout', url: sChainExplorerUrl('attractive-merope') },
             etherscan: { name: '', url: '' }
         },
@@ -229,15 +229,71 @@ const testnet_chains = [
             etherscan: { name: '', url: '' }
         },
         testnet: true
+    },
+    {
+        name: "Roasted-Thankful-Unukalhai",
+        network: "SKALE",
+        id: parseInt("0x1dc0981d"),
+        rpcUrls: {
+            default: `${S_CHAIN_PREFIX}roasted-thankful-unukalhai`
+        },
+        blockExplorers: {
+            default: { name: 'BlockScout', url: sChainExplorerUrl('roasted-thankful-unukalhai') },
+            etherscan: { name: '', url: '' }
+        },
+        testnet: true
+    },
+    { 
+        name: "Calypso V3",
+        network: "SKALE",
+        id: parseInt("0x1482a7b2"),
+        rpcUrls: {
+            default: "https://staging-v3.skalenodes.com/v1/staging-utter-unripe-menkar"
+        },
+        blockExplorers: {
+            default: { name: 'BlockScout', url: "https://staging-utter-unripe-menkar.explorer.staging-v3.skalenodes.com" },
+            etherscan: { name: '', url: '' }
+        },
+        testnet: true
+    },
+    { 
+        name: "Nebula V3",
+        network: "SKALE",
+        id: parseInt("0x1dfd2731"),
+        rpcUrls: {
+            default: "https://staging-v3.skalenodes.com/v1/staging-faint-slimy-achird"
+        },
+        blockExplorers: {
+            default: { name: 'BlockScout', url: "https://staging-faint-slimy-achird.explorer.staging-v3.skalenodes.com" },
+            etherscan: { name: '', url: '' }
+        },
+        testnet: true
     }
+
 ];
 
-const mainnet_chains = [];
+const mainnet_chains = [
+    {
+        name: 'Calypso',
+        network: 'SKALE',
+        id: parseInt("0x5d456c62"),
+        nativeCurrency: _nativeCurrency,
+        rpcUrls: {
+            default: `https://mainnet.skalenodes.com/v1/honorable-steel-rasalhague`
+        },
+        blockExplorers: {
+            default: { name: 'BlockScout', url: 'https://honorable-steel-rasalhague.explorer.mainnet.skalenodes.com/' },
+            etherscan: { name: '', url: '' }
+        },
+        testnet: true
+    }
+
+];
 
 export default process.env.REACT_APP_ENV === 'testnet' ? testnet_chains : mainnet_chains;
 
 
-export const getChainById = (chainId) => {
+export const getChainById = (chainId) => {https://docs.cloud.coinbase.com/rosetta/docs/
     const _chains = process.env.REACT_APP_ENV === 'testnet' ? testnet_chains : mainnet_chains;
     return _chains.find((_chain, index) => _chain.id === Number(chainId));
     

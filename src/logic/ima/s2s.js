@@ -37,15 +37,25 @@ class Skale2Skale extends Utils {
         this.originProvider = new ethers.providers.JsonRpcProvider(this.originChain.rpcUrls.default);
         this.targetProvider = new ethers.providers.JsonRpcProvider(this.targetChain.rpcUrls.default);
         this.contractConfig = this._contracts.getConfig(`token_manager_linker`);
+        this.messageProxyConfig = this._contracts.getConfig(`message_proxy_chain`);
+       
+
+        this.originMsgProxy= new ethers.Contract(this.messageProxyConfig.address, this.messageProxyConfig.abi, this.originProvider);
+        this.targetMsgProxy= new ethers.Contract(this.messageProxyConfig.address, this.messageProxyConfig.abi, this.originProvider);
+
+
+
+        /// Token Manager Linker OG Logic
         this.originContract = new ethers.Contract(this.contractConfig.address, this.contractConfig.abi, this.originProvider);
         this.targetContract = new ethers.Contract(this.contractConfig.address, this.contractConfig.abi, this.targetProvider);
     }
 
     async checkS2SConnection() {
         return Promise.all([
-            this.originContract.callStatic.hasSchain(this.targetChain.name.toLowerCase()),
-            this.targetContract.callStatic.hasSchain(this.originChain.name.toLowerCase())
+            this.originMsgProxy.callStatic.isConnectedChain(this.targetChain.name.toLowerCase()),
+            this.targetMsgProxy.callStatic.isConnectedChain(this.originChain.name.toLowerCase())
         ]).then((res) => {
+            console.log("RES1: ", res);
             return {
                 origin: res[0],
                 target: res[1]
@@ -77,6 +87,8 @@ class Skale2Skale extends Utils {
                 const hasChainConnectorRole2 = await _contract.callStatic.hasRole(CHAIN_CONNECTOR_ROLE, _marionette.address);
                 console.log("Has Chain Connector Role2: ", hasChainConnectorRole2);
             }
+
+            console.log("Contract: ", contract);
             const ROLE = await contract.callStatic.REGISTRAR_ROLE()
             console.log("HAS ROLE: ", await contract.callStatic.hasRole(ROLE, _marionette.address));
             /// 3 -> Encode Transaction

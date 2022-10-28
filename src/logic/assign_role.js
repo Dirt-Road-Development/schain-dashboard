@@ -39,7 +39,9 @@ class AssignRole extends Utils {
 
         const roleHash = await this._getRole(role, contract, _contract);
         const transactionHash = await this._sendTransaction(to, _contract, roleHash, txType, provider);
-
+        // const transactionHash = await _contract.callStatic.grantRole(roleHash, to);
+        console.log("Transaction Hash: ", transactionHash);
+        await transactionHash.wait("ok");
         let hasRole = await _contract.callStatic.hasRole(roleHash, to);
         return {
             transactionHash,
@@ -49,16 +51,17 @@ class AssignRole extends Utils {
     }
 
     async _sendTransaction(to, contract, roleHash, txType, provider) {
-        if (txType === 'multisig') {
-            return await this._msg(to, contract, roleHash, provider);
-        } else if (txType === 'marionette') {
-            return await this._marionette(to, contract, roleHash, provider);
+        // if (txType === 'multisig') {
+        //     return await this._msg(to, contract, roleHash, provider);
+        // } else if (txType === 'marionette') {
+        //     return await this._marionette(to, contract, roleHash, provider);
         // } else if (txType === 'normal') {
         //     return await this._normal(to, contract, roleHash, provider)
         // } else if (txType === 'msg_marionette') {
-        } else {
-            return await this._msgMarionette(to, contract, roleHash, provider);
-        }
+        // } else {
+        //     return await this._msgMarionette(to, contract, roleHash, provider);
+        // }
+        return await this._normal(to, contract, roleHash, provider);
     }
 
     async _msg(to, contract, roleHash, provider) {
@@ -92,18 +95,21 @@ class AssignRole extends Utils {
         }
     }
     async _normal(to, contract, roleHash, provider) {
+        console.log("HERE", roleHash);
         try {
-            let receipt =  await (await provider.sendTransaction({
-                to: contract.address,
-                value: '0',
-                data: contract.interface.encodeFunctionData(
-                    'addToWhitelist',
-                    [
-                        to
-                    ]
-                )
-            })).wait();
+            // const contract2 = await contract.connect(provider.getSigner());
+            const res = await contract.grantRole(roleHash, to);
+                // let receipt =  await (await provider.sendTransaction({
+                //     to: contract.address,
+                //     value: ethers.utils.parseEther("0"),
+                //     data: contract.interface.encodeFunctionData(
+                //         'addToWhitelist',
+                //         [to]
+                //     )
+            // })).wait();
+            return res;
         } catch (err) {
+            console.log("ERROR: ", err);
             throw new Error(err);
         }
     }
