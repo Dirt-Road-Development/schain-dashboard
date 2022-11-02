@@ -49,7 +49,7 @@ class AssignRole extends Utils {
         }
 
     }
-
+ALLOCATOR_ROLE
     async _sendTransaction(to, contract, roleHash, txType, provider) {
         // if (txType === 'multisig') {
         //     return await this._msg(to, contract, roleHash, provider);
@@ -166,6 +166,8 @@ class AssignRole extends Utils {
           return await contract.callStatic.REGISTRAR_ROLE();
         } else if (contractName === 'token_manager') {
           return await contract.callStatic.TOKEN_REGISTRAR_ROLE();
+        } else if (contractName === 'filestorage') {
+            return await contract.callStatic.ALLOCATOR_ROLE();
         }
     }
 }

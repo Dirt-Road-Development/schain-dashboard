@@ -54,7 +54,7 @@ const ContractSection = styled.div`
 `;
 const ContractName = styled.p`
     display: flex;
-    align-items: center;
+    align-items: center;0x2c20Ef3fc0248FCA2DC57bcb202F2CAe504A9A66
     justify-content: center;
     margin: 0 auto;
     text-align: center;
@@ -80,7 +80,7 @@ const ContractName = styled.p`
 const ContractSelection = ({ currentContract, setContract, defaultAdminRoles }) => {
     return (
         <ContractSelectionContainer>
-          {['Etherbase', 'Marionette', 'Config Controller', 'Message Proxy sChain', 'IMA', 'Token Manager', 'Token Manager Linker'].map((key, index) => {
+          {['Etherbase', 'Marionette', 'Config Controller', 'Message Proxy sChain', 'IMA', 'Token Manager', 'Token Manager Linker', 'File Storage'].map((key, index) => {
                 let borderRadius = null;
                 if (index === 0) {
                     borderRadius = '16px 0 0 16px';

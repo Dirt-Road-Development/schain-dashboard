@@ -96,7 +96,7 @@ const RoleSelection = ({ currentRole, setCurrentRole, roles }) => {
                     let borderRadius = null;
                     if (index === 0) {
                         borderRadius = '16px 0 0 16px';
-                    } else if (index === 4) {
+                    } else if (index === 7) {
                         borderRadius = '0 16px 16px 0';
                     }
                     return (

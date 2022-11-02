@@ -47,7 +47,8 @@ const ROLES = {
     'Config Controller': ['DEFAULT_ADMIN_ROLE', 'DEPLOYER_ADMIN_ROLE', 'DEPLOYER_ROLE', 'MTM_ADMIN_ROLE'],
     'Message Proxy sChain': ['CHAIN_CONNECTOR_ROLE'],
     'Token Manager Linker': ['REGISTRAR_ROLE'],
-    'Token Manager': ['TOKEN_REGISTRAR_ROLE']
+    'Token Manager': ['TOKEN_REGISTRAR_ROLE'],
+    'File Storage': ['ALLOCATOR_ROLE']
 };
 
 
@@ -72,14 +73,14 @@ const RoleAssignerPage = () => {
 
     useEffect(() => {
         if(roles[account]['marionette']['PUPPETEER_ROLE'] || isMultiSigOwner) {
-            setDefaultAdminRoles([true, true, true, true, true, true, true]);
+            setDefaultAdminRoles([true, true, true, true, true, true, true, true]);
         } else {
             setDefaultAdminRoles([
                 roles[account]['etherbase']['DEFAULT_ADMIN_ROLE'],
                 roles[account]['marionette']['DEFAULT_ADMIN_ROLE'],
                 roles[account]['config_controller']['DEFAULT_ADMIN_ROLE'],
                 false,
-                false
+
             ]);
         }
     }, []);
@@ -97,6 +98,8 @@ const RoleAssignerPage = () => {
             return 'token_manager_linker';
         } else if (key === 'Token Manager') {
           return 'token_manager';
+        } else if (key == 'File Storage') {
+            return 'filestorage';
         }
     }
 

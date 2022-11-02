@@ -274,7 +274,7 @@ const testnet_chains = [
 
 const mainnet_chains = [
     {
-        name: 'Calypso',
+        name: 'honorable-steel-rasalhague',
         network: 'SKALE',
         id: parseInt("0x5d456c62"),
         nativeCurrency: _nativeCurrency,
@@ -286,7 +286,51 @@ const mainnet_chains = [
             etherscan: { name: '', url: '' }
         },
         testnet: true
+    },
+    {
+        name: 'elated-tan-skat',
+        network: 'SKALE',
+        id: parseInt("0x79f99296"),
+        nativeCurrency: _nativeCurrency,
+        rpcUrls: {
+            default: `https://mainnet.skalenodes.com/v1/elated-tan-skat`
+        },
+        blockExplorers: {
+            default: { name: 'BlockScout', url: 'https://elated-tan-skat.explorer.mainnet.skalenodes.com/' },
+            etherscan: { name: '', url: '' }
+        },
+        testnet: false 
+    },
+    {
+        name: 'green-giddy-denebola',
+        network: 'SKALE',
+        id: parseInt("0x585eb4b1"),
+        nativeCurrency: _nativeCurrency,
+        rpcUrls: {
+            default: `https://mainnet.skalenodes.com/v1/green-giddy-denebola`
+        },
+        blockExplorers: {
+            default: { name: 'BlockScout', url: 'https://.explorer.mainnet.skalenodes.com/green-giddy-denebola' },
+            etherscan: { name: '', url: '' }
+        },
+        testnet: false 
+    },
+    {
+        name: 'parallel-stormy-spica',
+        network: 'SKALE',
+        id: parseInt("0x507aaa2a"),
+        nativeCurrency: _nativeCurrency,
+        rpcUrls: {
+            default: `https://mainnet.skalenodes.com/v1/parallel-stormy-spica`
+        },
+        blockExplorers: {
+            default: { name: 'BlockScout', url: 'https://parallel-stormy-spica.explorer.mainnet.skalenodes.com/' },
+            etherscan: { name: '', url: '' }
+        },
+        testnet: false 
     }
+
+
 
 ];
 
