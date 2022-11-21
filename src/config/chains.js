@@ -231,7 +231,7 @@ const testnet_chains = [
         testnet: true
     },
     {
-        name: "Roasted-Thankful-Unukalhai",
+        name: "roasted-thankful-unukalhai",
         network: "SKALE",
         id: parseInt("0x1dc0981d"),
         rpcUrls: {
@@ -244,7 +244,7 @@ const testnet_chains = [
         testnet: true
     },
     { 
-        name: "Calypso V3",
+        name: "staging-utter-unripe-menkar",
         network: "SKALE",
         id: parseInt("0x1482a7b2"),
         rpcUrls: {
@@ -257,7 +257,7 @@ const testnet_chains = [
         testnet: true
     },
     { 
-        name: "Nebula V3",
+        name: "staging-faint-slimy-achird",
         network: "SKALE",
         id: parseInt("0x1dfd2731"),
         rpcUrls: {
@@ -268,7 +268,34 @@ const testnet_chains = [
             etherscan: { name: '', url: '' }
         },
         testnet: true
-    }
+    },
+    { 
+        name: "staging-legal-crazy-castor",
+        network: "SKALE",
+        id: parseInt("0x1c6199cc"),
+        rpcUrls: {
+            default: "https://staging-v3.skalenodes.com/v1/staging-legal-crazy-castor"
+        },
+        blockExplorers: {
+            default: { name: 'BlockScout', url: "https://staging-legal-crazy-castor.explorer.staging-v3.skalenodes.com" },
+            etherscan: { name: '', url: '' }
+        },
+        testnet: true
+    },
+    { 
+        name: "staging-famous-winding-tyl",
+        network: "SKALE",
+        id: parseInt("0x5f0cc612"),
+        rpcUrls: {
+            default: "https://staging-v3.skalenodes.com/v1/staging-famous-winding-tyl"
+        },
+        blockExplorers: {
+            default: { name: 'BlockScout', url: "https://staging-famous-winding-tyl.explorer.staging-v3.skalenodes.com" },
+            etherscan: { name: '', url: '' }
+        },
+        testnet: true
+    },
+
 
 ];
 
