@@ -49,7 +49,7 @@ class AssignRole extends Utils {
         }
 
     }
-ALLOCATOR_ROLE
+    
     async _sendTransaction(to, contract, roleHash, txType, provider) {
         // if (txType === 'multisig') {
         //     return await this._msg(to, contract, roleHash, provider);
@@ -58,10 +58,11 @@ ALLOCATOR_ROLE
         // } else if (txType === 'normal') {
         //     return await this._normal(to, contract, roleHash, provider)
         // } else if (txType === 'msg_marionette') {
-        // } else {
-        //     return await this._msgMarionette(to, contract, roleHash, provider);
-        // }
-        return await this._normal(to, contract, roleHash, provider);
+        if (txType === 'normal') {
+            return await this._normal(to, contract, roleHash, provider);
+        } else {
+             return await this._msgMarionette(to, contract, roleHash, provider);
+        }
     }
 
     async _msg(to, contract, roleHash, provider) {

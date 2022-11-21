@@ -131,8 +131,8 @@ const RoleAssignerPage = () => {
         if (!isValidAddress || !hasContractAndRole) return;
         /// Checks Preference Options
         let contractKey = getContractKey(contract);
-        //let routeSelection = getRouteSelection(contractKey);
-        let routeSelection = 'msg_marionette';
+        let routeSelection = getRouteSelection(contractKey);
+        // let routeSelection = 'msg_marionette';
         assign_role.buildTransaction(ethereum, getContractKey(contract), role, assignee, routeSelection)
             .then((res)  => {
                 alert(res.hasRole ? "Role Assigned" : "Error Assigning Role");
